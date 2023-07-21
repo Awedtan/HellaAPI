@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 
 const connectionString = process.env.ATLAS_URI || "";
 const client = new MongoClient(connectionString);
-console.log('start db')
+console.log('db')
 
 let db;
 try {

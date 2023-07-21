@@ -1,7 +1,8 @@
+import "./loadEnv.mjs";
+console.log(process.env.PORT);
 import cors from "cors";
 import express from "express";
 import "express-async-errors";
-import "./loadEnv.mjs";
 import artRouter from "./routes/art.mjs";
 import baseRouter from "./routes/base.mjs";
 import ccRouter from "./routes/cc.mjs";
@@ -17,13 +18,13 @@ import rogueRouter from "./routes/rogue.mjs";
 import skillRouter from "./routes/skill.mjs";
 import stageRouter from "./routes/stage.mjs";
 import toughStageRouter from "./routes/toughstage.mjs";
-
+console.log('a')
 const PORT = process.env.PORT || 5050;
 const app = express();
-console.log('start app')
+console.log('b')
 app.use(cors());
 app.use(express.json());
-
+console.log('c')
 app.use("/art", artRouter);
 app.use("/base", baseRouter);
 app.use("/cc", ccRouter);
@@ -39,11 +40,11 @@ app.use("/rogue", rogueRouter);
 app.use("/skill", skillRouter);
 app.use("/stage", stageRouter);
 app.use("/toughstage", toughStageRouter);
-
+console.log('d')
 app.use((err, _req, res, next) => {
     res.status(500).send("Uh oh! An unexpected error occured.")
 })
-
+console.log('e')
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
