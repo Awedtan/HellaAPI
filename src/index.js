@@ -20,7 +20,7 @@ import toughStageRouter from "./routes/toughstage.mjs";
 
 const PORT = process.env.PORT || 5050;
 const app = express();
-
+console.log('start app')
 app.use(cors());
 app.use(express.json());
 
