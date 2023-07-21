@@ -11,21 +11,21 @@ async function main() {
     try {
         const { gameConsts } = await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json();
 
-        await loadArchetypes(db, gameConsts);
-        await loadBases(db, gameConsts);
-        await loadCC(db, gameConsts);
-        await loadDefinitions(db, gameConsts);
-        await loadEnemies(db, gameConsts);
-        await loadEvents(db, gameConsts);
-        await loadItems(db, gameConsts);
-        await loadModules(db, gameConsts);
-        await loadOperators(db, gameConsts);
-        await loadParadoxes(db, gameConsts);
-        await loadRanges(db, gameConsts);
-        await loadRogueThemes(db, gameConsts);
-        await loadSkills(db, gameConsts);
-        await loadSkins(db, gameConsts);
-        await loadStages(db, gameConsts);
+        await loadArchetypes(db, gameConsts).catch(console.error);
+        await loadBases(db, gameConsts).catch(console.error);
+        await loadCC(db, gameConsts).catch(console.error);
+        await loadDefinitions(db, gameConsts).catch(console.error);
+        await loadEnemies(db, gameConsts).catch(console.error);
+        await loadEvents(db, gameConsts).catch(console.error);
+        await loadItems(db, gameConsts).catch(console.error);
+        await loadModules(db, gameConsts).catch(console.error);
+        await loadOperators(db, gameConsts).catch(console.error);
+        await loadParadoxes(db, gameConsts).catch(console.error);
+        await loadRanges(db, gameConsts).catch(console.error);
+        await loadRogueThemes(db, gameConsts).catch(console.error);
+        await loadSkills(db, gameConsts).catch(console.error);
+        await loadSkins(db, gameConsts).catch(console.error);
+        await loadStages(db, gameConsts).catch(console.error);
 
         console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
     } catch (e) {
@@ -363,7 +363,7 @@ async function loadRogueThemes(db, gameConsts) {
             variationDict[variation.outerName.toLowerCase()] = variation;
         }
 
-        dataArr[i] = { keys: [i.toString()], value: { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict } };
+        dataArr[i] = { keys: [i, i.toString()], value: { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict } };
     }
 
     await db.collection("roguethemes").insertMany(dataArr);

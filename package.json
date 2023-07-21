@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "load": "node src/loadDb.js"
   },
   "dependencies": {
     "@types/cors": "^2.8.13",
@@ -11,8 +11,7 @@
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "mongodb": "^5.7.0",
-    "node-fetch": "^3.3.1",
-    "nodemon": "^3.0.1"
+    "node-fetch": "^3.3.1"
   },
   "type": "module"
 }
