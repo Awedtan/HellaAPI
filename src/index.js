@@ -3,6 +3,7 @@ import "./loadEnv.mjs";
 import cors from "cors";
 import express from "express";
 import "express-async-errors";
+import archetypeRouter from "./routes/archetype.mjs";
 import artRouter from "./routes/art.mjs";
 import baseRouter from "./routes/base.mjs";
 import ccRouter from "./routes/cc.mjs";
@@ -16,6 +17,7 @@ import paradoxRouter from "./routes/paradox.mjs";
 import rangeRouter from "./routes/range.mjs";
 import rogueRouter from "./routes/rogue.mjs";
 import skillRouter from "./routes/skill.mjs";
+import skinRouter from "./routes/skin.mjs";
 import stageRouter from "./routes/stage.mjs";
 import toughStageRouter from "./routes/toughstage.mjs";
 
@@ -25,6 +27,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/archetype", archetypeRouter);
 app.use("/art", artRouter);
 app.use("/base", baseRouter);
 app.use("/cc", ccRouter);
@@ -38,6 +41,7 @@ app.use("/paradox", paradoxRouter);
 app.use("/range", rangeRouter);
 app.use("/rogue", rogueRouter);
 app.use("/skill", skillRouter);
+app.use("/skin", skinRouter);
 app.use("/stage", stageRouter);
 app.use("/toughstage", toughStageRouter);
 
