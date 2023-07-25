@@ -291,8 +291,8 @@ async function loadNewOperators(db, gameConsts) {
         dataArr.push({
             keys: keyArr,
             value: {
-                id: opId, recruitId: recruitId,
-                archetype: opArchetype, range: opRange, skills: opSkills, modules: opModules, skins: opSkins, baseSkills: opBases, paradox: opParadox,
+                id: opId, recruit: recruitId,
+                archetype: opArchetype, range: opRange, skills: opSkills, modules: opModules, skins: opSkins, bases: opBases, paradox: opParadox,
                 data: opData
             }
         });
@@ -364,8 +364,8 @@ async function loadNewOperators(db, gameConsts) {
         dataArr.push({
             keys: keyArr,
             value: {
-                id: opId, recruitId: recruitId,
-                archetype: opArchetype, range: opRange, skills: opSkills, modules: opModules, skins: opSkins, baseSkills: opBases, paradox: opParadox,
+                id: opId, recruit: recruitId,
+                archetype: opArchetype, range: opRange, skills: opSkills, modules: opModules, skins: opSkins, bases: opBases, paradox: opParadox,
                 data: opData
             }
         });

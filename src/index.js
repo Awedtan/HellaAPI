@@ -48,7 +48,8 @@ app.use("/stage", stageRouter);
 app.use("/toughstage", toughStageRouter);
 
 app.use((err, _req, res, next) => {
-    res.status(500).send("Uh oh! An unexpected error occured.")
+    res.status(500).send("Uh oh! An unexpected error occured.");
+    console.log(err);
 })
 
 app.listen(PORT, () => {
