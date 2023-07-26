@@ -9,8 +9,7 @@ newOperatorRouter.get("", async (req, res) => {
     let result = await collection.find().project(getProjection(req)).toArray();
 
     if (!result) res.status(404).send("Not found");
-    else res.status(200).send(result[0]);
-    console.log(result[0]);
+    else res.status(200).send(result);
 });
 
 newOperatorRouter.get("/:id", async (req, res) => {
