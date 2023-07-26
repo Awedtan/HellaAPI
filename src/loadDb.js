@@ -27,7 +27,6 @@ async function main() {
         await loadEvents(db, gameConsts).catch(console.error);
         await loadItems(db, gameConsts).catch(console.error);
         await loadModules(db, gameConsts).catch(console.error);
-        await loadOperators(db, gameConsts).catch(console.error);
         await loadParadoxes(db, gameConsts).catch(console.error);
         await loadRanges(db, gameConsts).catch(console.error);
         await loadRogueThemes(db, gameConsts).catch(console.error);
@@ -35,7 +34,7 @@ async function main() {
         await loadSkins(db, gameConsts).catch(console.error);
         await loadStages(db, gameConsts).catch(console.error);
 
-        await loadNewOperators(db, gameConsts).catch(console.error);
+        await loadOperators(db, gameConsts).catch(console.error);
 
         console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
     } catch (e) {
@@ -213,8 +212,8 @@ async function loadModules(db, gameConsts) {
     console.log(`${dataArr.length} Modules loaded in ${(Date.now() - start) / 1000}s`);
 }
 
-async function loadNewOperators(db, gameConsts) {
-    await db.collection("newoperators").deleteMany({});
+async function loadOperators(db, gameConsts) {
+    await db.collection("operators").deleteMany({});
     const start = Date.now();
 
     const operatorTable = await (await fetch(`${dataPath}/excel/character_table.json`)).json();
@@ -371,94 +370,8 @@ async function loadNewOperators(db, gameConsts) {
         });
     }
 
-    await db.collection("newoperators").insertMany(dataArr);
-    console.log(`${dataArr.length} newOperators loaded in ${(Date.now() - start) / 1000}s`);
-}
-
-async function loadOperators(db, gameConsts) {
-    await db.collection("operators").deleteMany({});
-    const start = Date.now();
-
-    const buildingData = await (await fetch(`${dataPath}/excel/building_data.json`)).json();
-    const operatorTable = await (await fetch(`${dataPath}/excel/character_table.json`)).json();
-    const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
-    const patchTable = await (await fetch(`${dataPath}/excel/char_patch_table.json`)).json();
-    const charBaseBuffs = buildingData.chars; // Base skills
-    const charEquip = moduleTable.charEquip; // Modules
-    const patchChars = patchTable.patchChars; // Guard amiya
-
-    const dataArr = [];
-
-    // All ops except guard amiya
-    for (const opId of Object.keys(operatorTable)) {
-        const opData = operatorTable[opId];
-        const opName = opData.name.toLowerCase();
-        const opModules = charEquip.hasOwnProperty(opId) ? charEquip[opId] : [];
-        const opBases = [];
-
-        if (opData.tagList === null) continue; // Summons and deployables dont have tags, skip them
-
-        if (charBaseBuffs.hasOwnProperty(opId)) {
-            for (const buff of charBaseBuffs[opId].buffChar) {
-                for (const baseData of buff.buffData) {
-                    opBases.push(baseData);
-                }
-            }
-        }
-
-        const positionId = gameConsts.tagValues[opData.position.toLowerCase()];
-        const classId = gameConsts.tagValues[gameConsts.professions[opData.profession].toLowerCase()];
-        let tagId = 1;
-        for (const tag of opData.tagList) {
-            tagId *= gameConsts.tagValues[tag.toLowerCase()];
-        }
-        // Robot is not explicitly defined as a tag, infer from operator description instead
-        if (opData.itemDesc !== null && opData.itemDesc.includes('robot')) {
-            tagId *= gameConsts.tagValues['robot'];
-        }
-        const recruitId = positionId * classId * tagId;
-        const keyArr = [opId, opName, opName.split('\'').join('')];
-        if (opId === 'char_4055_bgsnow') keyArr.push('Pozemka', 'pozemka');
-        if (opId === 'char_4064_mlynar') keyArr.push('Mlynar', 'mlynar');
-
-        dataArr.push({ keys: keyArr, value: { id: opId, recruitId: recruitId, modules: opModules, bases: opBases, data: opData } });
-    }
-
-    // Guard amiya
-    for (const opId of Object.keys(patchChars)) {
-        if (opId !== 'char_1001_amiya2') continue; // Just in case someone else is added here and messes stuff up
-
-        const opData = patchChars[opId];
-        const opModules = charEquip.hasOwnProperty(opId) ? charEquip[opId] : [];
-        const opBases = [];
-
-        if (opData.tagList === null) continue;
-
-        if (charBaseBuffs.hasOwnProperty(opId)) {
-            for (const buff of charBaseBuffs[opId].buffChar) {
-                for (const baseData of buff.buffData) {
-                    opBases.push(baseData);
-                }
-            }
-        }
-
-        const positionId = gameConsts.tagValues[opData.position.toLowerCase()];
-        const classId = gameConsts.tagValues[gameConsts.professions[opData.profession].toLowerCase()];
-        let tagId = 1;
-        for (const tag of opData.tagList) {
-            tagId *= gameConsts.tagValues[tag.toLowerCase()];
-        }
-        if (opData.itemDesc !== null && opData.itemDesc.includes('robot')) {
-            tagId *= gameConsts.tagValues['robot'];
-        }
-        const recruitId = positionId * classId * tagId;
-        const keyArr = [opId, 'amiya guard', 'guard amiya'];
-
-        dataArr.push({ keys: keyArr, value: { id: opId, recruitId: recruitId, modules: opModules, bases: opBases, data: opData } });
-    }
-
     await db.collection("operators").insertMany(dataArr);
-    console.log(`${dataArr.length} Operators loaded in ${(Date.now() - start) / 1000}s`);
+    console.log(`${dataArr.length} operators loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadParadoxes(db, gameConsts) {
