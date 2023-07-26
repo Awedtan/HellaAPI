@@ -3,7 +3,7 @@ export default function getProjection(req) {
     const excludeParams = req.query.exclude;
     const projection = {};
 
-    if (includeParams !== undefined) {
+    if (includeParams) {
         if (Array.isArray(includeParams)) {
             for (const include of includeParams) {
                 projection[`value.${include}`] = 1;
@@ -13,7 +13,7 @@ export default function getProjection(req) {
             projection[`value.${includeParams}`] = 1;
         }
     }
-    else if (excludeParams !== undefined) {
+    else if (excludeParams) {
         if (Array.isArray(excludeParams)) {
             for (const exclude of excludeParams) {
                 projection[`value.${exclude}`] = 0;

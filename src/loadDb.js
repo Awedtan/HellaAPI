@@ -272,7 +272,7 @@ async function loadNewOperators(db, gameConsts) {
         if (charBaseBuffs.hasOwnProperty(opId)) {
             for (const buff of charBaseBuffs[opId].buffChar) {
                 for (const baseData of buff.buffData) {
-                    opBases.push(baseDict[baseData.buffId]);
+                    opBases.push({ condition: baseData, skill: baseDict[baseData.buffId] });
                 }
             }
         }
