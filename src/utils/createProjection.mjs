@@ -1,4 +1,4 @@
-export default function getProjection(req) {
+export default function createProjection(req) {
     const includeParams = req.query.include;
     const excludeParams = req.query.exclude;
     const projection = {};

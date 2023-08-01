@@ -1,25 +1,25 @@
-import "./loadEnv.mjs";
+import "./utils/loadEnv.mjs";
 
 import cors from "cors";
 import express from "express";
 import "express-async-errors";
-import archetypeRouter from "./routes/archetype.mjs";
-import artRouter from "./routes/art.mjs";
-import baseRouter from "./routes/base.mjs";
-import ccRouter from "./routes/cc.mjs";
-import defineRouter from "./routes/define.mjs";
-import enemyRouter from "./routes/enemy.mjs";
-import eventRouter from "./routes/event.mjs";
-import itemRouter from "./routes/item.mjs";
-import moduleRouter from "./routes/module.mjs";
-import operatorRouter from "./routes/operator.mjs";
-import paradoxRouter from "./routes/paradox.mjs";
-import rangeRouter from "./routes/range.mjs";
-import rogueRouter from "./routes/rogue.mjs";
-import skillRouter from "./routes/skill.mjs";
-import skinRouter from "./routes/skin.mjs";
-import stageRouter from "./routes/stage.mjs";
-import toughStageRouter from "./routes/toughstage.mjs";
+
+import archetypeRouter from "./routes/archetypeRouter.mjs";
+import baseRouter from "./routes/baseRouter.mjs";
+import ccRouter from "./routes/ccRouter.mjs";
+import defineRouter from "./routes/defineRouter.mjs";
+import enemyRouter from "./routes/enemyRouter.mjs";
+import eventRouter from "./routes/eventRouter.mjs";
+import itemRouter from "./routes/itemRouter.mjs";
+import moduleRouter from "./routes/moduleRouter.mjs";
+import operatorRouter from "./routes/operatorRouter.mjs";
+import paradoxRouter from "./routes/paradoxRouter.mjs";
+import rangeRouter from "./routes/rangeRouter.mjs";
+import rogueRouter from "./routes/rogueRouter.mjs";
+import skillRouter from "./routes/skillRouter.mjs";
+import skinRouter from "./routes/skinRouter.mjs";
+import stageRouter from "./routes/stageRouter.mjs";
+import toughStageRouter from "./routes/toughStageRouter.mjs";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -28,7 +28,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/archetype", archetypeRouter);
-app.use("/art", artRouter);
 app.use("/base", baseRouter);
 app.use("/cc", ccRouter);
 app.use("/define", defineRouter);
