@@ -1,7 +1,7 @@
 import "./loadEnv.mjs";
 
 import fetch from "node-fetch";
-import db from './db.mjs';
+import db from '../db.mjs';
 
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/en_US/gamedata';
 
@@ -84,7 +84,7 @@ async function loadCC(db, gameConsts) {
     const dataArr = [];
     for (const stage of ccStages) {
         const levels = await (await fetch(`${dataPath}/levels/obt/rune/${stage.code}.json`)).json();
-        dataArr.push({ keys: [stage.name.toLowerCase()], value: { const: stage, levels: levels } })
+        dataArr.push({ keys: [stage.name.toLowerCase(), stage.code.toLowerCase()], value: { const: stage, levels: levels } })
     }
 
     await db.collection("ccstages").deleteMany({});
