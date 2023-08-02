@@ -4,6 +4,7 @@ export default function createProjection(req) {
     const projection = {};
 
     if (includeParams) {
+        projection[`keys`] = 1;
         if (Array.isArray(includeParams)) {
             for (const include of includeParams) {
                 projection[`value.${include}`] = 1;
