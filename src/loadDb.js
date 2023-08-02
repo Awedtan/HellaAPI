@@ -45,7 +45,6 @@ async function main() {
 }
 
 async function loadArchetypes(db, gameConsts) {
-    await db.collection("archetypes").deleteMany({});
     const start = Date.now();
     const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
     const subProfDict = moduleTable.subProfDict;
@@ -56,12 +55,12 @@ async function loadArchetypes(db, gameConsts) {
         dataArr.push({ keys: [subProf.subProfessionId], value: subProf.subProfessionName });
     }
 
+    await db.collection("archetypes").deleteMany({});
     await db.collection("archetypes").insertMany(dataArr);
     console.log(`${dataArr.length} Archetypes loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadBases(db, gameConsts) {
-    await db.collection("baseskills").deleteMany({});
     const start = Date.now();
 
     const buildingData = await (await fetch(`${dataPath}/excel/building_data.json`)).json();
@@ -73,12 +72,12 @@ async function loadBases(db, gameConsts) {
         dataArr.push({ keys: [buff.buffId], value: buff });
     }
 
+    await db.collection("baseskills").deleteMany({});
     await db.collection("baseskills").insertMany(dataArr);
     console.log(`${dataArr.length} Base skills loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadCC(db, gameConsts) {
-    await db.collection("ccstages").deleteMany({});
     const start = Date.now();
     const ccStages = gameConsts.ccStages;
 
@@ -88,12 +87,12 @@ async function loadCC(db, gameConsts) {
         dataArr.push({ keys: [stage.name.toLowerCase()], value: { const: stage, levels: levels } })
     }
 
+    await db.collection("ccstages").deleteMany({});
     await db.collection("ccstages").insertMany(dataArr);
     console.log(`${dataArr.length} CC stages loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadDefinitions(db, gameConsts) {
-    await db.collection("definitions").deleteMany({});
     const start = Date.now();
 
     const gamedataConst = await (await fetch(`${dataPath}/excel/gamedata_const.json`)).json();
@@ -104,12 +103,12 @@ async function loadDefinitions(db, gameConsts) {
         dataArr.push({ keys: [definition.termName.toLowerCase()], value: definition });
     }
 
+    await db.collection("definitions").deleteMany({});
     await db.collection("definitions").insertMany(dataArr);
     console.log(`${dataArr.length} Definitions loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadEnemies(db, gameConsts) {
-    await db.collection("enemies").deleteMany({});
     const start = Date.now();
 
     // Brute force matches between enemy_handbook_table and enemy_database
@@ -140,12 +139,12 @@ async function loadEnemies(db, gameConsts) {
         }
     }
 
+    await db.collection("enemies").deleteMany({});
     await db.collection("enemies").insertMany(dataArr);
     console.log(`${dataArr.length} Enemies loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadEvents(db, gameConsts) {
-    await db.collection("events").deleteMany({});
     const start = Date.now();
 
     const activityTable = await (await fetch(`${dataPath}/excel/activity_table.json`)).json();
@@ -156,12 +155,12 @@ async function loadEvents(db, gameConsts) {
         dataArr.push({ keys: [event.id], value: event });
     }
 
+    await db.collection("events").deleteMany({});
     await db.collection("events").insertMany(dataArr);
     console.log(`${dataArr.length} Events loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadItems(db, gameConsts) {
-    await db.collection("items").deleteMany({});
     const start = Date.now();
 
     const itemTable = await (await fetch(`${dataPath}/excel/item_table.json`)).json();
@@ -189,12 +188,12 @@ async function loadItems(db, gameConsts) {
         dataArr.push({ keys: keyArr, value: { data: data, formula: formula } });
     }
 
+    await db.collection("items").deleteMany({});
     await db.collection("items").insertMany(dataArr);
     console.log(`${dataArr.length} Items loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadModules(db, gameConsts) {
-    await db.collection("modules").deleteMany({});
     const start = Date.now();
 
     const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
@@ -208,12 +207,12 @@ async function loadModules(db, gameConsts) {
         dataArr.push({ keys: [moduleId], value: { info: module, data: battleDict[moduleId] } });
     }
 
+    await db.collection("modules").deleteMany({});
     await db.collection("modules").insertMany(dataArr);
     console.log(`${dataArr.length} Modules loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadOperators(db, gameConsts) {
-    await db.collection("operators").deleteMany({});
     const start = Date.now();
 
     const operatorTable = await (await fetch(`${dataPath}/excel/character_table.json`)).json();
@@ -370,12 +369,12 @@ async function loadOperators(db, gameConsts) {
         });
     }
 
+    await db.collection("operators").deleteMany({});
     await db.collection("operators").insertMany(dataArr);
     console.log(`${dataArr.length} operators loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadParadoxes(db, gameConsts) {
-    await db.collection("paradoxes").deleteMany({});
     const start = Date.now();
 
     const handbookTable = await (await fetch(`${dataPath}/excel/handbook_info_table.json`)).json();
@@ -389,12 +388,12 @@ async function loadParadoxes(db, gameConsts) {
         dataArr.push({ keys: [excel.charId], value: { excel: excel, levels: levels } })
     }
 
+    await db.collection("paradoxes").deleteMany({});
     await db.collection("paradoxes").insertMany(dataArr);
     console.log(`${dataArr.length} Paradoxes loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadRanges(db, gameConsts) {
-    await db.collection("ranges").deleteMany({});
     const start = Date.now();
     const rangeTable = await (await fetch(`${dataPath}/excel/range_table.json`)).json();
 
@@ -404,12 +403,12 @@ async function loadRanges(db, gameConsts) {
         dataArr.push({ keys: [range.id.toLowerCase()], value: range })
     }
 
+    await db.collection("ranges").deleteMany({});
     await db.collection("ranges").insertMany(dataArr);
     console.log(`${dataArr.length} Ranges loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadRogueThemes(db, gameConsts) {
-    await db.collection("roguethemes").deleteMany({});
     const start = Date.now();
 
     const rogueTable = await (await fetch(`${dataPath}/excel/roguelike_topic_table.json`)).json();
@@ -456,12 +455,12 @@ async function loadRogueThemes(db, gameConsts) {
         dataArr[i] = { keys: [i, i.toString()], value: { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict } };
     }
 
+    await db.collection("roguethemes").deleteMany({});
     await db.collection("roguethemes").insertMany(dataArr);
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadSkills(db, gameConsts) {
-    await db.collection("skills").deleteMany({});
     const start = Date.now();
 
     const skillTable = await (await fetch(`${dataPath}/excel/skill_table.json`)).json();
@@ -472,12 +471,12 @@ async function loadSkills(db, gameConsts) {
         dataArr.push({ keys: [skill.skillId.toLowerCase()], value: skill });
     }
 
+    await db.collection("skills").deleteMany({});
     await db.collection("skills").insertMany(dataArr);
     console.log(`${dataArr.length} Skills loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadSkins(db, gameConsts) {
-    await db.collection("skins").deleteMany({});
     const start = Date.now();
 
     const skinTable = await (await fetch(`${dataPath}/excel/skin_table.json`)).json();
@@ -498,13 +497,13 @@ async function loadSkins(db, gameConsts) {
         dataArr.find(data => data.keys.includes(opId)).value.push(skin);
     }
 
+    await db.collection("skins").deleteMany({});
     await db.collection("skins").insertMany(dataArr);
     console.log(`${dataArr.length} Skins loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadStages(db, gameConsts) {
-    await db.collection("stages").deleteMany({});
-    await db.collection("toughstages").deleteMany({});
+
     const start = Date.now();
 
     const stageTable = await (await fetch(`${dataPath}/excel/stage_table.json`)).json();
@@ -557,7 +556,9 @@ async function loadStages(db, gameConsts) {
         }
     }
 
+    await db.collection("stages").deleteMany({});
     await db.collection("stages").insertMany(dataArr);
+    await db.collection("toughstages").deleteMany({});
     await db.collection("toughstages").insertMany(toughArr);
     console.log(`${dataArr.length + toughArr.length} Stages loaded in ${(Date.now() - start) / 1000}s`);
 }
