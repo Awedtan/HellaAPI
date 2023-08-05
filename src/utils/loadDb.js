@@ -539,6 +539,8 @@ async function loadStages(db, gameConsts) {
             const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
             const stage = { excel: excel, levels: levels };
 
+            toughArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
+            toughArr.push({ keys: [excel.stageId.split('#').join('')], value: [stage] }); // ID without hashtags
             toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
         }
         else if (excel.difficulty === 'NORMAL') {
@@ -551,8 +553,6 @@ async function loadStages(db, gameConsts) {
 
             dataArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
             dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
-            // stageDict[excel.stageId] = [stage]; 
-            // stageDict[code].push(stage); // Stage code
         }
     }
 

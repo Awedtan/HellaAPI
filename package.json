@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node src/index.js",
-    "load": "node src/loadDb.js"
+    "load": "node src/utils/loadDb.js"
   },
   "dependencies": {
     "@types/cors": "^2.8.13",
