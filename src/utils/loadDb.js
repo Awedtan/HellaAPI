@@ -30,10 +30,10 @@ async function main() {
         await loadParadoxes(db, gameConsts).catch(console.error);
         await loadRanges(db, gameConsts).catch(console.error);
         await loadRogueThemes(db, gameConsts).catch(console.error);
+        await loadSandboxes(db, gameConsts).catch(console.error);
         await loadSkills(db, gameConsts).catch(console.error);
         await loadSkins(db, gameConsts).catch(console.error);
         await loadStages(db, gameConsts).catch(console.error);
-
         await loadOperators(db, gameConsts).catch(console.error);
 
         console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
@@ -414,7 +414,6 @@ async function loadRogueThemes(db, gameConsts) {
     const rogueTable = await (await fetch(`${dataPath}/excel/roguelike_topic_table.json`)).json();
     const rogueDetails = rogueTable.details;
     const rogueTopics = rogueTable.topics;
-
     const dataArr = [];
 
     for (let i = 0; i < Object.keys(rogueDetails).length; i++) {
@@ -458,6 +457,32 @@ async function loadRogueThemes(db, gameConsts) {
     await db.collection("roguethemes").deleteMany({});
     await db.collection("roguethemes").insertMany(dataArr);
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
+}
+
+async function loadSandboxes(db, gameConsts) {
+    const start = Date.now();
+
+    const sandboxTable = await (await fetch(`${dataPath}/excel/sandbox_table.json`)).json();
+    const sandboxActTables = sandboxTable.sandboxActTables;
+    const dataArr = [];
+
+    for (let i = 0; i < Object.keys(sandboxActTables).length; i++) {
+        const sandboxAct = Object.values(sandboxActTables)[i];
+        const stageDict = {};
+
+        for (const excel of Object.values(sandboxAct.stageDatas)) {
+            const levelId = excel.levelId.toLowerCase();
+            const stageName = excel.name.toLowerCase();
+            const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+            stageDict[stageName] = { excel, levels };
+        }
+
+        dataArr[i] = { keys: [i, i.toString()], value: { stageDict } };
+    }
+
+    await db.collection("sandboxes").deleteMany({});
+    await db.collection("sandboxes").insertMany(dataArr);
+    console.log(`${dataArr.length} Sandbox acts loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadSkills(db, gameConsts) {
