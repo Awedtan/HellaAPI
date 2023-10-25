@@ -3,7 +3,8 @@ import "./loadEnv.mjs";
 import fetch from "node-fetch";
 import db from '../db.mjs';
 
-const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/en_US/gamedata';
+const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/master/en_US/gamedata';
+const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/en_US/gamedata';
 
 export const archetypeDict = {};        // Archetype id -> archetype name
 export const baseDict = {};             // Base skill id -> Base object
@@ -83,8 +84,8 @@ async function loadCC(db, gameConsts) {
 
     const dataArr = [];
     for (const stage of ccStages) {
-        const levels = await (await fetch(`${dataPath}/levels/obt/rune/${stage.code}.json`)).json();
-        dataArr.push({ keys: [stage.name.toLowerCase(), stage.code.toLowerCase()], value: { const: stage, levels: levels } })
+        const levels = await (await fetch(`${dataPath}/levels/${stage.levelId.toLowerCase()}.json`)).json();
+        dataArr.push({ keys: [stage.name.toLowerCase(), stage.levelId.toLowerCase()], value: { const: stage, levels: levels } })
     }
 
     await db.collection("ccstages").deleteMany({});
@@ -371,7 +372,7 @@ async function loadOperators(db, gameConsts) {
 
     await db.collection("operators").deleteMany({});
     await db.collection("operators").insertMany(dataArr);
-    console.log(`${dataArr.length} operators loaded in ${(Date.now() - start) / 1000}s`);
+    console.log(`${dataArr.length} Operators loaded in ${(Date.now() - start) / 1000}s`);
 }
 
 async function loadParadoxes(db, gameConsts) {
@@ -528,7 +529,6 @@ async function loadSkins(db, gameConsts) {
 }
 
 async function loadStages(db, gameConsts) {
-
     const start = Date.now();
 
     const stageTable = await (await fetch(`${dataPath}/excel/stage_table.json`)).json();
@@ -561,23 +561,42 @@ async function loadStages(db, gameConsts) {
                 toughArr.push({ keys: [code], value: [] });
             }
 
-            const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
-            const stage = { excel: excel, levels: levels };
+            try {
+                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const stage = { excel: excel, levels: levels };
 
-            toughArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
-            toughArr.push({ keys: [excel.stageId.split('#').join('')], value: [stage] }); // ID without hashtags
-            toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                toughArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
+                toughArr.push({ keys: [excel.stageId.split('#').join('')], value: [stage] }); // ID without hashtags
+                toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+            }
+            catch (e) {
+                const levels = await (await fetch(`${backupPath}/levels/${levelId}.json`)).json();
+                const stage = { excel: excel, levels: levels };
+
+                toughArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
+                toughArr.push({ keys: [excel.stageId.split('#').join('')], value: [stage] }); // ID without hashtags
+                toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+            }
         }
         else if (excel.difficulty === 'NORMAL') {
             if (!dataArr.find(data => data.keys.includes(code))) {
                 dataArr.push({ keys: [code], value: [] }); // Multiple stages can have the same code, so each code maps to an array
             }
 
-            const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
-            const stage = { excel: excel, levels: levels };
+            try {
+                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const stage = { excel: excel, levels: levels };
 
-            dataArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
-            dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                dataArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
+                dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+            }
+            catch (e) {
+                const levels = await (await fetch(`${backupPath}/levels/${levelId}.json`)).json();
+                const stage = { excel: excel, levels: levels };
+
+                dataArr.push({ keys: [excel.stageId], value: [stage] }); // Unique identifier
+                dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+            }
         }
     }
 
