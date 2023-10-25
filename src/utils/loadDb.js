@@ -85,7 +85,7 @@ async function loadCC(db, gameConsts) {
     const dataArr = [];
     for (const stage of ccStages) {
         const levels = await (await fetch(`${dataPath}/levels/${stage.levelId.toLowerCase()}.json`)).json();
-        dataArr.push({ keys: [stage.name.toLowerCase(), stage.levelId.toLowerCase()], value: { const: stage, levels: levels } })
+        dataArr.push({ keys: [stage.name.toLowerCase(), stage.levelId.split('/')[2].toLowerCase()], value: { const: stage, levels: levels } })
     }
 
     await db.collection("ccstages").deleteMany({});
