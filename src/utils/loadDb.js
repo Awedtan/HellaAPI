@@ -3,7 +3,7 @@ import "./loadEnv.mjs";
 import fetch from "node-fetch";
 import db from '../db.mjs';
 
-const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/master/en_US/gamedata';
+const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/en_US/gamedata';
 
 export const archetypeDict = {};        // Archetype id -> archetype name
