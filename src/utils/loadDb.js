@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import db from '../db.mjs';
 
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
-const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/en_US/gamedata';
+const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
 
 export const archetypeDict = {};        // Archetype id -> archetype name
 export const baseDict = {};             // Base skill id -> Base object
@@ -229,6 +229,7 @@ async function loadOperators(db, gameConsts) {
         if (opData.tagList === null) continue; // Summons and deployables dont have tags, skip them
 
         // RECRUIT ID
+        const rarityId = gameConsts.tagValues[opData.rarity];
         const positionId = gameConsts.tagValues[opData.position.toLowerCase()];
         const classId = gameConsts.tagValues[gameConsts.professions[opData.profession].toLowerCase()];
         let tagId = 1;
@@ -239,7 +240,7 @@ async function loadOperators(db, gameConsts) {
         if (opData.itemDesc !== null && opData.itemDesc.includes('robot')) {
             tagId *= gameConsts.tagValues['robot'];
         }
-        const recruitId = positionId * classId * tagId;
+        const recruitId = rarityId * positionId * classId * tagId;
 
         // ARCHETYPE
         const opArchetype = archetypeDict[opData.subProfessionId];
@@ -303,6 +304,7 @@ async function loadOperators(db, gameConsts) {
         if (opData.tagList === null) continue; // Summons and deployables dont have tags, skip them
 
         // RECRUIT ID
+        const rarityId = gameConsts.tagValues[opData.rarity];
         const positionId = gameConsts.tagValues[opData.position.toLowerCase()];
         const classId = gameConsts.tagValues[gameConsts.professions[opData.profession].toLowerCase()];
         let tagId = 1;
@@ -313,7 +315,7 @@ async function loadOperators(db, gameConsts) {
         if (opData.itemDesc !== null && opData.itemDesc.includes('robot')) {
             tagId *= gameConsts.tagValues['robot'];
         }
-        const recruitId = positionId * classId * tagId;
+        const recruitId = rarityId * positionId * classId * tagId;
 
         // ARCHETYPE
         const opArchetype = archetypeDict[opData.subProfessionId];
