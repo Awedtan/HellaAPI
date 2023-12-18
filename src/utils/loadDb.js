@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import db from '../db.mjs';
 
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
-const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
+const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 
 export const archetypeDict = {};        // Archetype id -> archetype name
 export const baseDict = {};             // Base skill id -> Base object
