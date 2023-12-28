@@ -1,6 +1,5 @@
 import "./loadEnv.mjs";
 
-import fetch from "node-fetch";
 import db from '../db.mjs';
 
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
@@ -126,7 +125,7 @@ async function loadEnemies(db, gameConsts) {
     const enemies = enemyDatabase.enemies;
 
     const dataArr = [];
-    for (const excel of Object.values(enemyHandbook)) {
+    for (const excel of Object.values(enemyHandbook.enemyData)) {
         for (const levels of enemies) {
             if (levels.Key !== excel.enemyId) continue; // Brute force matches
 
