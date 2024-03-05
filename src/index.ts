@@ -1,6 +1,6 @@
 import express from 'express';
 import { getCollections, getMatch, getMulti, getSearch, getSingle } from './persistence';
-const { port } = require('../config.json')
+import 'dotenv/config'
 
 function createRouter(route: string) {
     const router = express.Router();
@@ -42,8 +42,8 @@ async function main() {
         res.status(500).send("Uh oh! An unexpected error occured.");
         console.log(err);
     })
-    app.listen(port, () => {
-        console.log(`Server is running on port: ${port}`);
+    app.listen(process.env.PORT, () => {
+        console.log(`Server is running on port: ${process.env.PORT}`);
     });
 }
 

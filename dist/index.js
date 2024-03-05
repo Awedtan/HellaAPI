@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var persistence_1 = require("./persistence");
-var port = require('../config.json').port;
+require("dotenv/config");
 function createRouter(route) {
     var _this = this;
     var router = express_1.default.Router();
@@ -132,8 +132,8 @@ function main() {
                         res.status(500).send("Uh oh! An unexpected error occured.");
                         console.log(err);
                     });
-                    app.listen(port, function () {
-                        console.log("Server is running on port: ".concat(port));
+                    app.listen(process.env.PORT, function () {
+                        console.log("Server is running on port: ".concat(process.env.PORT));
                     });
                     return [2 /*return*/];
             }

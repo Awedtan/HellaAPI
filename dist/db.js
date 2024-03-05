@@ -37,8 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongodb_1 = require("mongodb");
-var mongoUrl = require('../config.json').mongoUrl;
-var client = new mongodb_1.MongoClient(mongoUrl);
 var db;
 function getDb() {
     return __awaiter(this, void 0, void 0, function () {
@@ -50,7 +48,7 @@ function getDb() {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, client.connect()];
+                    return [4 /*yield*/, new mongodb_1.MongoClient(process.env.MONGO_URI).connect()];
                 case 2:
                     db = (_a.sent()).db("arknights");
                     return [3 /*break*/, 4];
