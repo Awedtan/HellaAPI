@@ -19,6 +19,12 @@ const log = (msg: string) => fs.appendFileSync('log.txt', msg + '\n');
 async function main() {
     const start = Date.now();
     const db = await getDb();
+
+    if (!db) {
+        console.error('Failed to connect to database');
+        return;
+    }
+
     fs.writeFileSync('log.txt', '');
 
     try {
@@ -557,6 +563,26 @@ async function loadRogueThemes(db, gameConsts) {
         dataArr[i] = { keys: [i, i.toString()], value: { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict } };
     }
 
+    const rogueStageArr: any[] = [];
+    const rogueToughStageArr: any[] = [];
+    for (let i = 0; i < dataArr.length; i++) {
+        rogueStageArr[i] = [];
+        rogueToughStageArr[i] = [];
+
+        const theme = dataArr[i];
+        const stageDict = theme.value.stageDict;
+        const toughStageDict = theme.value.toughStageDict;
+
+        for (const key of Object.keys(stageDict)) {
+            const stage = stageDict[key];
+            rogueStageArr[i].push({ keys: [key, stage.excel.id, stage.excel.code], value: stage });
+        }
+        for (const key of Object.keys(toughStageDict)) {
+            const stage = toughStageDict[key];
+            rogueToughStageArr[i].push({ keys: [key, stage.excel.id, stage.excel.code], value: stage });
+        }
+    }
+
     for (const datum of Object.values(dataArr)) {
         try {
             RogueThemeZod.parse(datum.value);
@@ -569,6 +595,13 @@ async function loadRogueThemes(db, gameConsts) {
 
     await db.collection("rogue").deleteMany({});
     await db.collection("rogue").insertMany(dataArr);
+    for (let i = 0; i < dataArr.length; i++) {
+        await db.collection(`roguestage/${i}`).deleteMany({});
+        await db.collection(`roguestage/${i}`).insertMany(rogueStageArr[i]);
+        await db.collection(`roguetoughstage/${i}`).deleteMany({});
+        await db.collection(`roguetoughstage/${i}`).insertMany(rogueToughStageArr[i]);
+    }
+
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadSandboxes(db, gameConsts) {

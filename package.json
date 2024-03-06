@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "load": "ts-node src/load.ts"
   },
   "dependencies": {
