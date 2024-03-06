@@ -39,9 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
 var express_1 = __importDefault(require("express"));
 var persistence_1 = require("./persistence");
-require("dotenv/config");
+var cors = require('cors');
 function createRouter(route) {
     var _this = this;
     var router = express_1.default.Router();
@@ -114,6 +115,7 @@ function main() {
             switch (_b.label) {
                 case 0:
                     app = (0, express_1.default)();
+                    app.use(cors());
                     _i = 0;
                     return [4 /*yield*/, (0, persistence_1.getCollections)()];
                 case 1:
