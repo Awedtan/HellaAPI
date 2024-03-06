@@ -1,6 +1,7 @@
+import 'dotenv/config';
 import express from 'express';
 import { getCollections, getMatch, getMulti, getSearch, getSingle } from './persistence';
-import 'dotenv/config'
+const cors = require('cors');
 
 function createRouter(route: string) {
     const router = express.Router();
@@ -35,6 +36,7 @@ function createRouter(route: string) {
 
 async function main() {
     const app = express();
+    app.use(cors());
     for (const collection of await getCollections()) {
         app.use('/' + collection, createRouter(collection));
     }
