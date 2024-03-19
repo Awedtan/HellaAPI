@@ -149,7 +149,7 @@ function createProjection(req) {
     }
     else if (excludeParams) {
         if (Array.isArray(excludeParams)) {
-            includeParams.forEach(function (include) { return projection["value.".concat(include)] = 0; });
+            excludeParams.forEach(function (exclude) { return projection["value.".concat(exclude)] = 0; });
         }
         else {
             projection["value.".concat(excludeParams)] = 0;

@@ -61,7 +61,7 @@ function createProjection(req) {
     }
     else if (excludeParams) {
         if (Array.isArray(excludeParams)) {
-            includeParams.forEach(include => projection[`value.${include}`] = 0);
+            excludeParams.forEach(exclude => projection[`value.${exclude}`] = 0);
         }
         else {
             projection[`value.${excludeParams}`] = 0;
