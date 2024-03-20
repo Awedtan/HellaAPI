@@ -110,26 +110,26 @@ function createRouter(route) {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var app, _i, _a, collection;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var app, collections, _i, collections_1, collection;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     app = (0, express_1.default)();
                     app.use(cors());
-                    _i = 0;
                     return [4 /*yield*/, (0, persistence_1.getCollections)()];
                 case 1:
-                    _a = _b.sent();
-                    _b.label = 2;
-                case 2:
-                    if (!(_i < _a.length)) return [3 /*break*/, 4];
-                    collection = _a[_i];
-                    app.use('/' + collection, createRouter(collection));
-                    _b.label = 3;
-                case 3:
-                    _i++;
-                    return [3 /*break*/, 2];
-                case 4:
+                    collections = _a.sent();
+                    for (_i = 0, collections_1 = collections; _i < collections_1.length; _i++) {
+                        collection = collections_1[_i];
+                        app.use('/' + collection, createRouter(collection));
+                    }
+                    app.use(function (_req, res) {
+                        var obj = {
+                            message: 'Invalid endpoint',
+                            endpoints: collections.sort()
+                        };
+                        res.status(404).send(obj);
+                    });
                     app.use(function (err, _req, res, next) {
                         res.status(500).send("Uh oh! An unexpected error occured.");
                         console.log(err);

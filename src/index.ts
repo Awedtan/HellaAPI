@@ -37,13 +37,21 @@ function createRouter(route: string) {
 async function main() {
     const app = express();
     app.use(cors());
-    for (const collection of await getCollections()) {
+    const collections = await getCollections();
+    for (const collection of collections) {
         app.use('/' + collection, createRouter(collection));
     }
+    app.use((_req, res) => {
+        const obj = {
+            message: 'Invalid endpoint',
+            endpoints: collections.sort()
+        };
+        res.status(404).send(obj);
+    });
     app.use((err, _req, res, next) => {
         res.status(500).send("Uh oh! An unexpected error occured.");
         console.log(err);
-    })
+    });
     app.listen(process.env.PORT, () => {
         console.log(`Server is running on port: ${process.env.PORT}`);
     });
