@@ -52,7 +52,7 @@ Specify fields to exclude from the response.
 
 Specify a maximum number of documents to return.
 
-> app/resource?limit=4
+> app/resource?limit={number}
 
 ### Data format
 
