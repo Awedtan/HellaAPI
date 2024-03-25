@@ -5,27 +5,37 @@ export async function getCollections() {
     return collections.map(collection => collection.collectionName);
 }
 
+// Gets all documents from a collection
+// operator
 export async function getMulti(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-    const result = await collection.find().project(createProjection(req)).limit(createLimit(req)).toArray();
+    const result = await collection.find({}, createOptions(req)).toArray();
 
     return result;
 }
 
+// Gets a single document that has a key equal to the request id
+// operator/char_188_helage
 export async function getSingle(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-    const result = await collection.findOne({ keys: req.params.id }, { projection: createProjection(req) });
+    const result = await collection.findOne({ keys: req.params.id }, createOptions(req));
 
     return result;
 }
 
+// Gets all documents whose keys contain the request id as a substring
+// operator/match/helage
 export async function getMatch(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-    const result = await collection.find({ keys: { $regex: req.params.id, $options: 'i' } }).project(createProjection(req)).limit(createLimit(req)).toArray();
+
+    // Find matching keys through a regex match with case insensitivity
+    const result = await collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray();
 
     return result;
 }
 
+// Gets all documents where the document fields are equal to the request params
+// operator/search?data.subProfessionId=musha
 export async function getSearch(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
     const filter = {};
@@ -35,17 +45,12 @@ export async function getSearch(collectionName: string, req) {
         filter[`value.${key}`] = req.query[key];
     }
 
-    const result = await collection.find(filter).project(createProjection(req)).limit(createLimit(req)).toArray();
+    const result = await collection.find(filter, createOptions(req)).toArray();
 
     return result;
 }
 
-function createLimit(req) {
-    const limit = req.query.limit;
-    return limit ? parseInt(limit) : 0;
-}
-
-function createProjection(req) {
+function createOptions(req) {
     const includeParams = req.query.include;
     const excludeParams = req.query.exclude;
     const projection = {};
@@ -68,5 +73,6 @@ function createProjection(req) {
         }
     }
 
-    return projection;
+    const options = { projection: projection, limit: parseInt(req.query.limit) ?? 0 };
+    return options;
 }

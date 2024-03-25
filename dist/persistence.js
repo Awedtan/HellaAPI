@@ -56,6 +56,8 @@ function getCollections() {
     });
 }
 exports.getCollections = getCollections;
+// Gets all documents from a collection
+// operator
 function getMulti(collectionName, req) {
     return __awaiter(this, void 0, void 0, function () {
         var collection, result;
@@ -64,7 +66,7 @@ function getMulti(collectionName, req) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
                 case 1:
                     collection = (_a.sent()).collection(collectionName);
-                    return [4 /*yield*/, collection.find().project(createProjection(req)).limit(createLimit(req)).toArray()];
+                    return [4 /*yield*/, collection.find({}, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
                     return [2 /*return*/, result];
@@ -73,6 +75,8 @@ function getMulti(collectionName, req) {
     });
 }
 exports.getMulti = getMulti;
+// Gets a single document that has a key equal to the request id
+// operator/char_188_helage
 function getSingle(collectionName, req) {
     return __awaiter(this, void 0, void 0, function () {
         var collection, result;
@@ -81,7 +85,7 @@ function getSingle(collectionName, req) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
                 case 1:
                     collection = (_a.sent()).collection(collectionName);
-                    return [4 /*yield*/, collection.findOne({ keys: req.params.id }, { projection: createProjection(req) })];
+                    return [4 /*yield*/, collection.findOne({ keys: req.params.id }, createOptions(req))];
                 case 2:
                     result = _a.sent();
                     return [2 /*return*/, result];
@@ -90,6 +94,8 @@ function getSingle(collectionName, req) {
     });
 }
 exports.getSingle = getSingle;
+// Gets all documents whose keys contain the request id as a substring
+// operator/match/helage
 function getMatch(collectionName, req) {
     return __awaiter(this, void 0, void 0, function () {
         var collection, result;
@@ -98,7 +104,7 @@ function getMatch(collectionName, req) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
                 case 1:
                     collection = (_a.sent()).collection(collectionName);
-                    return [4 /*yield*/, collection.find({ keys: { $regex: req.params.id, $options: 'i' } }).project(createProjection(req)).limit(createLimit(req)).toArray()];
+                    return [4 /*yield*/, collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
                     return [2 /*return*/, result];
@@ -107,6 +113,8 @@ function getMatch(collectionName, req) {
     });
 }
 exports.getMatch = getMatch;
+// Gets all documents where the document fields are equal to the request params
+// operator/search?data.subProfessionId=musha
 function getSearch(collectionName, req) {
     return __awaiter(this, void 0, void 0, function () {
         var collection, filter, key, result;
@@ -121,7 +129,7 @@ function getSearch(collectionName, req) {
                             continue;
                         filter["value.".concat(key)] = req.query[key];
                     }
-                    return [4 /*yield*/, collection.find(filter).project(createProjection(req)).limit(createLimit(req)).toArray()];
+                    return [4 /*yield*/, collection.find(filter, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
                     return [2 /*return*/, result];
@@ -130,11 +138,8 @@ function getSearch(collectionName, req) {
     });
 }
 exports.getSearch = getSearch;
-function createLimit(req) {
-    var limit = req.query.limit;
-    return limit ? parseInt(limit) : 0;
-}
-function createProjection(req) {
+function createOptions(req) {
+    var _a;
     var includeParams = req.query.include;
     var excludeParams = req.query.exclude;
     var projection = {};
@@ -155,5 +160,6 @@ function createProjection(req) {
             projection["value.".concat(excludeParams)] = 0;
         }
     }
-    return projection;
+    var options = { projection: projection, limit: (_a = parseInt(req.query.limit)) !== null && _a !== void 0 ? _a : 0 };
+    return options;
 }
