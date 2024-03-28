@@ -1,7 +1,9 @@
-import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
-import getDb from "./db";
+import 'dotenv/config';
 import * as fs from 'fs';
-import 'dotenv/config'
+import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
+import { Db, ObjectId } from "mongodb";
+import getDb from "./db";
+import { create } from 'ts-node';
 
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
@@ -24,14 +26,18 @@ const cnRangeDict = {};
 const cnSkillDict = {};
 const cnSkinDict = {};
 
-const log = (msg: string) => fs.appendFileSync('log.txt', msg + '\n');
+const log = (msg: any) => fs.appendFileSync('log.txt', JSON.stringify(msg) + '\n');
 
-const writeToDb = true;
-const opOnly = false;
+const writeToDb = false;
+
+let db: Db;
+let gameConsts: any;
 
 async function main() {
     const start = Date.now();
-    const db = await getDb();
+
+    db = await getDb();
+    gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
 
     if (!db) {
         console.error('Failed to connect to database');
@@ -41,34 +47,32 @@ async function main() {
     fs.writeFileSync('log.txt', '');
 
     try {
-        // this is passed here because this used to be javascript which did not allow top-level awaits but now its typescript and i could move it out of here but i dont really feel like changing everything so it will stay here
-        const { gameConsts } = await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json();
+        await loadArchetypes().catch(console.error);
+        await loadBases().catch(console.error);
+        await loadModules().catch(console.error);
+        await loadParadoxes().catch(console.error);
+        await loadRanges().catch(console.error);
+        await loadSkills().catch(console.error);
+        await loadSkins().catch(console.error);
+        await loadOperators().catch(console.error);
 
-        await loadArchetypes(db, gameConsts).catch(console.error);
-        await loadBases(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadCC(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadDefinitions(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadEnemies(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadEvents(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadItems(db, gameConsts).catch(console.error);
-        await loadModules(db, gameConsts).catch(console.error);
-        await loadParadoxes(db, gameConsts).catch(console.error);
-        await loadRanges(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadRogueThemes(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadSandboxes(db, gameConsts).catch(console.error);
-        await loadSkills(db, gameConsts).catch(console.error);
-        await loadSkins(db, gameConsts).catch(console.error);
-        if (!opOnly) await loadStages(db, gameConsts).catch(console.error);
-        await loadOperators(db, gameConsts).catch(console.error);
+        await loadCC().catch(console.error);
+        await loadDefinitions().catch(console.error);
+        await loadEnemies().catch(console.error);
+        await loadEvents().catch(console.error);
+        await loadItems().catch(console.error);
+        await loadRogueThemes().catch(console.error);
+        await loadSandboxes().catch(console.error);
+        await loadStages().catch(console.error);
 
-        await loadCnArchetypes(db, gameConsts).catch(console.error);
-        await loadCnBases(db, gameConsts).catch(console.error);
-        await loadCnModules(db, gameConsts).catch(console.error);
-        await loadCnParadoxes(db, gameConsts).catch(console.error);
-        await loadCnRanges(db, gameConsts).catch(console.error);
-        await loadCnSkills(db, gameConsts).catch(console.error);
-        await loadCnSkins(db, gameConsts).catch(console.error);
-        await loadCnOperators(db, gameConsts).catch(console.error);
+        await loadCnArchetypes().catch(console.error);
+        await loadCnBases().catch(console.error);
+        await loadCnModules().catch(console.error);
+        await loadCnParadoxes().catch(console.error);
+        await loadCnRanges().catch(console.error);
+        await loadCnSkills().catch(console.error);
+        await loadCnSkins().catch(console.error);
+        await loadCnOperators().catch(console.error);
 
         console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
     } catch (e) {
@@ -78,8 +82,8 @@ async function main() {
     }
 }
 
-function readOperatorIntoArr(opId, file, charEquip, charBaseBuffs, gameConsts) {
-    const arr: any[] = [];
+function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, gameConsts) {
+    const arr: Doc[] = [];
 
     if (['char_512_aprot'].includes(opId)) return []; // why are there two shalems???
 
@@ -137,56 +141,112 @@ function readOperatorIntoArr(opId, file, charEquip, charBaseBuffs, gameConsts) {
 
     const opName = opData.name.toLowerCase();
     const keyArr = [opId, opName, opName.split('\'').join('')];
-    if (opId === 'char_4055_bgsnow') keyArr.push('Pozemka', 'pozemka');
-    if (opId === 'char_4064_mlynar') keyArr.push('Mlynar', 'mlynar');
+    if (opId === 'char_4055_bgsnow') keyArr.push('pozemka');
+    if (opId === 'char_4064_mlynar') keyArr.push('mlynar');
 
-    arr.push({
-        keys: keyArr,
-        value: {
-            id: opId, recruit: recruitId,
-            data: opData,
-            archetype: opArchetype,
-            range: opRange,
-            skills: opSkills,
-            modules: opModules,
-            skins: opSkins,
-            bases: opBases,
-            paradox: opParadox
-        }
-    });
+    arr.push(createDoc(keyArr, {
+        id: opId,
+        recruit: recruitId,
+        data: opData,
+        archetype: opArchetype,
+        range: opRange,
+        skills: opSkills,
+        modules: opModules,
+        skins: opSkins,
+        bases: opBases,
+        paradox: opParadox
+    }));
 
     return arr;
 }
+async function filterDocuments(collection: string, newDocuments: Doc[]) {
+    const oldDocuments = await db.collection(collection).find({}).toArray();
 
-async function loadArchetypes(db, gameConsts) {
+    return newDocuments.filter(newDoc => {
+        const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
+
+        const docsAreEqual = oldDoc
+            && JSON.stringify(oldDoc.date)
+            && JSON.stringify(oldDoc.keys) === JSON.stringify(newDoc.keys)
+            && JSON.stringify(oldDoc.value) === JSON.stringify(newDoc.value);
+        return !docsAreEqual;
+    });
+}
+async function updateDb(collection: string, dataArr: Doc[]) {
+    const unique = new Set();
+    for (const datum of dataArr) {
+        if (unique.has(datum.canon)) {
+            log(`Duplicate canon in ${collection}: ${datum.canon}`);
+            continue;
+        }
+        unique.add(datum.canon);
+    }
+
+    if (writeToDb && dataArr.length > 0) {
+        console.log(`Writing ${dataArr.length} documents to ${collection}...`);
+        const filter = { canon: { $in: dataArr.map(datum => datum.canon) } };
+        await db.collection(collection).deleteMany(filter);
+        await db.collection(collection).insertMany(dataArr);
+    }
+}
+function createDoc(keys: string[], value: any) {
+    return {
+        date: new Date(),
+        canon: keys[0],
+        keys: keys.map(key => key.toLowerCase()),
+        value: value
+    }
+}
+
+type Doc = {
+    _id?: ObjectId,
+    // meta: {
+    // hash: string,
+    date: Date,
+    // },
+    canon: string,
+    keys: string[],
+    value: any
+}
+
+async function loadArchetypes() {
+    /* 
+    Canonical key: subProfessionId
+    Additional keys: none 
+    */
+
     const start = Date.now();
+
     const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
-    const dataArr: any[] = [];
-    for (const subProf of Object.values(subProfDict)) {
-        archetypeDict[subProf.subProfessionId] = subProf.subProfessionName;
-        dataArr.push({ keys: [subProf.subProfessionId], value: subProf.subProfessionName });
-    }
+    const dataArr = await filterDocuments("archetype",
+        Object.values(subProfDict).map(subProf => {
+            archetypeDict[subProf.subProfessionId] = subProf.subProfessionName;
+            return createDoc([subProf.subProfessionId], subProf.subProfessionName);
+        })
+    );
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Archetypes to DB...`);
-        await db.collection("archetype").deleteMany({});
-        await db.collection("archetype").insertMany(dataArr);
-    }
+    await updateDb("archetype", dataArr);
     console.log(`${dataArr.length} Archetypes loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadBases(db, gameConsts) {
+async function loadBases() {
+    /* 
+    Canonical key: buffId
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const buildingData = await (await fetch(`${dataPath}/excel/building_data.json`)).json();
     const buffs: { [key: string]: any } = buildingData.buffs;
 
-    const dataArr: any[] = [];
-    for (const buff of Object.values(buffs)) {
-        baseDict[buff.buffId] = buff;
-        dataArr.push({ keys: [buff.buffId], value: buff });
-    }
+    const dataArr = await filterDocuments("base",
+        Object.values(buffs).map(buff => {
+            baseDict[buff.buffId] = buff;
+            return createDoc([buff.buffId], buff);
+        })
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -198,22 +258,24 @@ async function loadBases(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Base skills to DB...`);
-        await db.collection("base").deleteMany({});
-        await db.collection("base").insertMany(dataArr);
-    }
+    await updateDb("base", dataArr);
     console.log(`${dataArr.length} Base skills loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCC(db, gameConsts) {
+async function loadCC() {
+    /* 
+    Canonical key: levelId
+    Additional keys: name
+    */
+
     const start = Date.now();
     const ccStages = gameConsts.ccStages;
 
-    const dataArr: any[] = [];
-    for (const stage of ccStages) {
-        const levels = await (await fetch(`${dataPath}/levels/${stage.levelId.toLowerCase()}.json`)).json();
-        dataArr.push({ keys: [stage.name.toLowerCase(), stage.levelId.split('/')[2].toLowerCase()], value: { const: stage, levels: levels } })
-    }
+    const dataArr = await filterDocuments("cc",
+        await Promise.all(ccStages.map(async stage => {
+            const levels = await (await fetch(`${dataPath}/levels/${stage.levelId}.json`)).json();
+            return createDoc([stage.levelId.split('/')[2], stage.name], { const: stage, levels: levels });
+        }))
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -225,23 +287,25 @@ async function loadCC(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CC stages to DB...`);
-        await db.collection("cc").deleteMany({});
-        await db.collection("cc").insertMany(dataArr);
-    }
+    await updateDb("cc", dataArr);
     console.log(`${dataArr.length} CC stages loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadDefinitions(db, gameConsts) {
+async function loadDefinitions() {
+    /* 
+    Canonical key: termId
+    Additional keys: termName
+    */
+
     const start = Date.now();
 
     const gamedataConst = await (await fetch(`${dataPath}/excel/gamedata_const.json`)).json();
     const termDescriptionDict: { [key: string]: any } = gamedataConst.termDescriptionDict;
 
-    const dataArr: any[] = [];
-    for (const definition of Object.values(termDescriptionDict)) {
-        dataArr.push({ keys: [definition.termName.toLowerCase()], value: definition });
-    }
+    const dataArr = await filterDocuments("define",
+        Object.values(termDescriptionDict).map(definition =>
+            createDoc([definition.termId, definition.termName], definition)
+        )
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -253,44 +317,40 @@ async function loadDefinitions(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Definitions to DB...`);
-        await db.collection("define").deleteMany({});
-        await db.collection("define").insertMany(dataArr);
-    }
+    await updateDb("define", dataArr);
     console.log(`${dataArr.length} Definitions loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadEnemies(db, gameConsts) {
+async function loadEnemies() {
+    /* 
+    Canonical key: enemyId
+    Additional keys: name, enemyIndex
+    */
+
     const start = Date.now();
 
-    // Brute force matches between enemy_handbook_table and enemy_database
+    // Find matches between enemy_handbook_table and enemy_database
     // Stores data in enemyDict[enemy] = {excel, levels}
-    //      excel = /excel/enemy_handbook_table.json
-    //          Contains name, ID, category, description
-    //      levels = /levels/enemydata/enemy_database.json
-    //          Contains stats, skills, range
+    //     excel = /excel/enemy_handbook_table.json
+    //         Contains name, ID, category, description
+    //     levels = /levels/enemydata/enemy_database.json
+    //         Contains stats, skills, range
     // Unique enemy key is enemyId (enemy_1007_slime)
-    // Additional keys are name (originium slug) and enemyIndex (b1)
-
+    // Additional keys are name (originium slug) and enemyIndex (b1) 
     const enemyHandbook = await (await fetch(`${dataPath}/excel/enemy_handbook_table.json`)).json();
     const enemyDatabase = await (await fetch(`${dataPath}/levels/enemydata/enemy_database.json`)).json();
     const enemyData: { [key: string]: any } = enemyHandbook.enemyData;
-    const enemies = enemyDatabase.enemies;
 
-    const dataArr: any[] = [];
-    for (const excel of Object.values(enemyData)) {
-        for (const levels of enemies) {
-            if (levels.Key !== excel.enemyId) continue; // Brute force matches
-
-            const enemyId = excel.enemyId.toLowerCase();
-            const enemyName = excel.name.toLowerCase();
-            const keyArr = [enemyId, enemyName, enemyName.split('\'').join(''), excel.enemyIndex.toLowerCase()];
-
-            dataArr.push({ keys: keyArr, value: { excel: excel, levels: levels } });
-
-            break;
-        }
+    const levelsLookup = {};
+    for (const levels of enemyDatabase.enemies) {
+        levelsLookup[levels.Key] = levels;
     }
+
+    const dataArr = await filterDocuments("enemy",
+        Object.values(enemyData).map(excel =>
+            createDoc([excel.enemyId, excel.name, excel.name.split('\'').join(''), excel.enemyIndex],
+                { excel: excel, levels: levelsLookup[excel.enemyId] })
+        )
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -302,23 +362,25 @@ async function loadEnemies(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Enemies to DB...`);
-        await db.collection("enemy").deleteMany({});
-        await db.collection("enemy").insertMany(dataArr);
-    }
+    await updateDb("enemy", dataArr);
     console.log(`${dataArr.length} Enemies loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadEvents(db, gameConsts) {
+async function loadEvents() {
+    /* 
+    Canonical key: id
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const activityTable = await (await fetch(`${dataPath}/excel/activity_table.json`)).json();
     const basicInfo: { [key: string]: any } = activityTable.basicInfo;
 
-    const dataArr: any[] = [];
-    for (const event of Object.values(basicInfo)) {
-        dataArr.push({ keys: [event.id], value: event });
-    }
+    const dataArr = await filterDocuments("event",
+        Object.values(basicInfo).map(event =>
+            createDoc([event.id], event)
+        )
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -330,14 +392,15 @@ async function loadEvents(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Events to DB...`);
-        await db.collection("event").deleteMany({});
-        await db.collection("event").insertMany(dataArr);
-    }
+    await updateDb("event", dataArr);
     console.log(`${dataArr.length} Events loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadItems(db, gameConsts) {
+async function loadItems() {
+    /* 
+    Canonical key: itemId
+    Additional keys: name
+    */
+
     const start = Date.now();
 
     const itemTable = await (await fetch(`${dataPath}/excel/item_table.json`)).json();
@@ -346,24 +409,21 @@ async function loadItems(db, gameConsts) {
     const manufactFormulas = buildingData.manufactFormulas; // Factory formulas
     const workshopFormulas = buildingData.workshopFormulas; // Workshop formulas
 
-    const dataArr: any[] = [];
-    for (const data of Object.values(items)) {
-        let formula = null;
-        if (data.buildingProductList.length > 0) {
-            // Factory and workshop formulas can have same id, need to check item craft type
-            if (data.buildingProductList[0].roomType === 'MANUFACTURE') {
-                formula = manufactFormulas[data.buildingProductList[0].formulaId];
+    const dataArr = await filterDocuments("item",
+        Object.values(items).map(data => {
+            let formula = null;
+            if (data.buildingProductList.length > 0) {
+                if (data.buildingProductList[0].roomType === 'MANUFACTURE') {
+                    formula = manufactFormulas[data.buildingProductList[0].formulaId];
+                }
+                else if (data.buildingProductList[0].roomType === 'WORKSHOP') {
+                    formula = workshopFormulas[data.buildingProductList[0].formulaId];
+                }
             }
-            else if (data.buildingProductList[0].roomType === 'WORKSHOP') {
-                formula = workshopFormulas[data.buildingProductList[0].formulaId];
-            }
-        }
 
-        const itemName = data.name.toLowerCase();
-        const keyArr = [data.itemId, itemName, itemName.split('\'').join('')]
-
-        dataArr.push({ keys: keyArr, value: { data: data, formula: formula } });
-    }
+            return createDoc([data.itemId, data.name, data.name.split('\'').join('')], { data: data, formula: formula });
+        })
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -375,26 +435,27 @@ async function loadItems(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Items to DB...`);
-        await db.collection("item").deleteMany({});
-        await db.collection("item").insertMany(dataArr);
-    }
+    await updateDb("item", dataArr);
     console.log(`${dataArr.length} Items loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadModules(db, gameConsts) {
+async function loadModules() {
+    /* 
+    Canonical key: uniEquipId
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
     const battleDict = await (await fetch(`${dataPath}/excel/battle_equip_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const module of Object.values(equipDict)) {
-        const moduleId = module.uniEquipId.toLowerCase();
-        moduleDict[moduleId] = { info: module, data: battleDict[moduleId] };
-        dataArr.push({ keys: [moduleId], value: { info: module, data: battleDict[moduleId] ?? null } });
-    }
+    const dataArr = await filterDocuments("module",
+        Object.values(equipDict).map(module => {
+            moduleDict[module.uniEquipId] = { info: module, data: battleDict[module.uniEquipId] ?? null };
+            return createDoc([module.uniEquipId], { info: module, data: battleDict[module.uniEquipId] ?? null });
+        })
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -406,14 +467,15 @@ async function loadModules(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Modules to DB...`);
-        await db.collection("module").deleteMany({});
-        await db.collection("module").insertMany(dataArr);
-    }
+    await updateDb("module", dataArr);
     console.log(`${dataArr.length} Modules loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadOperators(db, gameConsts) {
+async function loadOperators() {
+    /* 
+    Canonical key: opId
+    Additional keys: name
+    */
+
     const start = Date.now();
 
     const operatorTable = await (await fetch(`${dataPath}/excel/character_table.json`)).json();
@@ -421,19 +483,20 @@ async function loadOperators(db, gameConsts) {
     const charEquip = (await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json()).charEquip;
     const charBaseBuffs = (await (await fetch(`${dataPath}/excel/building_data.json`)).json()).chars;
 
-    const dataArr: any[] = [];
+    const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
-        dataArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts));
+        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts));
     }
     for (const opId of Object.keys(patchChars)) {
-        dataArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts));
+        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts));
     }
-
-    for (const datum of dataArr) {
-        for (const key of datum.keys) {
-            operatorDict[key] = datum.value;
+    for (const op of opArr) {
+        for (const key of op.keys) {
+            operatorDict[key] = op.value;
         }
     }
+
+    const dataArr = await filterDocuments("operator", opArr);
 
     for (const datum of dataArr) {
         try {
@@ -445,26 +508,27 @@ async function loadOperators(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Operators to DB...`);
-        await db.collection("operator").deleteMany({});
-        await db.collection("operator").insertMany(dataArr);
-    }
+    await updateDb("operator", dataArr);
     console.log(`${dataArr.length} Operators loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadParadoxes(db, gameConsts) {
+async function loadParadoxes() {
+    /* 
+    Canonical key: charId
+    Additional keys: stageId
+    */
+
     const start = Date.now();
 
     const handbookTable = await (await fetch(`${dataPath}/excel/handbook_info_table.json`)).json();
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
-    const dataArr: any[] = [];
-    for (const excel of Object.values(stages)) {
-        const levelId = excel.levelId.toLowerCase();
-        const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
-        paradoxDict[excel.charId] = { excel: excel, levels: levels };
-        dataArr.push({ keys: [excel.charId], value: { excel: excel, levels: levels } })
-    }
+    const dataArr = await filterDocuments("paradox",
+        await Promise.all(Object.values(stages).map(async excel => {
+            const levels = await (await fetch(`${dataPath}/levels/${excel.levelId.toLowerCase()}.json`)).json();
+            paradoxDict[excel.charId] = { excel: excel, levels: levels };
+            return createDoc([excel.charId, excel.stageId], { excel: excel, levels: levels });
+        }))
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -476,22 +540,25 @@ async function loadParadoxes(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Paradoxes to DB...`);
-        await db.collection("paradox").deleteMany({});
-        await db.collection("paradox").insertMany(dataArr);
-    }
+    await updateDb("paradox", dataArr);
     console.log(`${dataArr.length} Paradoxes loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadRanges(db, gameConsts) {
+async function loadRanges() {
+    /* 
+    Canonical key: id
+    Additional keys: none
+    */
+
     const start = Date.now();
+
     const rangeTable: { [key: string]: any } = await (await fetch(`${dataPath}/excel/range_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const range of Object.values(rangeTable)) {
-        rangeDict[range.id.toLowerCase()] = range;
-        dataArr.push({ keys: [range.id.toLowerCase()], value: range })
-    }
+    const dataArr = await filterDocuments("range",
+        Object.values(rangeTable).map(range => {
+            rangeDict[range.id] = range;
+            return createDoc([range.id], range);
+        })
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -503,21 +570,26 @@ async function loadRanges(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Ranges to DB...`);
-        await db.collection("range").deleteMany({});
-        await db.collection("range").insertMany(dataArr);
-    }
+    await updateDb("range", dataArr);
     console.log(`${dataArr.length} Ranges loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadRogueThemes(db, gameConsts) {
+async function loadRogueThemes() {
+    /* 
+    Theme:
+        Canonical key: index
+        Additional keys: none
+    Stages:
+        Canonical key: id
+        Additional keys: name, code
+    */
+
     const start = Date.now();
 
     const rogueTable = await (await fetch(`${dataPath}/excel/roguelike_topic_table.json`)).json();
     const rogueDetails: { [key: string]: any } = rogueTable.details;
     const rogueTopics: { [key: string]: any } = rogueTable.topics;
-    const dataArr: any[] = [];
 
+    const rogueArr: Doc[] = [];
     for (let i = 0; i < Object.keys(rogueDetails).length; i++) {
         const rogueName = Object.values(rogueTopics)[i].name;
         const rogueTheme = Object.values(rogueDetails)[i];
@@ -553,27 +625,38 @@ async function loadRogueThemes(db, gameConsts) {
             variationDict[variation.outerName.toLowerCase()] = variation;
         }
 
-        dataArr[i] = { keys: [i, i.toString()], value: { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict } };
+        rogueArr[i] = createDoc([i.toString()],
+            { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict });
     }
 
-    const rogueStageArr: any[] = [];
-    const rogueToughStageArr: any[] = [];
-    for (let i = 0; i < dataArr.length; i++) {
+    const rogueStageArr: Doc[][] = [];
+    const rogueToughArr: Doc[][] = [];
+    for (let i = 0; i < rogueArr.length; i++) {
         rogueStageArr[i] = [];
-        rogueToughStageArr[i] = [];
+        rogueToughArr[i] = [];
 
-        const theme = dataArr[i];
+        const theme = rogueArr[i];
         const stageDict = theme.value.stageDict;
         const toughStageDict = theme.value.toughStageDict;
 
         for (const key of Object.keys(stageDict)) {
             const stage = stageDict[key];
-            rogueStageArr[i].push({ keys: [key, stage.excel.id, stage.excel.code], value: stage });
+            rogueStageArr[i].push(createDoc([key, stage.excel.id, stage.excel.code], stage));
         }
         for (const key of Object.keys(toughStageDict)) {
             const stage = toughStageDict[key];
-            rogueToughStageArr[i].push({ keys: [key, stage.excel.id, stage.excel.code], value: stage });
+            rogueToughArr[i].push(createDoc([key, stage.excel.id, stage.excel.code], stage));
         }
+    }
+
+    const dataArr = await filterDocuments("rogue", rogueArr);
+    const stageDataArr: Doc[][] = [];
+    const toughDataArr: Doc[][] = [];
+    for (let i = 0; i < rogueStageArr.length; i++) {
+        stageDataArr[i] = await filterDocuments(`roguestage/${i}`, rogueStageArr[i]);
+    }
+    for (let i = 0; i < rogueToughArr.length; i++) {
+        toughDataArr[i] = await filterDocuments(`roguetoughstage/${i}`, rogueToughArr[i]);
     }
 
     for (const datum of Object.values(dataArr)) {
@@ -586,26 +669,35 @@ async function loadRogueThemes(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Rogue themes to DB...`)
-        await db.collection("rogue").deleteMany({});
-        await db.collection("rogue").insertMany(dataArr);
-        for (let i = 0; i < dataArr.length; i++) {
-            await db.collection(`roguestage/${i}`).deleteMany({});
-            await db.collection(`roguestage/${i}`).insertMany(rogueStageArr[i]);
-            await db.collection(`roguetoughstage/${i}`).deleteMany({});
-            await db.collection(`roguetoughstage/${i}`).insertMany(rogueToughStageArr[i]);
-        }
+    await updateDb("rogue", dataArr);
+    for (let i = 0; i < stageDataArr.length; i++) {
+        await updateDb(`roguestage/${i}`, stageDataArr[i]);
+    }
+    for (let i = 0; i < toughDataArr.length; i++) {
+        await updateDb(`roguetoughstage/${i}`, toughDataArr[i]);
     }
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
+    for (let i = 0; i < stageDataArr.length; i++) {
+        if (stageDataArr[i].length === 0) continue;
+        console.log(`${stageDataArr[i].length} Rogue ${i} stages loaded in ${(Date.now() - start) / 1000}s`);
+    }
+    for (let i = 0; i < toughDataArr.length; i++) {
+        if (toughDataArr[i].length === 0) continue;
+        console.log(`${toughDataArr[i].length} Rogue ${i} tough stages loaded in ${(Date.now() - start) / 1000}s`);
+    }
 }
-async function loadSandboxes(db, gameConsts) {
+async function loadSandboxes() {
+    /* 
+    Canonical key: index
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const sandboxTable = await (await fetch(`${dataPath}/excel/sandbox_table.json`)).json();
     const sandboxActTables: { [key: string]: any } = sandboxTable.sandboxActTables;
-    const dataArr: any[] = [];
 
+    const sandArr: Doc[] = [];
     for (let i = 0; i < Object.keys(sandboxActTables).length; i++) {
         const sandboxAct = Object.values(sandboxActTables)[i];
         const stageDatas: { [key: string]: any } = sandboxAct.stageDatas;
@@ -618,8 +710,10 @@ async function loadSandboxes(db, gameConsts) {
             stageDict[stageName] = { excel, levels };
         }
 
-        dataArr[i] = { keys: [i, i.toString()], value: { stageDict } };
+        sandArr[i] = createDoc([i.toString()], { stageDict: stageDict });
     }
+
+    const dataArr = await filterDocuments("sandbox", sandArr);
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -631,23 +725,25 @@ async function loadSandboxes(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Sandboxes to DB...`);
-        await db.collection("sandbox").deleteMany({});
-        await db.collection("sandbox").insertMany(dataArr);
-    }
+    await updateDb("sandbox", dataArr);
     console.log(`${dataArr.length} Sandbox acts loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadSkills(db, gameConsts) {
+async function loadSkills() {
+    /* 
+    Canonical key: skillId
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const skillTable: { [key: string]: any } = await (await fetch(`${dataPath}/excel/skill_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const skill of Object.values(skillTable)) {
-        skillDict[skill.skillId.toLowerCase()] = skill;
-        dataArr.push({ keys: [skill.skillId.toLowerCase()], value: skill });
-    }
+    const dataArr = await filterDocuments("skill",
+        Object.values(skillTable).map(skill => {
+            skillDict[skill.skillId.toLowerCase()] = skill;
+            return createDoc([skill.skillId], skill);
+        })
+    );
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -659,61 +755,67 @@ async function loadSkills(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Skills to DB...`);
-        await db.collection("skill").deleteMany({});
-        await db.collection("skill").insertMany(dataArr);
-    }
+    await updateDb("skill", dataArr);
     console.log(`${dataArr.length} Skills loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadSkins(db, gameConsts) {
+async function loadSkins() {
+    /* 
+    Canonical key: charId
+    Additional keys: none
+    */
+
     const start = Date.now();
 
     const skinTable = await (await fetch(`${dataPath}/excel/skin_table.json`)).json();
     const charSkins: { [key: string]: any } = skinTable.charSkins;
 
-    const dataArr: any[] = [];
+    const skinArr: Doc[] = [];
     for (const skin of Object.values(charSkins)) {
-        const opId = skin.charId;
-
-        if (!skinDict.hasOwnProperty(opId)) {
-            skinDict[opId] = []; // Create an empty array if it's the first skin for that op
+        if (!skinDict.hasOwnProperty(skin.charId)) {
+            skinDict[skin.charId] = []; // Create an empty array if it's the first skin for that op
         }
-        skinDict[opId].push(skin);
+        skinDict[skin.charId].push(skin);
 
-        if (!dataArr.find(data => data.keys.includes(opId))) {
-            dataArr.push({ keys: [opId], value: [] });
+        if (!skinArr.find(data => data.keys.includes(skin.charId))) {
+            skinArr.push(createDoc([skin.charId], []));
         }
-        dataArr.find(data => data.keys.includes(opId)).value.push(skin);
+        skinArr.find(data => data.keys.includes(skin.charId))?.value.push(skin);
     }
 
+    const dataArr = await filterDocuments("skin", skinArr);
+
     for (const datumArr of Object.values(dataArr)) {
-        for (const datum of datumArr) {
+        for (const datum of datumArr.value) {
             try {
-                SkinZod.parse(datum.value);
+                SkinZod.parse(datum);
             } catch (e: any) {
-                log('\nSkin type conformity error: ' + datum.keys);
+                log('\nSkin type conformity error: ' + datumArr.keys);
                 log(e);
                 break;
             }
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} Skins to DB...`);
-        await db.collection("skin").deleteMany({});
-        await db.collection("skin").insertMany(dataArr);
-    }
+    await updateDb("skin", dataArr);
     console.log(`${dataArr.length} Skins loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadStages(db, gameConsts) {
+async function loadStages() {
+    /* 
+    Single stage:
+        Canonical key: stageId
+        Additional keys: code, name
+    Stage array:
+        Canonical key: code
+        Additional keys: none
+    */
+
     const start = Date.now();
 
     const stageTable = await (await fetch(`${dataPath}/excel/stage_table.json`)).json();
     const stages: { [key: string]: any } = stageTable.stages;
 
-    const dataArr: any[] = [];
-    const toughArr: any[] = [];
+    const stageArr: Doc[] = [];
+    const toughArr: Doc[] = [];
 
     for (const excel of Object.values(stages)) {
         if (excel.isStoryOnly || excel.stageType === 'GUIDE') continue; // Skip story and cutscene levels
@@ -736,61 +838,64 @@ async function loadStages(db, gameConsts) {
 
         if (excel.diffGroup === 'TOUGH' || excel.difficulty === 'FOUR_STAR') {
             if (!toughArr.find(data => data.keys.includes(code))) {
-                toughArr.push({ keys: [code], value: [] });
+                toughArr.push(createDoc([code], []));
             }
 
             try {
                 const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
                 const stage = { excel: excel, levels: levels };
 
-                toughArr.push({ keys: [excel.stageId, excel.stageId.split('#').join(''), excel.code, excel.name], value: [stage] });
-                toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                toughArr.push(createDoc([excel.stageId, excel.stageId.split('#').join(''), excel.code, excel.name], [stage]));
+                toughArr.find(data => data.keys.includes(code))?.value.push(stage); // Stage code
             }
             catch (e) {
                 const levels = await (await fetch(`${backupPath}/levels/${levelId}.json`)).json();
                 const stage = { excel: excel, levels: levels };
 
-                toughArr.push({ keys: [excel.stageId, excel.stageId.split('#').join(''), excel.code, excel.name], value: [stage] });
-                toughArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                toughArr.push(createDoc([excel.stageId, excel.stageId.split('#').join(''), excel.code, excel.name], [stage]));
+                toughArr.find(data => data.keys.includes(code))?.value.push(stage); // Stage code
             }
         }
         else if (excel.difficulty === 'NORMAL') {
-            if (!dataArr.find(data => data.keys.includes(code))) {
-                dataArr.push({ keys: [code], value: [] }); // Multiple stages can have the same code, so each code maps to an array
+            if (!stageArr.find(data => data.keys.includes(code))) {
+                stageArr.push(createDoc([code], [])); // Multiple stages can have the same code, so each code maps to an array
             }
 
             try {
                 const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
                 const stage = { excel: excel, levels: levels };
 
-                dataArr.push({ keys: [excel.stageId, excel.code, excel.name], value: [stage] });
-                dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                stageArr.push(createDoc([excel.stageId, excel.code, excel.name], [stage]));
+                stageArr.find(data => data.keys.includes(code))?.value.push(stage); // Stage code
             }
             catch (e) {
                 const levels = await (await fetch(`${backupPath}/levels/${levelId}.json`)).json();
                 const stage = { excel: excel, levels: levels };
 
-                dataArr.push({ keys: [excel.stageId, excel.code, excel.name], value: [stage] });
-                dataArr.find(data => data.keys.includes(code)).value.push(stage); // Stage code
+                stageArr.push(createDoc([excel.stageId, excel.code, excel.name], [stage]));
+                stageArr.find(data => data.keys.includes(code))?.value.push(stage); // Stage code
             }
         }
     }
 
+    const dataArr = await filterDocuments("stage", stageArr);
+    const toughDataArr = await filterDocuments("toughstage", toughArr);
+
     for (const datumArr of Object.values(dataArr)) {
-        for (const datum of datumArr) {
+        for (const datum of datumArr.value) {
             try {
-                StageZod.parse(datum.value);
+                StageZod.parse(datum);
             } catch (e: any) {
-                log('\nStage type conformity error: ' + datum.keys);
+                log('\nStage type conformity error: ' + datumArr.keys);
                 log(e);
                 break;
             }
         }
     }
-    for (const datumArr of Object.values(toughArr)) {
-        for (const datum of datumArr) {
+    for (const datumArr of Object.values(toughDataArr)) {
+        for (const datum of datumArr.value) {
             try {
-                StageZod.parse(datum.value);
+                StageZod.parse(datum);
             } catch (e: any) {
                 log('\nTough stage type conformity error: ' + datum.keys);
                 log(e);
@@ -799,84 +904,78 @@ async function loadStages(db, gameConsts) {
         }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length + toughArr.length} Stages to DB...`);
-        await db.collection("stage").deleteMany({});
-        await db.collection("stage").insertMany(dataArr);
-        await db.collection("toughstage").deleteMany({});
-        await db.collection("toughstage").insertMany(toughArr);
-    }
-    console.log(`${dataArr.length + toughArr.length} Stages loaded in ${(Date.now() - start) / 1000}s`);
+    await updateDb("stage", dataArr);
+    await updateDb("toughstage", toughDataArr);
+    console.log(`${dataArr.length} Stages loaded in ${(Date.now() - start) / 1000}s`);
+    console.log(`${toughDataArr.length} Tough stages loaded in ${(Date.now() - start) / 1000}s`);
 }
 
-async function loadCnArchetypes(db, gameConsts) {
+async function loadCnArchetypes() {
     const start = Date.now();
+
     const moduleTable = await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json();
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
-    const dataArr: any[] = [];
-    for (const subProf of Object.values(subProfDict)) {
+    const dataArr = await filterDocuments("cn/archetype",
+        Object.values(subProfDict)
+            .filter(subProf => !archetypeDict.hasOwnProperty(subProf.subProfessionId))
+            .map(subProf => {
+                cnArchetypeDict[subProf.subProfessionId] = subProf.subProfessionName;
+                return createDoc([subProf.subProfessionId], subProf.subProfessionName);
+            })
+    );
 
-        if (archetypeDict.hasOwnProperty(subProf.subProfessionId)) continue;
-
-        cnArchetypeDict[subProf.subProfessionId] = subProf.subProfessionName;
-        dataArr.push({ keys: [subProf.subProfessionId], value: subProf.subProfessionName });
-    }
-
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Archetypes to DB...`);
-        await db.collection("cn/archetype").deleteMany({});
-        await db.collection("cn/archetype").insertMany(dataArr);
-    }
+    await updateDb("cn/archetype", dataArr);
     console.log(`${dataArr.length} CN Archetypes loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnBases(db, gameConsts) {
+async function loadCnBases() {
     const start = Date.now();
 
     const buildingData = await (await fetch(`${cnDataPath}/excel/building_data.json`)).json();
     const buffs: { [key: string]: any } = buildingData.buffs;
 
-    const dataArr: any[] = [];
-    for (const buff of Object.values(buffs)) {
+    const dataArr = await filterDocuments("cn/base",
+        Object.values(buffs)
+            .filter(buff => !baseDict.hasOwnProperty(buff.buffId))
+            .map(buff => {
+                cnBaseDict[buff.buffId] = buff;
+                return createDoc([buff.buffId], buff);
+            })
+    );
 
-        if (baseDict.hasOwnProperty(buff.buffId)) continue;
-
-        cnBaseDict[buff.buffId] = buff;
-        dataArr.push({ keys: [buff.buffId], value: buff });
+    for (const datum of Object.values(dataArr)) {
+        try {
+            BaseZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nBase type conformity error: ' + datum.keys);
+            log(e);
+            break;
+        }
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Base skills to DB...`);
-        await db.collection("cn/base").deleteMany({});
-        await db.collection("cn/base").insertMany(dataArr);
-    }
+    await updateDb("cn/base", dataArr);
     console.log(`${dataArr.length} CN Base skills loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnModules(db, gameConsts) {
+async function loadCnModules() {
     const start = Date.now();
 
     const moduleTable = await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json();
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
     const battleDict = await (await fetch(`${cnDataPath}/excel/battle_equip_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const module of Object.values(equipDict)) {
-        const moduleId = module.uniEquipId.toLowerCase();
+    const dataArr = await filterDocuments("cn/module",
+        Object.values(equipDict)
+            .filter(module => !moduleDict.hasOwnProperty(module.uniEquipId))
+            .map(module => {
+                cnModuleDict[module.uniEquipId] = { info: module, data: battleDict[module.uniEquipId] ?? null };
+                return createDoc([module.uniEquipId], { info: module, data: battleDict[module.uniEquipId] ?? null });
+            })
+    );
 
-        if (moduleDict.hasOwnProperty(moduleId)) continue;
-
-        cnModuleDict[moduleId] = { info: module, data: battleDict[moduleId] };
-        dataArr.push({ keys: [moduleId], value: { info: module, data: battleDict[moduleId] ?? null } });
-    }
-
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Modules to DB...`);
-        await db.collection("cn/module").deleteMany({});
-        await db.collection("cn/module").insertMany(dataArr);
-    }
+    await updateDb("cn/module", dataArr);
     console.log(`${dataArr.length} CN Modules loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnOperators(db, gameConsts) {
+async function loadCnOperators() {
     const start = Date.now();
 
     const operatorTable = await (await fetch(`${cnDataPath}/excel/character_table.json`)).json();
@@ -884,96 +983,80 @@ async function loadCnOperators(db, gameConsts) {
     const charEquip = (await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json()).charEquip;
     const charBaseBuffs = (await (await fetch(`${cnDataPath}/excel/building_data.json`)).json()).chars;
 
-    const dataArr: any[] = [];
+    const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
         if (operatorDict.hasOwnProperty(opId)) continue;
-        dataArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts));
+        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts));
     }
     for (const opId of Object.keys(patchChars)) {
         if (operatorDict.hasOwnProperty(opId)) continue;
-        dataArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts));
+        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts));
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Operators to DB...`)
-        await db.collection("cn/operator").deleteMany({});
-        await db.collection("cn/operator").insertMany(dataArr);
-    }
+    const dataArr = await filterDocuments("cn/operator", opArr);
+
+    await updateDb("cn/operator", dataArr);
     console.log(`${dataArr.length} CN Operators loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnParadoxes(db, gameConsts) {
+async function loadCnParadoxes() {
     const start = Date.now();
 
     const handbookTable = await (await fetch(`${cnDataPath}/excel/handbook_info_table.json`)).json();
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
-    const dataArr: any[] = [];
-    for (const excel of Object.values(stages)) {
+    const dataArr = await filterDocuments("cn/paradox",
+        await Promise.all(Object.values(stages)
+            .filter(excel => !paradoxDict.hasOwnProperty(excel.charId))
+            .map(async excel => {
+                const levels = await (await fetch(`${cnDataPath}/levels/${excel.levelId.toLowerCase()}.json`)).json();
+                cnParadoxDict[excel.charId] = { excel: excel, levels: levels };
+                return createDoc([excel.charId, excel.stageId], { excel: excel, levels: levels });
+            }))
+    );
 
-        if (paradoxDict.hasOwnProperty(excel.charId)) continue;
-
-        const levelId = excel.levelId.toLowerCase();
-        const levels = await (await fetch(`${cnDataPath}/levels/${levelId}.json`)).json();
-        paradoxDict[excel.charId] = { excel: excel, levels: levels };
-        dataArr.push({ keys: [excel.charId], value: { excel: excel, levels: levels } })
-    }
-
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Paradoxes to DB...`);
-        await db.collection("cn/paradox").deleteMany({});
-        await db.collection("cn/paradox").insertMany(dataArr);
-    }
+    await updateDb("cn/paradox", dataArr);
     console.log(`${dataArr.length} CN Paradoxes loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnRanges(db, gameConsts) {
+async function loadCnRanges() {
     const start = Date.now();
     const rangeTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/range_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const range of Object.values(rangeTable)) {
+    const dataArr = await filterDocuments("cn/range",
+        Object.values(rangeTable)
+            .filter(range => !rangeDict.hasOwnProperty(range.id))
+            .map(range => {
+                cnRangeDict[range.id] = range;
+                return createDoc([range.id], range);
+            })
+    );
 
-        if (rangeDict.hasOwnProperty(range.id.toLowerCase())) continue;
-
-        cnRangeDict[range.id.toLowerCase()] = range;
-        dataArr.push({ keys: [range.id.toLowerCase()], value: range })
-    }
-
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Ranges to DB...`);
-        await db.collection("cn/range").deleteMany({});
-        await db.collection("cn/range").insertMany(dataArr);
-    }
+    await updateDb("cn/range", dataArr);
     console.log(`${dataArr.length} CN Ranges loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnSkills(db, gameConsts) {
+async function loadCnSkills() {
     const start = Date.now();
 
     const skillTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/skill_table.json`)).json();
 
-    const dataArr: any[] = [];
-    for (const skill of Object.values(skillTable)) {
-        const skillId = skill.skillId.toLowerCase();
+    const dataArr = await filterDocuments("cn/skill",
+        Object.values(skillTable)
+            .filter(skill => !skillDict.hasOwnProperty(skill.skillId.toLowerCase()))
+            .map(skill => {
+                cnSkillDict[skill.skillId.toLowerCase()] = skill;
+                return createDoc([skill.skillId], skill);
+            })
+    );
 
-        if (skillDict.hasOwnProperty(skillId)) continue;
-
-        cnSkillDict[skillId] = skill;
-        dataArr.push({ keys: [skillId], value: skill });
-    }
-
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Skills to DB...`);
-        await db.collection("cn/skill").deleteMany({});
-        await db.collection("cn/skill").insertMany(dataArr);
-    }
+    await updateDb("cn/skill", dataArr);
     console.log(`${dataArr.length} CN Skills loaded in ${(Date.now() - start) / 1000}s`);
 }
-async function loadCnSkins(db, gameConsts) {
+async function loadCnSkins() {
     const start = Date.now();
 
     const skinTable = await (await fetch(`${cnDataPath}/excel/skin_table.json`)).json();
     const charSkins: { [key: string]: any } = skinTable.charSkins;
 
-    const dataArr: any[] = [];
+    const skinArr: Doc[] = [];
     for (const skin of Object.values(charSkins)) {
         const opId = skin.charId;
 
@@ -984,17 +1067,15 @@ async function loadCnSkins(db, gameConsts) {
         }
         cnSkinDict[opId].push(skin);
 
-        if (!dataArr.find(data => data.keys.includes(opId))) {
-            dataArr.push({ keys: [opId], value: [] });
+        if (!skinArr.find(data => data.keys.includes(opId))) {
+            skinArr.push(createDoc([opId], []));
         }
-        dataArr.find(data => data.keys.includes(opId)).value.push(skin);
+        skinArr.find(data => data.keys.includes(opId))?.value.push(skin);
     }
 
-    if (writeToDb) {
-        console.log(`Writing ${dataArr.length} CN Skins to DB...`);
-        await db.collection("cn/skin").deleteMany({});
-        await db.collection("cn/skin").insertMany(dataArr);
-    }
+    const dataArr = await filterDocuments("cn/skin", skinArr);
+
+    await updateDb("cn/skin", dataArr);
     console.log(`${dataArr.length} CN Skins loaded in ${(Date.now() - start) / 1000}s`);
 }
 
