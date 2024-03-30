@@ -8,6 +8,7 @@ import { create } from 'ts-node';
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 const cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
+const repoPath = 'https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits';
 
 const archetypeDict = {};       // Archetype id -> archetype name
 const baseDict = {};            // Base skill id -> Base object
@@ -28,16 +29,20 @@ const cnSkinDict = {};
 
 const log = (msg: any) => fs.appendFileSync('log.txt', JSON.stringify(msg) + '\n');
 
-const writeToDb = false;
+const writeToDb = true;
 
 let db: Db;
 let gameConsts: any;
+let commitHash: string;
+let date: Date;
 
 async function main() {
     const start = Date.now();
 
     db = await getDb();
     gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
+    commitHash = (await (await fetch(repoPath)).json())[0].sha;
+    date = new Date();
 
     if (!db) {
         console.error('Failed to connect to database');
@@ -166,7 +171,8 @@ async function filterDocuments(collection: string, newDocuments: Doc[]) {
         const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
 
         const docsAreEqual = oldDoc
-            && JSON.stringify(oldDoc.date)
+            && JSON.stringify(oldDoc.meta)
+            && JSON.stringify(oldDoc.meta.hash) === JSON.stringify(newDoc.meta.hash)
             && JSON.stringify(oldDoc.keys) === JSON.stringify(newDoc.keys)
             && JSON.stringify(oldDoc.value) === JSON.stringify(newDoc.value);
         return !docsAreEqual;
@@ -189,9 +195,12 @@ async function updateDb(collection: string, dataArr: Doc[]) {
         await db.collection(collection).insertMany(dataArr);
     }
 }
-function createDoc(keys: string[], value: any) {
+function createDoc(keys: string[], value: any): Doc {
     return {
-        date: new Date(),
+        meta: {
+            hash: commitHash,
+            date: date,
+        },
         canon: keys[0],
         keys: keys.map(key => key.toLowerCase()),
         value: value
@@ -200,10 +209,10 @@ function createDoc(keys: string[], value: any) {
 
 type Doc = {
     _id?: ObjectId,
-    // meta: {
-    // hash: string,
-    date: Date,
-    // },
+    meta: {
+        hash: string,
+        date: Date,
+    },
     canon: string,
     keys: string[],
     value: any
