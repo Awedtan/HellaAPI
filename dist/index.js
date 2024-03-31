@@ -111,6 +111,7 @@ function createRouter(route) {
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var app, collections, _i, collections_1, collection;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -123,10 +124,22 @@ function main() {
                         collection = collections_1[_i];
                         app.use('/' + collection, createRouter(collection));
                     }
+                    app.use('/new', function (_req, res) { return __awaiter(_this, void 0, void 0, function () {
+                        var result;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, (0, persistence_1.getNew)()];
+                                case 1:
+                                    result = _a.sent();
+                                    res.status(200).send(result);
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
                     app.use(function (_req, res) {
                         var obj = {
                             message: 'Invalid endpoint',
-                            endpoints: collections.sort()
+                            endpoints: collections.concat('new').sort()
                         };
                         res.status(404).send(obj);
                     });

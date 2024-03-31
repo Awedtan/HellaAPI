@@ -50,6 +50,24 @@ export async function getSearch(collectionName: string, req) {
     return result;
 }
 
+// Gets all documents that have been created or updated during the last update
+export async function getNew() {
+    const collections = await (await getDb()).collections();
+    const hash = (await collections.find(c => c.collectionName === 'about').findOne({})).updated;
+    const filter = { 'meta.updated': hash };
+    const result = {};
+
+    for (const collection of collections) {
+        if (collection.collectionName === 'about') continue;
+        if (collection.collectionName.startsWith('cn')) continue;
+
+        const a = await collection.find(filter).toArray();
+        if (a.length > 0) result[collection.collectionName] = a;
+    }
+
+    return result;
+}
+
 function createOptions(req) {
     const includeParams = req.query.include;
     const excludeParams = req.query.exclude;

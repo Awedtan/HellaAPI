@@ -51,6 +51,8 @@ async function main() {
     fs.writeFileSync('log.txt', '');
 
     try {
+        await db.collection('about').updateOne({}, { $set: { updated: commitHash, date: date } }, { upsert: true });
+
         await loadArchetypes().catch(console.error);
         await loadBases().catch(console.error);
         await loadModules().catch(console.error);

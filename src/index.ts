@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import { getCollections, getMatch, getMulti, getSearch, getSingle } from './persistence';
+import { getCollections, getMatch, getMulti, getNew, getSearch, getSingle } from './persistence';
 const cors = require('cors');
 
 function createRouter(route: string) {
@@ -41,10 +41,14 @@ async function main() {
     for (const collection of collections) {
         app.use('/' + collection, createRouter(collection));
     }
+    app.use('/new', async (_req, res) => {
+        const result = await getNew();
+        res.status(200).send(result);
+    });
     app.use((_req, res) => {
         const obj = {
             message: 'Invalid endpoint',
-            endpoints: collections.sort()
+            endpoints: collections.concat('new').sort()
         };
         res.status(404).send(obj);
     });

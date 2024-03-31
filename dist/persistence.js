@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
+exports.getNew = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
 var db_1 = __importDefault(require("./db"));
 function getCollections() {
     return __awaiter(this, void 0, void 0, function () {
@@ -138,6 +138,45 @@ function getSearch(collectionName, req) {
     });
 }
 exports.getSearch = getSearch;
+// Gets all documents that have been created or updated during the last update
+function getNew() {
+    return __awaiter(this, void 0, void 0, function () {
+        var collections, hash, filter, result, _i, collections_1, collection, a;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, db_1.default)()];
+                case 1: return [4 /*yield*/, (_a.sent()).collections()];
+                case 2:
+                    collections = _a.sent();
+                    return [4 /*yield*/, collections.find(function (c) { return c.collectionName === 'about'; }).findOne({})];
+                case 3:
+                    hash = (_a.sent()).updated;
+                    filter = { 'meta.updated': hash };
+                    result = {};
+                    _i = 0, collections_1 = collections;
+                    _a.label = 4;
+                case 4:
+                    if (!(_i < collections_1.length)) return [3 /*break*/, 7];
+                    collection = collections_1[_i];
+                    if (collection.collectionName === 'about')
+                        return [3 /*break*/, 6];
+                    if (collection.collectionName.startsWith('cn'))
+                        return [3 /*break*/, 6];
+                    return [4 /*yield*/, collection.find(filter).toArray()];
+                case 5:
+                    a = _a.sent();
+                    if (a.length > 0)
+                        result[collection.collectionName] = a;
+                    _a.label = 6;
+                case 6:
+                    _i++;
+                    return [3 /*break*/, 4];
+                case 7: return [2 /*return*/, result];
+            }
+        });
+    });
+}
+exports.getNew = getNew;
 function createOptions(req) {
     var _a;
     var includeParams = req.query.include;
