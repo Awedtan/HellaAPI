@@ -165,8 +165,7 @@ function getNew() {
                     return [4 /*yield*/, collection.find(filter).toArray()];
                 case 5:
                     a = _a.sent();
-                    if (a.length > 0)
-                        result[collection.collectionName] = a;
+                    result[collection.collectionName] = a;
                     _a.label = 6;
                 case 6:
                     _i++;

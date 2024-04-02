@@ -62,7 +62,7 @@ export async function getNew() {
         if (collection.collectionName.startsWith('cn')) continue;
 
         const a = await collection.find(filter).toArray();
-        if (a.length > 0) result[collection.collectionName] = a;
+        result[collection.collectionName] = a;
     }
 
     return result;
