@@ -108,7 +108,7 @@ Requests that return very large amounts of data may not work, which seems to be 
 | https://hellabotapi.cyclic.app/roguetoughstage/{index} | IS emergency stages     | IS stage ID/name        | `RogueStage` |
 | https://hellabotapi.cyclic.app/sandbox                 | Reclamation Algorithm   | RA index                | `SandboxAct` |
 | https://hellabotapi.cyclic.app/skill                   | Operator skills         | Skill ID                | `Skill`      |
-| https://hellabotapi.cyclic.app/skin                    | Operator skins          | Operator ID             | `Skin[]`     |
+| https://hellabotapi.cyclic.app/skin                    | Operator skins          | Skin ID                 | `Skin[]`     |
 | https://hellabotapi.cyclic.app/stage                   | Normal stages           | Stage ID/code           | `Stage[]`    |
 | https://hellabotapi.cyclic.app/toughstage              | Challenge stages        | Stage ID/code           | `Stage[]`    |
 | CN (experimental) |
@@ -119,6 +119,6 @@ Requests that return very large amounts of data may not work, which seems to be 
 | https://hellabotapi.cyclic.app/cn/paradox              | Paradox Simulations     | Operator ID             | `Paradox`    |
 | https://hellabotapi.cyclic.app/cn/range                | Operator attack ranges  | Range ID                | `GridRange`  |
 | https://hellabotapi.cyclic.app/cn/skill                | Operator skills         | Skill ID                | `Skill`      |
-| https://hellabotapi.cyclic.app/cn/skin                 | Operator skins          | Operator ID             | `Skin[]`     |
+| https://hellabotapi.cyclic.app/cn/skin                 | Operator skins          | Skin ID                 | `Skin[]`     |
 
 <sup>1</sup> See here for all return types: https://github.com/Awedtan/HellaTypes/blob/main/src/index.ts

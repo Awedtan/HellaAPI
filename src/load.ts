@@ -16,7 +16,8 @@ const operatorDict = {};        // Operator id -> Operator object
 const paradoxDict = {};         // Operator id -> Paradox object
 const rangeDict = {};           // Range id -> Range object
 const skillDict = {};           // Skill id -> Skill object
-const skinDict = {};            // Operator id -> Skin object array
+const skinArrDict = {};         // Operator id -> Skin object array
+const skinDict = {};            // Skin id -> Skin object
 
 const cnArchetypeDict = {};
 const cnBaseDict = {};
@@ -24,7 +25,7 @@ const cnModuleDict = {};
 const cnParadoxDict = {};
 const cnRangeDict = {};
 const cnSkillDict = {};
-const cnSkinDict = {};
+const cnSkinArrDict = {};
 
 const log = (msg: any) => fs.appendFileSync('log.txt', JSON.stringify(msg) + '\n');
 
@@ -130,7 +131,7 @@ function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, gameC
     }
 
     // SKINS
-    const opSkins = skinDict[opId] ?? cnSkinDict[opId] ?? [];
+    const opSkins = skinArrDict[opId] ?? cnSkinArrDict[opId] ?? [];
 
     // BASE SKILLS
     const opBases: any[] = [];
@@ -822,28 +823,24 @@ async function loadSkins() {
 
     const skinArr: Doc[] = [];
     for (const skin of Object.values(charSkins)) {
-        if (!skinDict.hasOwnProperty(skin.charId)) {
-            skinDict[skin.charId] = []; // Create an empty array if it's the first skin for that op
+        if (!skinArrDict.hasOwnProperty(skin.charId)) {
+            skinArrDict[skin.charId] = []; // Create an empty array if it's the first skin for that op
         }
-        skinDict[skin.charId].push(skin);
+        skinArrDict[skin.charId].push(skin);
+        skinDict[skin.skinId] = skin;
 
-        if (!skinArr.find(data => data.keys.includes(skin.charId))) {
-            skinArr.push(createDoc(oldDocuments, [skin.charId], []));
-        }
-        skinArr.find(data => data.keys.includes(skin.charId))?.value.push(skin);
+        skinArr.push(createDoc(oldDocuments, [skin.skinId], skin));
     }
 
     const dataArr = await filterDocuments(oldDocuments, skinArr);
 
-    for (const datumArr of Object.values(dataArr)) {
-        for (const datum of datumArr.value) {
-            try {
-                SkinZod.parse(datum);
-            } catch (e: any) {
-                log('\nSkin type conformity error: ' + datumArr.keys);
-                log(e);
-                break;
-            }
+    for (const datum of Object.values(dataArr)) {
+        try {
+            SkinZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nSkin type conformity error: ' + datum.keys);
+            log(e);
+            break;
         }
     }
 
@@ -1129,19 +1126,14 @@ async function loadCnSkins() {
 
     const skinArr: Doc[] = [];
     for (const skin of Object.values(charSkins)) {
-        const opId = skin.charId;
+        if (skinDict.hasOwnProperty(skin.skinId)) continue;
 
-        if (skinDict.hasOwnProperty(opId)) continue;
-
-        if (!cnSkinDict.hasOwnProperty(opId)) {
-            cnSkinDict[opId] = []; // Create an empty array if it's the first skin for that op
+        if (!cnSkinArrDict.hasOwnProperty(skin.charId)) {
+            cnSkinArrDict[skin.charId] = []; // Create an empty array if it's the first skin for that op
         }
-        cnSkinDict[opId].push(skin);
+        cnSkinArrDict[skin.charId].push(skin);
 
-        if (!skinArr.find(data => data.keys.includes(opId))) {
-            skinArr.push(createDoc(oldDocuments, [opId], []));
-        }
-        skinArr.find(data => data.keys.includes(opId))?.value.push(skin);
+        skinArr.push(createDoc(oldDocuments, [skin.skinId], skin));
     }
 
     const dataArr = await filterDocuments(oldDocuments, skinArr);
