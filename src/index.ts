@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import { getCollections, getMatch, getMulti, getNew, getSearch, getSingle } from './persistence';
+import { getCollections, getMatch, getMulti, getCreated, getSearch, getSingle } from './persistence';
 const cors = require('cors');
 
 function createRouter(route: string) {
@@ -42,7 +42,7 @@ async function main() {
         app.use('/' + collection, createRouter(collection));
     }
     app.use('/new', async (_req, res) => {
-        const result = await getNew();
+        const result = await getCreated();
         res.status(200).send(result);
     });
     app.use((_req, res) => {

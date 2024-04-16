@@ -51,10 +51,10 @@ export async function getSearch(collectionName: string, req) {
 }
 
 // Gets all documents that have been created or updated during the last update
-export async function getNew() {
+export async function getCreated() {
     const collections = await (await getDb()).collections();
     const hash = (await collections.find(c => c.collectionName === 'about').findOne({})).updated;
-    const filter = { 'meta.updated': hash };
+    const filter = { 'meta.created': hash };
     const result = {};
 
     for (const collection of collections) {

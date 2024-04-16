@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNew = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
+exports.getCreated = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
 var db_1 = __importDefault(require("./db"));
 function getCollections() {
     return __awaiter(this, void 0, void 0, function () {
@@ -139,7 +139,7 @@ function getSearch(collectionName, req) {
 }
 exports.getSearch = getSearch;
 // Gets all documents that have been created or updated during the last update
-function getNew() {
+function getCreated() {
     return __awaiter(this, void 0, void 0, function () {
         var collections, hash, filter, result, _i, collections_1, collection, a;
         return __generator(this, function (_a) {
@@ -151,7 +151,7 @@ function getNew() {
                     return [4 /*yield*/, collections.find(function (c) { return c.collectionName === 'about'; }).findOne({})];
                 case 3:
                     hash = (_a.sent()).updated;
-                    filter = { 'meta.updated': hash };
+                    filter = { 'meta.created': hash };
                     result = {};
                     _i = 0, collections_1 = collections;
                     _a.label = 4;
@@ -175,7 +175,7 @@ function getNew() {
         });
     });
 }
-exports.getNew = getNew;
+exports.getCreated = getCreated;
 function createOptions(req) {
     var _a;
     var includeParams = req.query.include;
