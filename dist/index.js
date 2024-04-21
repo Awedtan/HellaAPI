@@ -128,7 +128,7 @@ function main() {
                         var result;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, (0, persistence_1.getCreated)()];
+                                case 0: return [4 /*yield*/, (0, persistence_1.getNewEn)()];
                                 case 1:
                                     result = _a.sent();
                                     res.status(200).send(result);

@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCreated = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
+exports.getNewEn = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
 var db_1 = __importDefault(require("./db"));
 function getCollections() {
     return __awaiter(this, void 0, void 0, function () {
@@ -138,19 +138,20 @@ function getSearch(collectionName, req) {
     });
 }
 exports.getSearch = getSearch;
-// Gets all documents that have been created or updated during the last update
-function getCreated() {
+// Gets all documents that have been created or updated during the last EN update
+function getNewEn() {
     return __awaiter(this, void 0, void 0, function () {
-        var collections, hash, filter, result, _i, collections_1, collection, a;
+        var collections, commits, hash, filter, result, _i, collections_1, collection, a;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
                 case 1: return [4 /*yield*/, (_a.sent()).collections()];
                 case 2:
                     collections = _a.sent();
-                    return [4 /*yield*/, collections.find(function (c) { return c.collectionName === 'about'; }).findOne({})];
+                    return [4 /*yield*/, fetch('https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits').then(function (res) { return res.json(); })];
                 case 3:
-                    hash = (_a.sent()).updated;
+                    commits = _a.sent();
+                    hash = commits.find(function (commit) { return commit.commit.message.includes('[EN UPDATE]'); }).sha;
                     filter = { 'meta.created': hash };
                     result = {};
                     _i = 0, collections_1 = collections;
@@ -175,7 +176,7 @@ function getCreated() {
         });
     });
 }
-exports.getCreated = getCreated;
+exports.getNewEn = getNewEn;
 function createOptions(req) {
     var _a;
     var includeParams = req.query.include;

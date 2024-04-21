@@ -7,7 +7,6 @@ import getDb from "./db";
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 const cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
-const repoPath = 'https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits';
 
 const archetypeDict = {};       // Archetype id -> archetype name
 const baseDict = {};            // Base skill id -> Base object
@@ -33,7 +32,7 @@ const writeToDb = true;
 
 let db: Db;
 let gameConsts: any;
-let commitHash: string;
+let commit: any;
 let date: Date;
 
 async function main() {
@@ -41,7 +40,7 @@ async function main() {
 
     db = await getDb();
     gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
-    commitHash = (await (await fetch(repoPath)).json())[0].sha;
+    commit = (await (await fetch('https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits')).json())[0];
     date = new Date();
 
     if (!db) {
@@ -52,7 +51,7 @@ async function main() {
     fs.writeFileSync('log.txt', '');
 
     try {
-        await db.collection('about').updateOne({}, { $set: { updated: commitHash, date: date } }, { upsert: true });
+        await db.collection('about').updateOne({}, { $set: { date: date, hash: commit.sha, message: commit.commit.message } }, { upsert: true });
 
         await loadArchetypes().catch(console.error);
         await loadBases().catch(console.error);
@@ -89,7 +88,7 @@ async function main() {
     }
 }
 
-function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, gameConsts, oldDocuments) {
+function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, oldDocuments) {
     const arr: Doc[] = [];
 
     if (['char_512_aprot'].includes(opId)) return []; // why are there two shalems???
@@ -202,8 +201,8 @@ function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
 
     return {
         meta: {
-            created: createHash ?? commitHash,
-            updated: commitHash,
+            created: createHash ?? commit.sha,
+            updated: commit.sha,
             date: date,
         },
         canon: keys[0],
@@ -518,10 +517,10 @@ async function loadOperators() {
 
     const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
-        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts, oldDocuments));
+        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, oldDocuments));
     }
     for (const opId of Object.keys(patchChars)) {
-        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts, oldDocuments));
+        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, oldDocuments));
     }
     for (const op of opArr) {
         for (const key of op.keys) {
@@ -1045,11 +1044,11 @@ async function loadCnOperators() {
     const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
         if (operatorDict.hasOwnProperty(opId)) continue;
-        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, gameConsts, oldDocuments));
+        opArr.push(...readOperatorIntoArr(opId, operatorTable, charEquip, charBaseBuffs, oldDocuments));
     }
     for (const opId of Object.keys(patchChars)) {
         if (operatorDict.hasOwnProperty(opId)) continue;
-        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, gameConsts, oldDocuments));
+        opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, oldDocuments));
     }
 
     const dataArr = await filterDocuments(oldDocuments, opArr);
