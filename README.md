@@ -1,8 +1,9 @@
 # HellaAPI
 
+
 > https://awedtan.ca/api
 
-> ~~https://awedtan.ca/api~~
+> ~~https://hellabotapi.cyclic.app~~
 
 An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and ~~hosted on Cyclic~~ self-hosted (RIP). Also an under construction personal project.
 
@@ -12,25 +13,25 @@ To query the API, send an HTTP GET request to an endpoint. All endpoints support
 
 #### Multi
 
-> app/resource
+> api/resource
 
 Returns all documents under the specified resource type.
 
 #### Single
 
-> app/resource/{key}
+> api/resource/{key}
 
 Returns a single document whose `keys` array includes the specified key. Checks for exact, whole string equality.
 
 #### Match
 
-> app/resource/match/{key}
+> api/resource/match/{key}
 
 Returns all documents whose `keys` array includes the specified key. Checks for substring matches.
 
 #### Search
 
-> app/resource/search?{field1}={value1}&{field2}={value2}
+> api/resource/search?{field1}={value1}&{field2}={value2}
 
 Returns all documents where their fields are equal to the specified values. Uses dot notation for searching nested fields.
 
@@ -42,19 +43,19 @@ In addition to the four modes, all endpoints also support the following paramete
 
 Specify fields to include in the response. If a request contains both `include` and `exclude` parameters, only `include` parameters will be considered.
 
-> app/resource?include={field1}&include={field2}
+> api/resource?include={field1}&include={field2}
 
 #### Exclude
 
 Specify fields to exclude from the response.
 
-> app/resource?exclude={field1}&exclude={field2}
+> api/resource?exclude={field1}&exclude={field2}
 
 #### Limit
 
 Specify a maximum number of documents to return.
 
-> app/resource?limit={number}
+> api/resource?limit={number}
 
 ### Data format
 
@@ -62,7 +63,9 @@ Valid responses will have the below JSON format. The `keys` array contains all v
 
 ```
 {
-    _id: string
+    _id: string,
+    meta: { ... },
+    canon: canon_key,
     keys: [ key1, key2, ... ]
     value: {
         ...
