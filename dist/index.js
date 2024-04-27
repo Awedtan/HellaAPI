@@ -138,7 +138,7 @@ function main() {
                     }); });
                     app.use(function (_req, res) {
                         var obj = {
-                            message: 'Invalid endpoint',
+                            msg: 'Invalid endpoint',
                             endpoints: collections.concat('new').sort()
                         };
                         res.status(404).send(obj);
