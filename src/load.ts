@@ -63,6 +63,7 @@ async function main() {
         await loadOperators().catch(console.error);
 
         await loadCC().catch(console.error);
+        await loadCCB().catch(console.error);
         await loadDefinitions().catch(console.error);
         await loadEnemies().catch(console.error);
         await loadEvents().catch(console.error);
@@ -293,7 +294,7 @@ async function loadCC() {
     const dataArr = await filterDocuments(oldDocuments,
         await Promise.all(ccStages.map(async stage => {
             const levels = await (await fetch(`${dataPath}/levels/${stage.levelId}.json`)).json();
-            return createDoc(oldDocuments, [stage.levelId.split('/')[2], stage.name], { const: stage, levels: levels });
+            return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
         }))
     );
 
@@ -309,6 +310,37 @@ async function loadCC() {
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} CC stages loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadCCB() {
+    /* 
+    Canonical key: levelId
+    Additional keys: name
+    */
+
+    const start = Date.now();
+    const collection = "ccb";
+    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const ccbStages = gameConsts.ccbStages;
+
+    const dataArr = await filterDocuments(oldDocuments,
+        await Promise.all(ccbStages.map(async stage => {
+            const levels = await (await fetch(`${dataPath}/levels/${stage.levelId}.json`)).json();
+            return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
+        }))
+    );
+
+    for (const datum of Object.values(dataArr)) {
+        try {
+            CCStageZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nCCB type conformity error: ' + datum.keys);
+            log(e);
+            break;
+        }
+    }
+
+    await updateDb(collection, dataArr);
+    console.log(`${dataArr.length} CCB stages loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadDefinitions() {
     /* 
