@@ -183,7 +183,9 @@ function createOptions(req) {
     var excludeParams = req.query.exclude;
     var projection = {};
     if (includeParams) {
-        projection["keys"] = 1;
+        projection['meta'] = 1;
+        projection['canon'] = 1;
+        projection['keys'] = 1;
         if (Array.isArray(includeParams)) {
             includeParams.forEach(function (include) { return projection["value.".concat(include)] = 1; });
         }
