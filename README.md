@@ -41,21 +41,21 @@ In addition to the four modes, all endpoints also support the following paramete
 
 #### Include
 
-Specify fields to include in the response. If a request contains both `include` and `exclude` parameters, only `include` parameters will be considered.
-
 > api/resource?include={field1}&include={field2}
+
+Specify fields to include in the response. If a request contains both `include` and `exclude` parameters, only `include` parameters will be considered.
 
 #### Exclude
 
-Specify fields to exclude from the response.
-
 > api/resource?exclude={field1}&exclude={field2}
+
+Specify fields to exclude from the response. If a request contains both `include` and `exclude` parameters, only `include` parameters will be considered.
 
 #### Limit
 
-Specify a maximum number of documents to return.
-
 > api/resource?limit={number}
+
+Specify a maximum number of documents to return.
 
 ### Data format
 
@@ -75,23 +75,29 @@ Valid responses will have the below JSON format. The `keys` array contains all v
 
 ### Examples
 
-> https://awedtan.ca/api/operator/search?data.subProfessionId=musha&include=data.rarity
-
 This request will get all "Musha" operators (Hellagur, Utage, etc.) and returns their rarity.
 
-> https://awedtan.ca/api/define/slow?exclude=termId&exclude=termName
-
-> https://awedtan.ca/api/define/slow?include=description
+> https://awedtan.ca/api/operator/search?data.subProfessionId=musha&include=data.rarity
 
 These two requests are functionally identical and will return the same object. They both exclude the `termId` and `termName` fields from the `Definition` object, leaving only the `description` field.
 
+> https://awedtan.ca/api/define/slow?exclude=termId&exclude=termName
+> 
+> https://awedtan.ca/api/define/slow?include=description
+
+Requests that return very large amounts of data may take a long time or even time out. By excluding unneeded fields, both response times and sizes can be dramatically decreased.
+
+> This will likely time out:
+>
 > https://awedtan.ca/api/stage
-
+>
+> This probably won't time out but will still take a while:
+>
 > https://awedtan.ca/api/stage?exclude=levels
-
+>
+> This will have the fastest response time:
+>
 > https://awedtan.ca/api/stage?include=excel.name
-
-Requests that return very large amounts of data may take a long time or may not work. By strategically including and excluding certain fields, both response times and sizes can be dramatically decreased.
 
 ## Endpoints
 

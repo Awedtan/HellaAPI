@@ -75,7 +75,9 @@ function createOptions(req) {
     const projection = {};
 
     if (includeParams) {
-        projection[`keys`] = 1;
+        projection['meta'] = 1;
+        projection['canon'] = 1;
+        projection['keys'] = 1;
         if (Array.isArray(includeParams)) {
             includeParams.forEach(include => projection[`value.${include}`] = 1);
         }
