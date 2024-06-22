@@ -10,6 +10,7 @@
     "express": "^4.19.2",
     "hella-types": "^0.0.13",
     "mongodb": "^6.5.0",
+    "simple-git": "^3.25.0",
     "ts-node": "^10.9.2",
     "zod": "^3.22.4"
   },

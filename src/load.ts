@@ -3,7 +3,9 @@ import * as fs from 'fs';
 import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
 import { Db, ObjectId } from "mongodb";
 import getDb from "./db";
+import simpleGit from 'simple-git';
 
+const localPath = 'ArknightsGameData_YoStar/en_US/gamedata';
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 const cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
@@ -28,6 +30,7 @@ const cnSkinArrDict = {};
 
 const log = (msg: any) => fs.appendFileSync('log.txt', JSON.stringify(msg) + '\n');
 
+const fetchLocal = true;
 const writeToDb = true;
 
 let db: Db;
@@ -40,7 +43,8 @@ async function main() {
 
     db = await getDb();
     gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
-    commit = (await (await fetch('https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits')).json())[0];
+    const hash = (await simpleGit(localPath).log()).latest?.hash;
+    commit = (await (await fetch(`https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits/${hash}`)).json());
     date = new Date();
 
     if (!db) {
@@ -89,10 +93,57 @@ async function main() {
     }
 }
 
+type Doc = {
+    _id?: ObjectId,
+    meta: {
+        created: string,
+        updated: string,
+        date: Date,
+    },
+    canon: string,
+    keys: string[],
+    value: any
+}
+
+function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
+    const createHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
+
+    return {
+        meta: {
+            created: createHash ?? commit.sha,
+            updated: commit.sha,
+            date: date,
+        },
+        canon: keys[0],
+        keys: keys.map(key => key.toLowerCase()),
+        value: value
+    }
+}
+async function fetchData(path: string) {
+    if (fetchLocal) {
+        return JSON.parse(fs.readFileSync(`${localPath}/${path}`, 'utf8'));
+    }
+    else {
+        return await (await fetch(`${dataPath}/${path}`)).json();
+    }
+}
+async function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Promise<Doc[]> {
+    return newDocuments.filter(newDoc => {
+        const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
+
+        const docsAreEqual = oldDoc
+            && JSON.stringify(oldDoc.meta)
+            && JSON.stringify(oldDoc.meta.created)
+            && JSON.stringify(oldDoc.keys) === JSON.stringify(newDoc.keys)
+            && JSON.stringify(oldDoc.value) === JSON.stringify(newDoc.value);
+        return !docsAreEqual;
+    });
+}
 function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, oldDocuments) {
     const arr: Doc[] = [];
 
     if (['char_512_aprot'].includes(opId)) return []; // why are there two shalems???
+    if (!opId.startsWith('char_')) return [];
 
     // ID AND DATA
     const opData = file[opId];
@@ -168,18 +219,6 @@ function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, oldDo
 
     return arr;
 }
-async function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Promise<Doc[]> {
-    return newDocuments.filter(newDoc => {
-        const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
-
-        const docsAreEqual = oldDoc
-            && JSON.stringify(oldDoc.meta)
-            && JSON.stringify(oldDoc.meta.created)
-            && JSON.stringify(oldDoc.keys) === JSON.stringify(newDoc.keys)
-            && JSON.stringify(oldDoc.value) === JSON.stringify(newDoc.value);
-        return !docsAreEqual;
-    });
-}
 async function updateDb(collection: string, dataArr: Doc[]) {
     const unique = new Set();
     for (const datum of dataArr) {
@@ -197,32 +236,6 @@ async function updateDb(collection: string, dataArr: Doc[]) {
         await db.collection(collection).insertMany(dataArr);
     }
 }
-function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
-    const createHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
-
-    return {
-        meta: {
-            created: createHash ?? commit.sha,
-            updated: commit.sha,
-            date: date,
-        },
-        canon: keys[0],
-        keys: keys.map(key => key.toLowerCase()),
-        value: value
-    }
-}
-
-type Doc = {
-    _id?: ObjectId,
-    meta: {
-        created: string,
-        updated: string,
-        date: Date,
-    },
-    canon: string,
-    keys: string[],
-    value: any
-}
 
 async function loadArchetypes() {
     /* 
@@ -234,7 +247,7 @@ async function loadArchetypes() {
     const collection = "archetype";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
+    const moduleTable = await fetchData('excel/uniequip_table.json');
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -257,7 +270,7 @@ async function loadBases() {
     const collection = "base";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const buildingData = await (await fetch(`${dataPath}/excel/building_data.json`)).json();
+    const buildingData = await fetchData('excel/building_data.json');
     const buffs: { [key: string]: any } = buildingData.buffs;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -293,7 +306,7 @@ async function loadCC() {
 
     const dataArr = await filterDocuments(oldDocuments,
         await Promise.all(ccStages.map(async stage => {
-            const levels = await (await fetch(`${dataPath}/levels/${stage.levelId}.json`)).json();
+            const levels = await fetchData(`levels/${stage.levelId}.json`);
             return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
         }))
     );
@@ -324,7 +337,7 @@ async function loadCCB() {
 
     const dataArr = await filterDocuments(oldDocuments,
         await Promise.all(ccbStages.map(async stage => {
-            const levels = await (await fetch(`${dataPath}/levels/${stage.levelId}.json`)).json();
+            const levels = await fetchData(`levels/${stage.levelId}.json`);
             return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
         }))
     );
@@ -352,7 +365,7 @@ async function loadDefinitions() {
     const collection = "define";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const gamedataConst = await (await fetch(`${dataPath}/excel/gamedata_const.json`)).json();
+    const gamedataConst = await fetchData('excel/gamedata_const.json');
     const termDescriptionDict: { [key: string]: any } = gamedataConst.termDescriptionDict;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -392,8 +405,8 @@ async function loadEnemies() {
     //         Contains stats, skills, range
     // Unique enemy key is enemyId (enemy_1007_slime)
     // Additional keys are name (originium slug) and enemyIndex (b1) 
-    const enemyHandbook = await (await fetch(`${dataPath}/excel/enemy_handbook_table.json`)).json();
-    const enemyDatabase = await (await fetch(`${dataPath}/levels/enemydata/enemy_database.json`)).json();
+    const enemyHandbook = await fetchData('excel/enemy_handbook_table.json');
+    const enemyDatabase = await fetchData('levels/enemydata/enemy_database.json');
     const enemyData: { [key: string]: any } = enemyHandbook.enemyData;
 
     const levelsLookup = {};
@@ -431,7 +444,7 @@ async function loadEvents() {
     const collection = "event";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const activityTable = await (await fetch(`${dataPath}/excel/activity_table.json`)).json();
+    const activityTable = await fetchData('excel/activity_table.json');
     const basicInfo: { [key: string]: any } = activityTable.basicInfo;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -463,8 +476,8 @@ async function loadItems() {
     const collection = "item";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const itemTable = await (await fetch(`${dataPath}/excel/item_table.json`)).json();
-    const buildingData = await (await fetch(`${dataPath}/excel/building_data.json`)).json();
+    const itemTable = await fetchData('excel/item_table.json');
+    const buildingData = await fetchData('excel/building_data.json');
     const items: { [key: string]: any } = itemTable.items;
     const manufactFormulas = buildingData.manufactFormulas; // Factory formulas
     const workshopFormulas = buildingData.workshopFormulas; // Workshop formulas
@@ -508,9 +521,9 @@ async function loadModules() {
     const collection = "module";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const moduleTable = await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json();
+    const moduleTable = await fetchData('excel/uniequip_table.json');
+    const battleDict = await fetchData('excel/battle_equip_table.json');
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
-    const battleDict = await (await fetch(`${dataPath}/excel/battle_equip_table.json`)).json();
 
     const dataArr = await filterDocuments(oldDocuments,
         Object.values(equipDict).map(module => {
@@ -542,10 +555,10 @@ async function loadOperators() {
     const collection = "operator";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const operatorTable = await (await fetch(`${dataPath}/excel/character_table.json`)).json();
-    const patchChars = (await (await fetch(`${dataPath}/excel/char_patch_table.json`)).json()).patchChars;
-    const charEquip = (await (await fetch(`${dataPath}/excel/uniequip_table.json`)).json()).charEquip;
-    const charBaseBuffs = (await (await fetch(`${dataPath}/excel/building_data.json`)).json()).chars;
+    const operatorTable = await fetchData('excel/character_table.json');
+    const patchChars = await fetchData('excel/char_patch_table.json');
+    const charEquip = await fetchData('excel/uniequip_table.json');
+    const charBaseBuffs = await fetchData('excel/building_data.json');
 
     const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
@@ -585,12 +598,12 @@ async function loadParadoxes() {
     const collection = "paradox";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const handbookTable = await (await fetch(`${dataPath}/excel/handbook_info_table.json`)).json();
+    const handbookTable = await fetchData('excel/handbook_info_table.json');
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
     const dataArr = await filterDocuments(oldDocuments,
         await Promise.all(Object.values(stages).map(async excel => {
-            const levels = await (await fetch(`${dataPath}/levels/${excel.levelId.toLowerCase()}.json`)).json();
+            const levels = await fetchData(`levels/${excel.levelId}.json`);
             paradoxDict[excel.charId] = { excel: excel, levels: levels };
             return createDoc(oldDocuments, [excel.charId, excel.stageId], { excel: excel, levels: levels });
         }))
@@ -619,7 +632,7 @@ async function loadRanges() {
     const collection = "range";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const rangeTable: { [key: string]: any } = await (await fetch(`${dataPath}/excel/range_table.json`)).json();
+    const rangeTable: { [key: string]: any } = await fetchData('excel/range_table.json');
 
     const dataArr = await filterDocuments(oldDocuments,
         Object.values(rangeTable).map(range => {
@@ -657,7 +670,7 @@ async function loadRogueThemes() {
     const oldStageDocs: any[] = [];
     const oldToughDocs: any[] = [];
 
-    const rogueTable = await (await fetch(`${dataPath}/excel/roguelike_topic_table.json`)).json();
+    const rogueTable = await fetchData('excel/roguelike_topic_table.json');
     const rogueDetails: { [key: string]: any } = rogueTable.details;
     const rogueTopics: { [key: string]: any } = rogueTable.topics;
 
@@ -683,11 +696,11 @@ async function loadRogueThemes() {
             const stageName = excel.name.toLowerCase();
 
             if (excel.difficulty === 'FOUR_STAR') {
-                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const levels = await fetchData(`levels/${levelId}.json`);
                 toughStageDict[stageName] = { excel: excel, levels: levels };
             }
             else if (excel.difficulty === 'NORMAL') {
-                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const levels = await fetchData(`levels/${levelId}.json`);
                 stageDict[stageName] = { excel: excel, levels: levels };
             }
         }
@@ -773,7 +786,7 @@ async function loadSandboxes() {
     const collection = "sandbox";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const sandboxTable = await (await fetch(`${dataPath}/excel/sandbox_table.json`)).json();
+    const sandboxTable = await fetchData('excel/sandbox_table.json');
     const sandboxActTables: { [key: string]: any } = sandboxTable.sandboxActTables;
 
     const sandArr: Doc[] = [];
@@ -785,7 +798,7 @@ async function loadSandboxes() {
         for (const excel of Object.values(stageDatas)) {
             const levelId = excel.levelId.toLowerCase();
             const stageName = excel.name.toLowerCase();
-            const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+            const levels = await fetchData(`levels/${levelId}.json`);
             stageDict[stageName] = { excel, levels };
         }
 
@@ -817,7 +830,7 @@ async function loadSkills() {
     const collection = "skill";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const skillTable: { [key: string]: any } = await (await fetch(`${dataPath}/excel/skill_table.json`)).json();
+    const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
     const dataArr = await filterDocuments(oldDocuments,
         Object.values(skillTable).map(skill => {
@@ -849,7 +862,7 @@ async function loadSkins() {
     const collection = "skin";
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
-    const skinTable = await (await fetch(`${dataPath}/excel/skin_table.json`)).json();
+    const skinTable = await fetchData('excel/skin_table.json');
     const charSkins: { [key: string]: any } = skinTable.charSkins;
 
     const skinArr: Doc[] = [];
@@ -893,7 +906,7 @@ async function loadStages() {
     const oldStageDocs = await db.collection(collection[0]).find({}).toArray();
     const oldToughDocs = await db.collection(collection[1]).find({}).toArray();
 
-    const stageTable = await (await fetch(`${dataPath}/excel/stage_table.json`)).json();
+    const stageTable = await fetchData('excel/stage_table.json');
     const stages: { [key: string]: any } = stageTable.stages;
 
     const stageArr: Doc[] = [];
@@ -924,7 +937,7 @@ async function loadStages() {
             }
 
             try {
-                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const levels = await fetchData(`levels/${levelId}.json`);
                 const stage = { excel: excel, levels: levels };
 
                 toughArr.push(createDoc(oldToughDocs, [excel.stageId, excel.stageId.split('#').join(''), excel.code, excel.name], [stage]));
@@ -944,7 +957,7 @@ async function loadStages() {
             }
 
             try {
-                const levels = await (await fetch(`${dataPath}/levels/${levelId}.json`)).json();
+                const levels = await fetchData(`levels/${levelId}.json`);
                 const stage = { excel: excel, levels: levels };
 
                 stageArr.push(createDoc(oldStageDocs, [excel.stageId, excel.code, excel.name], [stage]));
