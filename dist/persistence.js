@@ -85,7 +85,7 @@ function getSingle(collectionName, req) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
                 case 1:
                     collection = (_a.sent()).collection(collectionName);
-                    return [4 /*yield*/, collection.findOne({ keys: req.params.id }, createOptions(req))];
+                    return [4 /*yield*/, collection.findOne({ keys: { $eq: req.params.id } }, createOptions(req))];
                 case 2:
                     result = _a.sent();
                     return [2 /*return*/, result];
@@ -107,6 +107,8 @@ function getMatch(collectionName, req) {
                     return [4 /*yield*/, collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
+                    if (result.length === 0)
+                        return [2 /*return*/, false];
                     return [2 /*return*/, result];
             }
         });
@@ -127,11 +129,13 @@ function getSearch(collectionName, req) {
                     for (key in req.query) {
                         if (['include', 'exclude', 'limit'].includes(key))
                             continue;
-                        filter["value.".concat(key)] = req.query[key];
+                        filter["value.".concat(key)] = { $eq: req.query[key] };
                     }
                     return [4 /*yield*/, collection.find(filter, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
+                    if (result.length === 0)
+                        return [2 /*return*/, false];
                     return [2 /*return*/, result];
             }
         });

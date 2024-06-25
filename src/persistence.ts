@@ -18,7 +18,7 @@ export async function getMulti(collectionName: string, req) {
 // operator/char_188_helage
 export async function getSingle(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-    const result = await collection.findOne({ keys: req.params.id }, createOptions(req));
+    const result = await collection.findOne({ keys: { $eq: req.params.id } }, createOptions(req));
 
     return result;
 }
@@ -31,6 +31,8 @@ export async function getMatch(collectionName: string, req) {
     // Find matching keys through a regex match with case insensitivity
     const result = await collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray();
 
+    if (result.length === 0) return false;
+
     return result;
 }
 
@@ -42,10 +44,12 @@ export async function getSearch(collectionName: string, req) {
 
     for (const key in req.query) {
         if (['include', 'exclude', 'limit'].includes(key)) continue;
-        filter[`value.${key}`] = req.query[key];
+        filter[`value.${key}`] = { $eq: req.query[key] };
     }
 
     const result = await collection.find(filter, createOptions(req)).toArray();
+
+    if (result.length === 0) return false;
 
     return result;
 }
