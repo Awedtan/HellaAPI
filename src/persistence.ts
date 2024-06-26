@@ -31,8 +31,6 @@ export async function getMatch(collectionName: string, req) {
     // Find matching keys through a regex match with case insensitivity
     const result = await collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray();
 
-    if (result.length === 0) return false;
-
     return result;
 }
 
@@ -48,8 +46,6 @@ export async function getSearch(collectionName: string, req) {
     }
 
     const result = await collection.find(filter, createOptions(req)).toArray();
-
-    if (result.length === 0) return false;
 
     return result;
 }

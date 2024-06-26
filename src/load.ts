@@ -556,9 +556,9 @@ async function loadOperators() {
     const oldDocuments = await db.collection(collection).find({}).toArray();
 
     const operatorTable = await fetchData('excel/character_table.json');
-    const patchChars = await fetchData('excel/char_patch_table.json');
-    const charEquip = await fetchData('excel/uniequip_table.json');
-    const charBaseBuffs = await fetchData('excel/building_data.json');
+    const patchChars = (await fetchData('excel/char_patch_table.json')).patchChars;
+    const charEquip = (await fetchData('excel/uniequip_table.json')).charEquip;
+    const charBaseBuffs = (await fetchData('excel/building_data.json')).chars;
 
     const opArr: Doc[] = [];
     for (const opId of Object.keys(operatorTable)) {
@@ -603,7 +603,7 @@ async function loadParadoxes() {
 
     const dataArr = await filterDocuments(oldDocuments,
         await Promise.all(Object.values(stages).map(async excel => {
-            const levels = await fetchData(`levels/${excel.levelId}.json`);
+            const levels = await fetchData(`levels/${excel.levelId.toLowerCase()}.json`);
             paradoxDict[excel.charId] = { excel: excel, levels: levels };
             return createDoc(oldDocuments, [excel.charId, excel.stageId], { excel: excel, levels: levels });
         }))

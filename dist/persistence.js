@@ -107,8 +107,6 @@ function getMatch(collectionName, req) {
                     return [4 /*yield*/, collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
-                    if (result.length === 0)
-                        return [2 /*return*/, false];
                     return [2 /*return*/, result];
             }
         });
@@ -134,8 +132,6 @@ function getSearch(collectionName, req) {
                     return [4 /*yield*/, collection.find(filter, createOptions(req)).toArray()];
                 case 2:
                     result = _a.sent();
-                    if (result.length === 0)
-                        return [2 /*return*/, false];
                     return [2 /*return*/, result];
             }
         });
