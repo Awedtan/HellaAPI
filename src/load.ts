@@ -249,7 +249,7 @@ async function loadArchetypes() {
     const moduleTable = await fetchData('excel/uniequip_table.json');
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(subProfDict).map(subProf => {
             archetypeDict[subProf.subProfessionId] = subProf.subProfessionName;
             return createDoc(oldDocuments, [subProf.subProfessionId], subProf.subProfessionName);
@@ -272,7 +272,7 @@ async function loadBases() {
     const buildingData = await fetchData('excel/building_data.json');
     const buffs: { [key: string]: any } = buildingData.buffs;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(buffs).map(buff => {
             baseDict[buff.buffId] = buff;
             return createDoc(oldDocuments, [buff.buffId], buff);
@@ -303,7 +303,7 @@ async function loadCC() {
     const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
     const ccStages = gameConsts.ccStages;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         await Promise.all(ccStages.map(async stage => {
             const levels = await fetchData(`levels/${stage.levelId}.json`);
             return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
@@ -334,7 +334,7 @@ async function loadCCB() {
     const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
     const ccbStages = gameConsts.ccbStages;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         await Promise.all(ccbStages.map(async stage => {
             const levels = await fetchData(`levels/${stage.levelId}.json`);
             return createDoc(oldDocuments, [stage.levelId.split('/')[stage.levelId.split('/').length - 1], stage.name], { const: stage, levels: levels });
@@ -367,7 +367,7 @@ async function loadDefinitions() {
     const gamedataConst = await fetchData('excel/gamedata_const.json');
     const termDescriptionDict: { [key: string]: any } = gamedataConst.termDescriptionDict;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(termDescriptionDict).map(definition =>
             createDoc(oldDocuments, [definition.termId, definition.termName], definition)
         )
@@ -413,7 +413,7 @@ async function loadEnemies() {
         levelsLookup[levels.Key] = levels;
     }
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(enemyData).map(excel =>
             createDoc(oldDocuments, [excel.enemyId, excel.name, excel.name.split('\'').join(''), excel.enemyIndex],
                 { excel: excel, levels: levelsLookup[excel.enemyId] })
@@ -446,7 +446,7 @@ async function loadEvents() {
     const activityTable = await fetchData('excel/activity_table.json');
     const basicInfo: { [key: string]: any } = activityTable.basicInfo;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(basicInfo).map(event =>
             createDoc(oldDocuments, [event.id], event)
         )
@@ -481,7 +481,7 @@ async function loadItems() {
     const manufactFormulas = buildingData.manufactFormulas; // Factory formulas
     const workshopFormulas = buildingData.workshopFormulas; // Workshop formulas
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(items).map(data => {
             let formula = null;
             if (data.buildingProductList.length > 0) {
@@ -524,7 +524,7 @@ async function loadModules() {
     const battleDict = await fetchData('excel/battle_equip_table.json');
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(equipDict).map(module => {
             moduleDict[module.uniEquipId] = { info: module, data: battleDict[module.uniEquipId] ?? null };
             return createDoc(oldDocuments, [module.uniEquipId], { info: module, data: battleDict[module.uniEquipId] ?? null });
@@ -572,7 +572,7 @@ async function loadOperators() {
         }
     }
 
-    const dataArr = await filterDocuments(oldDocuments, opArr);
+    const dataArr = filterDocuments(oldDocuments, opArr);
 
     for (const datum of dataArr) {
         try {
@@ -600,7 +600,7 @@ async function loadParadoxes() {
     const handbookTable = await fetchData('excel/handbook_info_table.json');
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         await Promise.all(Object.values(stages).map(async excel => {
             const levels = await fetchData(`levels/${excel.levelId.toLowerCase()}.json`);
             paradoxDict[excel.charId] = { excel: excel, levels: levels };
@@ -633,7 +633,7 @@ async function loadRanges() {
 
     const rangeTable: { [key: string]: any } = await fetchData('excel/range_table.json');
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(rangeTable).map(range => {
             rangeDict[range.id] = range;
             return createDoc(oldDocuments, [range.id], range);
@@ -738,14 +738,14 @@ async function loadRogueThemes() {
         }
     }
 
-    const dataArr = await filterDocuments(oldDocuments, rogueArr);
+    const dataArr = filterDocuments(oldDocuments, rogueArr);
     const stageDataArr: Doc[][] = [];
     const toughDataArr: Doc[][] = [];
     for (let i = 0; i < rogueStageArr.length; i++) {
-        stageDataArr[i] = await filterDocuments(oldStageDocs[i], rogueStageArr[i]);
+        stageDataArr[i] = filterDocuments(oldStageDocs[i], rogueStageArr[i]);
     }
     for (let i = 0; i < rogueToughArr.length; i++) {
-        toughDataArr[i] = await filterDocuments(oldToughDocs[i], rogueToughArr[i]);
+        toughDataArr[i] = filterDocuments(oldToughDocs[i], rogueToughArr[i]);
     }
 
     for (const datum of Object.values(dataArr)) {
@@ -804,7 +804,7 @@ async function loadSandboxes() {
         sandArr[i] = createDoc(oldDocuments, [i.toString()], { stageDict: stageDict });
     }
 
-    const dataArr = await filterDocuments(oldDocuments, sandArr);
+    const dataArr = filterDocuments(oldDocuments, sandArr);
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -831,7 +831,7 @@ async function loadSkills() {
 
     const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(skillTable).map(skill => {
             skillDict[skill.skillId.toLowerCase()] = skill;
             return createDoc(oldDocuments, [skill.skillId], skill);
@@ -875,7 +875,7 @@ async function loadSkins() {
         skinArr.push(createDoc(oldDocuments, [skin.skinId], skin));
     }
 
-    const dataArr = await filterDocuments(oldDocuments, skinArr);
+    const dataArr = filterDocuments(oldDocuments, skinArr);
 
     for (const datum of Object.values(dataArr)) {
         try {
@@ -972,8 +972,8 @@ async function loadStages() {
         }
     }
 
-    const dataArr = await filterDocuments(oldStageDocs, stageArr);
-    const toughDataArr = await filterDocuments(oldToughDocs, toughArr);
+    const dataArr = filterDocuments(oldStageDocs, stageArr);
+    const toughDataArr = filterDocuments(oldToughDocs, toughArr);
 
     for (const datumArr of Object.values(dataArr)) {
         for (const datum of datumArr.value) {
@@ -1012,7 +1012,7 @@ async function loadCnArchetypes() {
     const moduleTable = await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json();
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(subProfDict)
             .filter(subProf => !archetypeDict.hasOwnProperty(subProf.subProfessionId))
             .map(subProf => {
@@ -1032,7 +1032,7 @@ async function loadCnBases() {
     const buildingData = await (await fetch(`${cnDataPath}/excel/building_data.json`)).json();
     const buffs: { [key: string]: any } = buildingData.buffs;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(buffs)
             .filter(buff => !baseDict.hasOwnProperty(buff.buffId))
             .map(buff => {
@@ -1063,7 +1063,7 @@ async function loadCnModules() {
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
     const battleDict = await (await fetch(`${cnDataPath}/excel/battle_equip_table.json`)).json();
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(equipDict)
             .filter(module => !moduleDict.hasOwnProperty(module.uniEquipId))
             .map(module => {
@@ -1095,7 +1095,7 @@ async function loadCnOperators() {
         opArr.push(...readOperatorIntoArr(opId, patchChars, charEquip, charBaseBuffs, oldDocuments));
     }
 
-    const dataArr = await filterDocuments(oldDocuments, opArr);
+    const dataArr = filterDocuments(oldDocuments, opArr);
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} CN Operators loaded in ${(Date.now() - start) / 1000}s`);
@@ -1108,7 +1108,7 @@ async function loadCnParadoxes() {
     const handbookTable = await (await fetch(`${cnDataPath}/excel/handbook_info_table.json`)).json();
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         await Promise.all(Object.values(stages)
             .filter(excel => !paradoxDict.hasOwnProperty(excel.charId))
             .map(async excel => {
@@ -1128,7 +1128,7 @@ async function loadCnRanges() {
 
     const rangeTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/range_table.json`)).json();
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(rangeTable)
             .filter(range => !rangeDict.hasOwnProperty(range.id))
             .map(range => {
@@ -1147,7 +1147,7 @@ async function loadCnSkills() {
 
     const skillTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/skill_table.json`)).json();
 
-    const dataArr = await filterDocuments(oldDocuments,
+    const dataArr = filterDocuments(oldDocuments,
         Object.values(skillTable)
             .filter(skill => !skillDict.hasOwnProperty(skill.skillId.toLowerCase()))
             .map(skill => {
@@ -1179,7 +1179,7 @@ async function loadCnSkins() {
         skinArr.push(createDoc(oldDocuments, [skin.skinId], skin));
     }
 
-    const dataArr = await filterDocuments(oldDocuments, skinArr);
+    const dataArr = filterDocuments(oldDocuments, skinArr);
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} CN Skins loaded in ${(Date.now() - start) / 1000}s`);
