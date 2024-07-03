@@ -4,6 +4,7 @@ import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZo
 import { Db, ObjectId } from "mongodb";
 import getDb from "./db";
 import simpleGit from 'simple-git';
+const objectHash = require('object-hash');
 
 const localPath = 'ArknightsGameData_YoStar/en_US/gamedata';
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
@@ -55,35 +56,37 @@ async function main() {
     fs.writeFileSync('log.txt', '');
 
     try {
-        await db.collection('about').updateOne({}, { $set: { date: date, hash: commit.sha, message: commit.commit.message } }, { upsert: true });
+        if (writeToDb) {
+            await db.collection('about').updateOne({}, { $set: { date: date, hash: commit.sha, message: commit.commit.message } }, { upsert: true });
+        }
 
-        await loadArchetypes().catch(console.error);
-        await loadBases().catch(console.error);
-        await loadModules().catch(console.error);
-        await loadParadoxes().catch(console.error);
-        await loadRanges().catch(console.error);
-        await loadSkills().catch(console.error);
-        await loadSkins().catch(console.error);
-        await loadOperators().catch(console.error);
+        await loadArchetypes();
+        await loadBases();
+        await loadModules();
+        await loadParadoxes();
+        await loadRanges();
+        await loadSkills();
+        await loadSkins();
+        await loadOperators();
 
-        await loadCC().catch(console.error);
-        await loadCCB().catch(console.error);
-        await loadDefinitions().catch(console.error);
-        await loadEnemies().catch(console.error);
-        await loadEvents().catch(console.error);
-        await loadItems().catch(console.error);
-        await loadRogueThemes().catch(console.error);
-        await loadSandboxes().catch(console.error);
-        await loadStages().catch(console.error);
+        await loadCC();
+        await loadCCB();
+        await loadDefinitions();
+        await loadEnemies();
+        await loadEvents();
+        await loadItems();
+        await loadRogueThemes();
+        await loadSandboxes();
+        await loadStages();
 
-        await loadCnArchetypes().catch(console.error);
-        await loadCnBases().catch(console.error);
-        await loadCnModules().catch(console.error);
-        await loadCnParadoxes().catch(console.error);
-        await loadCnRanges().catch(console.error);
-        await loadCnSkills().catch(console.error);
-        await loadCnSkins().catch(console.error);
-        await loadCnOperators().catch(console.error);
+        await loadCnArchetypes();
+        await loadCnBases();
+        await loadCnModules();
+        await loadCnParadoxes();
+        await loadCnRanges();
+        await loadCnSkills();
+        await loadCnSkins();
+        await loadCnOperators();
 
         console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
     } catch (e) {
@@ -96,9 +99,10 @@ async function main() {
 type Doc = {
     _id?: ObjectId,
     meta: {
+        hash: string,
         created: string,
         updated: string,
-        date: Date,
+        date: Date
     },
     canon: string,
     keys: string[],
@@ -107,9 +111,9 @@ type Doc = {
 
 function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
     const createHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
-
     return {
         meta: {
+            hash: objectHash(value, { respectType: false }),
             created: createHash ?? commit.sha,
             updated: commit.sha,
             date: date,
@@ -128,14 +132,11 @@ async function fetchData(path: string) {
     }
 }
 async function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Promise<Doc[]> {
+
     return newDocuments.filter(newDoc => {
         const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
 
-        const docsAreEqual = oldDoc
-            && JSON.stringify(oldDoc.meta)
-            && JSON.stringify(oldDoc.meta.created)
-            && JSON.stringify(oldDoc.keys) === JSON.stringify(newDoc.keys)
-            && JSON.stringify(oldDoc.value) === JSON.stringify(newDoc.value);
+        const docsAreEqual = oldDoc.meta.hash === newDoc.meta.hash;
         return !docsAreEqual;
     });
 }
@@ -245,7 +246,7 @@ async function loadArchetypes() {
 
     const start = Date.now();
     const collection = "archetype";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const moduleTable = await fetchData('excel/uniequip_table.json');
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
@@ -268,7 +269,7 @@ async function loadBases() {
 
     const start = Date.now();
     const collection = "base";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const buildingData = await fetchData('excel/building_data.json');
     const buffs: { [key: string]: any } = buildingData.buffs;
@@ -301,7 +302,7 @@ async function loadCC() {
 
     const start = Date.now();
     const collection = "cc";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
     const ccStages = gameConsts.ccStages;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -332,7 +333,7 @@ async function loadCCB() {
 
     const start = Date.now();
     const collection = "ccb";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
     const ccbStages = gameConsts.ccbStages;
 
     const dataArr = await filterDocuments(oldDocuments,
@@ -363,7 +364,7 @@ async function loadDefinitions() {
 
     const start = Date.now();
     const collection = "define";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const gamedataConst = await fetchData('excel/gamedata_const.json');
     const termDescriptionDict: { [key: string]: any } = gamedataConst.termDescriptionDict;
@@ -395,7 +396,7 @@ async function loadEnemies() {
 
     const start = Date.now();
     const collection = "enemy";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     // Find matches between enemy_handbook_table and enemy_database
     // Stores data in enemyDict[enemy] = {excel, levels}
@@ -442,7 +443,7 @@ async function loadEvents() {
 
     const start = Date.now();
     const collection = "event";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const activityTable = await fetchData('excel/activity_table.json');
     const basicInfo: { [key: string]: any } = activityTable.basicInfo;
@@ -474,7 +475,7 @@ async function loadItems() {
 
     const start = Date.now();
     const collection = "item";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const itemTable = await fetchData('excel/item_table.json');
     const buildingData = await fetchData('excel/building_data.json');
@@ -519,7 +520,7 @@ async function loadModules() {
 
     const start = Date.now();
     const collection = "module";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const moduleTable = await fetchData('excel/uniequip_table.json');
     const battleDict = await fetchData('excel/battle_equip_table.json');
@@ -553,7 +554,7 @@ async function loadOperators() {
 
     const start = Date.now();
     const collection = "operator";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const operatorTable = await fetchData('excel/character_table.json');
     const patchChars = (await fetchData('excel/char_patch_table.json')).patchChars;
@@ -596,7 +597,7 @@ async function loadParadoxes() {
 
     const start = Date.now();
     const collection = "paradox";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const handbookTable = await fetchData('excel/handbook_info_table.json');
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
@@ -630,7 +631,7 @@ async function loadRanges() {
 
     const start = Date.now();
     const collection = "range";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const rangeTable: { [key: string]: any } = await fetchData('excel/range_table.json');
 
@@ -784,7 +785,7 @@ async function loadSandboxes() {
 
     const start = Date.now();
     const collection = "sandbox";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const sandboxTable = await fetchData('excel/sandbox_table.json');
     const sandboxActTables: { [key: string]: any } = sandboxTable.sandboxActTables;
@@ -828,7 +829,7 @@ async function loadSkills() {
 
     const start = Date.now();
     const collection = "skill";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
@@ -860,7 +861,7 @@ async function loadSkins() {
 
     const start = Date.now();
     const collection = "skin";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const skinTable = await fetchData('excel/skin_table.json');
     const charSkins: { [key: string]: any } = skinTable.charSkins;
@@ -1008,7 +1009,7 @@ async function loadStages() {
 async function loadCnArchetypes() {
     const start = Date.now();
     const collection = "cn/archetype";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const moduleTable = await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json();
     const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
@@ -1028,7 +1029,7 @@ async function loadCnArchetypes() {
 async function loadCnBases() {
     const start = Date.now();
     const collection = "cn/base";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const buildingData = await (await fetch(`${cnDataPath}/excel/building_data.json`)).json();
     const buffs: { [key: string]: any } = buildingData.buffs;
@@ -1058,7 +1059,7 @@ async function loadCnBases() {
 async function loadCnModules() {
     const start = Date.now();
     const collection = "cn/module";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const moduleTable = await (await fetch(`${cnDataPath}/excel/uniequip_table.json`)).json();
     const equipDict: { [key: string]: any } = moduleTable.equipDict;
@@ -1079,7 +1080,7 @@ async function loadCnModules() {
 async function loadCnOperators() {
     const start = Date.now();
     const collection = "cn/operator";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const operatorTable = await (await fetch(`${cnDataPath}/excel/character_table.json`)).json();
     const patchChars = (await (await fetch(`${cnDataPath}/excel/char_patch_table.json`)).json()).patchChars;
@@ -1104,7 +1105,7 @@ async function loadCnOperators() {
 async function loadCnParadoxes() {
     const start = Date.now();
     const collection = "cn/paradox";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const handbookTable = await (await fetch(`${cnDataPath}/excel/handbook_info_table.json`)).json();
     const stages: { [key: string]: any } = handbookTable.handbookStageData;
@@ -1125,7 +1126,7 @@ async function loadCnParadoxes() {
 async function loadCnRanges() {
     const start = Date.now();
     const collection = "cn/range";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const rangeTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/range_table.json`)).json();
 
@@ -1144,7 +1145,7 @@ async function loadCnRanges() {
 async function loadCnSkills() {
     const start = Date.now();
     const collection = "cn/skill";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const skillTable: { [key: string]: any } = await (await fetch(`${cnDataPath}/excel/skill_table.json`)).json();
 
@@ -1163,7 +1164,7 @@ async function loadCnSkills() {
 async function loadCnSkins() {
     const start = Date.now();
     const collection = "cn/skin";
-    const oldDocuments = await db.collection(collection).find({}).toArray();
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
     const skinTable = await (await fetch(`${cnDataPath}/excel/skin_table.json`)).json();
     const charSkins: { [key: string]: any } = skinTable.charSkins;
