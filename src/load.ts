@@ -131,11 +131,9 @@ async function fetchData(path: string) {
         return await (await fetch(`${dataPath}/${path}`)).json();
     }
 }
-async function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Promise<Doc[]> {
-
+function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Doc[] {
     return newDocuments.filter(newDoc => {
         const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
-
         const docsAreEqual = oldDoc.meta.hash === newDoc.meta.hash;
         return !docsAreEqual;
     });
