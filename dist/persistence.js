@@ -138,7 +138,7 @@ function getSearch(collectionName, req) {
     });
 }
 exports.getSearch = getSearch;
-// Gets all documents that have been created or updated during the last EN update
+// Gets all documents that have been created during the last EN update
 function getNewEn() {
     return __awaiter(this, void 0, void 0, function () {
         var collections, commits, hash, filter, result, _i, collections_1, collection, a;

@@ -50,7 +50,7 @@ export async function getSearch(collectionName: string, req) {
     return result;
 }
 
-// Gets all documents that have been created or updated during the last EN update
+// Gets all documents that have been created during the last EN update
 export async function getNewEn() {
     const collections = await (await getDb()).collections();
     const commits = await fetch('https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits').then(res => res.json());
