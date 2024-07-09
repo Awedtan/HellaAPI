@@ -134,7 +134,7 @@ async function fetchData(path: string) {
 function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Doc[] {
     return newDocuments.filter(newDoc => {
         const oldDoc = oldDocuments.find(old => old.canon === newDoc.canon);
-        const docsAreEqual = oldDoc.meta.hash === newDoc.meta.hash;
+        const docsAreEqual = oldDoc && oldDoc.meta.hash === newDoc.meta.hash;
         return !docsAreEqual;
     });
 }
