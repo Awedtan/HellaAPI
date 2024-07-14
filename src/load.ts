@@ -110,11 +110,17 @@ type Doc = {
 }
 
 function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
-    const createHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
+    const createdHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
     return {
         meta: {
-            hash: objectHash(value, { respectType: false }),
-            created: createHash ?? commit.sha,
+            hash: objectHash(
+                {
+                    keys: keys.map(key => key.toLowerCase()),
+                    value: value
+                },
+                { respectType: false }
+            ),
+            created: createdHash ?? commit.sha,
             updated: commit.sha,
             date: date,
         },
@@ -197,7 +203,7 @@ function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, oldDo
     const opParadox = paradoxDict[opId] ?? cnParadoxDict[opId] ?? null;
 
     const opName = opData.name.toLowerCase();
-    const keyArr = [opId, opName, opName.split('\'').join('')];
+    const keyArr = [opId, opName, opName.replace(/['-]/g, '')];
     if (opId === 'char_4055_bgsnow') keyArr.push('pozemka');
     if (opId === 'char_4064_mlynar') keyArr.push('mlynar');
 
