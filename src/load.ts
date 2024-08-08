@@ -791,6 +791,66 @@ async function loadSandboxes() {
     const collection = "sandbox";
     const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
+    const sandboxTable = await fetchData('excel/sandbox_perm_table.json');
+    const basicInfo: { [key: string]: any } = sandboxTable.basicInfo;
+    const SANDBOX_V2: { [key: string]: any } = sandboxTable.detail.SANDBOX_V2;
+
+    const sandArr: Doc[] = [];
+    for (let i = 0; i < Object.keys(SANDBOX_V2).length; i++) {
+        const sandbox = Object.values(SANDBOX_V2)[i];
+        const name = Object.values(basicInfo)[i].topicName;
+        // const rewardConfigData: { [key: string]: any } = sandbox.rewardConfigData; // stage/enemy/minable/other drops
+
+        const stageDict = {};
+        const stageData: { [key: string]: any } = sandbox.stageData;
+        for (const excel of Object.values(stageData)) {
+            const levelId = excel.levelId.toLowerCase();
+            const stageName = excel.name.toLowerCase();
+            const levels = await fetchData(`levels/${levelId}.json`);
+            stageDict[stageName] = { excel, levels };
+        }
+        const itemData: { [key: string]: any } = sandboxTable.itemData;
+        const itemDict = {};
+        for (const item of Object.values(itemData)) {
+            const itemId = item.itemId.toLowerCase();
+            itemDict[itemId] = {
+                craft: sandbox.craftItemData[itemId] ?? null,
+                drink: sandbox.drinkMatData[itemId] ?? null,
+                foodMat: sandbox.foodMatData[itemId] ?? null,
+                food: sandbox.foodData[itemId] ?? null,
+                data: item
+            };
+        }
+        const weatherDict: { [key: string]: any } = sandbox.weatherData;
+
+        sandArr[i] = createDoc(oldDocuments, [i.toString()], { name, stageDict, itemDict, weatherDict });
+    }
+
+    const dataArr = filterDocuments(oldDocuments, sandArr);
+
+    for (const datum of Object.values(dataArr)) {
+        try {
+            SandboxActZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nSandbox act type conformity error: ' + datum.keys);
+            log(e);
+            break;
+        }
+    }
+
+    await updateDb(collection, dataArr);
+    console.log(`${dataArr.length} Sandbox acts loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadSandbox0() {
+    /* 
+    Canonical key: index
+    Additional keys: none
+    */
+
+    const start = Date.now();
+    const collection = "sandbox";
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+
     const sandboxTable = await fetchData('excel/sandbox_table.json');
     const sandboxActTables: { [key: string]: any } = sandboxTable.sandboxActTables;
 
