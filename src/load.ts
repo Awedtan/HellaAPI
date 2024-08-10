@@ -285,7 +285,7 @@ async function loadBases() {
         })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             BaseZod.parse(datum.value);
         } catch (e: any) {
@@ -316,7 +316,7 @@ async function loadCC() {
         }))
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             CCStageZod.parse(datum.value);
         } catch (e: any) {
@@ -347,7 +347,7 @@ async function loadCCB() {
         }))
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             CCStageZod.parse(datum.value);
         } catch (e: any) {
@@ -379,7 +379,7 @@ async function loadDefinitions() {
         )
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             DefinitionZod.parse(datum.value);
         } catch (e: any) {
@@ -426,7 +426,7 @@ async function loadEnemies() {
         )
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             EnemyZod.parse(datum.value);
         } catch (e: any) {
@@ -458,7 +458,7 @@ async function loadEvents() {
         )
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             GameEventZod.parse(datum.value);
         } catch (e: any) {
@@ -503,7 +503,7 @@ async function loadItems() {
         })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             ItemZod.parse(datum.value);
         } catch (e: any) {
@@ -537,7 +537,7 @@ async function loadModules() {
         })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             ModuleZod.parse(datum.value);
         } catch (e: any) {
@@ -614,7 +614,7 @@ async function loadParadoxes() {
         }))
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             ParadoxZod.parse(datum.value);
         } catch (e: any) {
@@ -646,7 +646,7 @@ async function loadRanges() {
         })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             GridRangeZod.parse(datum.value);
         } catch (e: any) {
@@ -720,41 +720,25 @@ async function loadRogueThemes() {
             variationDict[variation.outerName.toLowerCase()] = variation;
         }
 
-        rogueArr[i] = createDoc(oldDocuments, [i.toString()],
-            { name: rogueName, stageDict: stageDict, toughStageDict: toughStageDict, relicDict: relicDict, variationDict: variationDict });
+        rogueArr[i] = createDoc(oldDocuments, [i.toString()], { name: rogueName, stageDict, toughStageDict, relicDict, variationDict });
     }
 
     const rogueStageArr: Doc[][] = [];
     const rogueToughArr: Doc[][] = [];
-    for (let i = 0; i < rogueArr.length; i++) {
-        rogueStageArr[i] = [];
-        rogueToughArr[i] = [];
-
-        const theme = rogueArr[i];
-        const stageDict = theme.value.stageDict;
-        const toughStageDict = theme.value.toughStageDict;
-
-        for (const key of Object.keys(stageDict)) {
-            const stage = stageDict[key];
-            rogueStageArr[i].push(createDoc(oldToughDocs[i], [key, stage.excel.id, stage.excel.code], stage));
-        }
-        for (const key of Object.keys(toughStageDict)) {
-            const stage = toughStageDict[key];
-            rogueToughArr[i].push(createDoc(oldToughDocs[i], [key, stage.excel.id, stage.excel.code], stage));
-        }
-    }
+    rogueArr.forEach((theme, i) => {
+        rogueStageArr[i] = Object.keys(theme.value.stageDict).map(key =>
+            createDoc(oldStageDocs[i], [theme.value.stageDict[key].excel.id, key, theme.value.stageDict[key].excel.code], theme.value.stageDict[key])
+        );
+        rogueToughArr[i] = Object.keys(theme.value.toughStageDict).map(key =>
+            createDoc(oldToughDocs[i], [theme.value.toughStageDict[key].excel.id, key, theme.value.toughStageDict[key].excel.code], theme.value.toughStageDict[key])
+        );
+    });
 
     const dataArr = filterDocuments(oldDocuments, rogueArr);
-    const stageDataArr: Doc[][] = [];
-    const toughDataArr: Doc[][] = [];
-    for (let i = 0; i < rogueStageArr.length; i++) {
-        stageDataArr[i] = filterDocuments(oldStageDocs[i], rogueStageArr[i]);
-    }
-    for (let i = 0; i < rogueToughArr.length; i++) {
-        toughDataArr[i] = filterDocuments(oldToughDocs[i], rogueToughArr[i]);
-    }
-
-    for (const datum of Object.values(dataArr)) {
+    const stageDataArr = rogueStageArr.map((stageArr, i) => filterDocuments(oldStageDocs[i], stageArr));
+    const toughDataArr = rogueToughArr.map((toughArr, i) => filterDocuments(oldToughDocs[i], toughArr));
+    
+    for (const datum of dataArr) {
         try {
             RogueThemeZod.parse(datum.value);
         } catch (e: any) {
@@ -764,12 +748,12 @@ async function loadRogueThemes() {
         }
     }
 
-    await updateDb("rogue", dataArr);
+    await updateDb(collection[0], dataArr);
     for (let i = 0; i < stageDataArr.length; i++) {
-        await updateDb(`roguestage/${i}`, stageDataArr[i]);
+        await updateDb(`${collection[1]}/${i}`, stageDataArr[i]);
     }
     for (let i = 0; i < toughDataArr.length; i++) {
-        await updateDb(`roguetoughstage/${i}`, toughDataArr[i]);
+        await updateDb(`${collection[2]}/${i}`, toughDataArr[i]);
     }
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
     for (let i = 0; i < stageDataArr.length; i++) {
@@ -788,12 +772,17 @@ async function loadSandboxes() {
     */
 
     const start = Date.now();
-    const collection = "sandbox";
-    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+    const collection = ["sandbox", "sandboxstage"];
+    const oldDocuments = await db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
+    const oldStageDocs: any[] = [];
 
     const sandboxTable = await fetchData('excel/sandbox_perm_table.json');
     const basicInfo: { [key: string]: any } = sandboxTable.basicInfo;
     const SANDBOX_V2: { [key: string]: any } = sandboxTable.detail.SANDBOX_V2;
+    
+    for (let i = 0; i < Object.keys(basicInfo).length; i++) {
+        oldStageDocs.push(await db.collection(`${collection[1]}/${i}`).find({}).toArray());
+    }
 
     const sandArr: Doc[] = [];
     for (let i = 0; i < Object.keys(SANDBOX_V2).length; i++) {
@@ -826,9 +815,17 @@ async function loadSandboxes() {
         sandArr[i] = createDoc(oldDocuments, [i.toString()], { name, stageDict, itemDict, weatherDict });
     }
 
-    const dataArr = filterDocuments(oldDocuments, sandArr);
+    const sandStageArr: Doc[][] = [];
+    sandArr.forEach((theme, i) => {
+        sandStageArr[i] = Object.keys(theme.value.stageDict).map(key =>
+            createDoc(oldStageDocs[i], [theme.value.stageDict[key].excel.stageId, key, theme.value.stageDict[key].excel.code], theme.value.stageDict[key])
+        );
+    });
 
-    for (const datum of Object.values(dataArr)) {
+    const dataArr = filterDocuments(oldDocuments, sandArr);
+    const stageDataArr = sandStageArr.map((stageArr, i) => filterDocuments(oldStageDocs[i], stageArr));
+
+    for (const datum of dataArr) {
         try {
             SandboxActZod.parse(datum.value);
         } catch (e: any) {
@@ -838,8 +835,15 @@ async function loadSandboxes() {
         }
     }
 
-    await updateDb(collection, dataArr);
+    await updateDb(collection[0], dataArr);
+    for (let i = 0; i < stageDataArr.length; i++) {
+        await updateDb(`${collection[1]}/${i}`, stageDataArr[i]);
+    }
     console.log(`${dataArr.length} Sandbox acts loaded in ${(Date.now() - start) / 1000}s`);
+    for (let i = 0; i < stageDataArr.length; i++) {
+        if (stageDataArr[i].length === 0) continue;
+        console.log(`${stageDataArr[i].length} Sandbox ${i} stages loaded in ${(Date.now() - start) / 1000}s`);
+    }
 }
 async function loadSandbox0() {
     /* 
@@ -872,7 +876,7 @@ async function loadSandbox0() {
 
     const dataArr = filterDocuments(oldDocuments, sandArr);
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             SandboxActZod.parse(datum.value);
         } catch (e: any) {
@@ -904,7 +908,7 @@ async function loadSkills() {
         })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             SkillZod.parse(datum.value);
         } catch (e: any) {
@@ -943,7 +947,7 @@ async function loadSkins() {
 
     const dataArr = filterDocuments(oldDocuments, skinArr);
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             SkinZod.parse(datum.value);
         } catch (e: any) {
@@ -1041,7 +1045,7 @@ async function loadStages() {
     const dataArr = filterDocuments(oldStageDocs, stageArr);
     const toughDataArr = filterDocuments(oldToughDocs, toughArr);
 
-    for (const datumArr of Object.values(dataArr)) {
+    for (const datumArr of dataArr) {
         for (const datum of datumArr.value) {
             try {
                 StageZod.parse(datum);
@@ -1052,7 +1056,7 @@ async function loadStages() {
             }
         }
     }
-    for (const datumArr of Object.values(toughDataArr)) {
+    for (const datumArr of toughDataArr) {
         for (const datum of datumArr.value) {
             try {
                 StageZod.parse(datum);
@@ -1107,7 +1111,7 @@ async function loadCnBases() {
             })
     );
 
-    for (const datum of Object.values(dataArr)) {
+    for (const datum of dataArr) {
         try {
             BaseZod.parse(datum.value);
         } catch (e: any) {
