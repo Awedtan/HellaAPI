@@ -670,22 +670,28 @@ async function loadRogueThemes() {
     */
 
     const start = Date.now();
-    const collection = ["rogue", "roguestage", "roguetoughstage"];
+    const collection = ["rogue", "rogue/stage", "rogue/toughstage", "rogue/relic", "rogue/variation"];
     const oldDocuments = await db.collection(collection[0]).find({}).toArray();
     const oldStageDocs: any[] = [];
     const oldToughDocs: any[] = [];
+    const oldRelicDocs: any[] = [];
+    const oldVariationDocs: any[] = [];
 
     const rogueTable = await fetchData('excel/roguelike_topic_table.json');
     const rogueDetails: { [key: string]: any } = rogueTable.details;
     const rogueTopics: { [key: string]: any } = rogueTable.topics;
 
+    const numOfThemes = Object.keys(rogueDetails).length;
+
     for (let i = 0; i < Object.keys(rogueDetails).length; i++) {
         oldStageDocs.push(await db.collection(`${collection[1]}/${i}`).find({}).toArray());
         oldToughDocs.push(await db.collection(`${collection[2]}/${i}`).find({}).toArray());
+        oldRelicDocs.push(await db.collection(`${collection[3]}/${i}`).find({}).toArray());
+        oldVariationDocs.push(await db.collection(`${collection[4]}/${i}`).find({}).toArray());
     }
 
     const rogueArr: Doc[] = [];
-    for (let i = 0; i < Object.keys(rogueDetails).length; i++) {
+    for (let i = 0; i < numOfThemes; i++) {
         const rogueName = Object.values(rogueTopics)[i].name;
         const rogueTheme = Object.values(rogueDetails)[i];
         const rogueStages: { [key: string]: any } = rogueTheme.stages;
@@ -697,27 +703,24 @@ async function loadRogueThemes() {
         const variationDict = {};
 
         for (const excel of Object.values(rogueStages)) {
-            const levelId = excel.levelId.toLowerCase();
-            const stageName = excel.name.toLowerCase();
+            const stageId = excel.id.toLowerCase();
+            const levels = await fetchData(`levels/${excel.levelId.toLowerCase()}.json`);
 
             if (excel.difficulty === 'FOUR_STAR') {
-                const levels = await fetchData(`levels/${levelId}.json`);
-                toughStageDict[stageName] = { excel: excel, levels: levels };
+                toughStageDict[stageId] = { excel: excel, levels: levels };
             }
             else if (excel.difficulty === 'NORMAL') {
-                const levels = await fetchData(`levels/${levelId}.json`);
-                stageDict[stageName] = { excel: excel, levels: levels };
+                stageDict[stageId] = { excel: excel, levels: levels };
             }
         }
 
         for (const relic of Object.values(rogueRelics)) {
             if (relic.type === 'BAND' || relic.type == 'CAPSULE') continue; // Bands are squads, capsules are IS2 plays, skip these
-            const relicName = relic.name.toLowerCase();
-            relicDict[relicName] = relic;
+            relicDict[relic.id.toLowerCase()] = relic;
         }
 
         for (const variation of Object.values(rogueVariations)) {
-            variationDict[variation.outerName.toLowerCase()] = variation;
+            variationDict[variation.id.toLowerCase()] = variation;
         }
 
         rogueArr[i] = createDoc(oldDocuments, [i.toString()], { name: rogueName, stageDict, toughStageDict, relicDict, variationDict });
@@ -725,19 +728,33 @@ async function loadRogueThemes() {
 
     const rogueStageArr: Doc[][] = [];
     const rogueToughArr: Doc[][] = [];
+    const rogueRelicArr: Doc[][] = [];
+    const rogueVariationArr: Doc[][] = [];
     rogueArr.forEach((theme, i) => {
-        rogueStageArr[i] = Object.keys(theme.value.stageDict).map(key =>
-            createDoc(oldStageDocs[i], [theme.value.stageDict[key].excel.id, key, theme.value.stageDict[key].excel.code], theme.value.stageDict[key])
-        );
-        rogueToughArr[i] = Object.keys(theme.value.toughStageDict).map(key =>
-            createDoc(oldToughDocs[i], [theme.value.toughStageDict[key].excel.id, key, theme.value.toughStageDict[key].excel.code], theme.value.toughStageDict[key])
-        );
+        rogueStageArr[i] = Object.keys(theme.value.stageDict).map(key => {
+            const stage = theme.value.stageDict[key];
+            return createDoc(oldStageDocs[i], [stage.excel.id, stage.excel.name, stage.excel.code], stage);
+        });
+        rogueToughArr[i] = Object.keys(theme.value.toughStageDict).map(key => {
+            const stage = theme.value.toughStageDict[key];
+            return createDoc(oldToughDocs[i], [stage.excel.id, stage.excel.name, stage.excel.code], stage);
+        });
+        rogueRelicArr[i] = Object.keys(theme.value.relicDict).map(key => {
+            const relic = theme.value.relicDict[key];
+            return createDoc(oldRelicDocs[i], [relic.id, relic.name], relic);
+        });
+        rogueVariationArr[i] = Object.keys(theme.value.variationDict).map(key => {
+            const variation = theme.value.variationDict[key];
+            return createDoc(oldVariationDocs[i], [variation.id, variation.outerName], variation);
+        });
     });
 
     const dataArr = filterDocuments(oldDocuments, rogueArr);
     const stageDataArr = rogueStageArr.map((stageArr, i) => filterDocuments(oldStageDocs[i], stageArr));
     const toughDataArr = rogueToughArr.map((toughArr, i) => filterDocuments(oldToughDocs[i], toughArr));
-    
+    const relicDataArr = rogueRelicArr.map((relicArr, i) => filterDocuments(oldRelicDocs[i], relicArr));
+    const variationDataArr = rogueVariationArr.map((variationArr, i) => filterDocuments(oldVariationDocs[i], variationArr));
+
     for (const datum of dataArr) {
         try {
             RogueThemeZod.parse(datum.value);
@@ -749,11 +766,11 @@ async function loadRogueThemes() {
     }
 
     await updateDb(collection[0], dataArr);
-    for (let i = 0; i < stageDataArr.length; i++) {
+    for (let i = 0; i < numOfThemes; i++) {
         await updateDb(`${collection[1]}/${i}`, stageDataArr[i]);
-    }
-    for (let i = 0; i < toughDataArr.length; i++) {
         await updateDb(`${collection[2]}/${i}`, toughDataArr[i]);
+        await updateDb(`${collection[3]}/${i}`, relicDataArr[i]);
+        await updateDb(`${collection[4]}/${i}`, variationDataArr[i]);
     }
     console.log(`${dataArr.length} Rogue themes loaded in ${(Date.now() - start) / 1000}s`);
     for (let i = 0; i < stageDataArr.length; i++) {
@@ -764,6 +781,14 @@ async function loadRogueThemes() {
         if (toughDataArr[i].length === 0) continue;
         console.log(`${toughDataArr[i].length} Rogue ${i} tough stages loaded in ${(Date.now() - start) / 1000}s`);
     }
+    for (let i = 0; i < relicDataArr.length; i++) {
+        if (relicDataArr[i].length === 0) continue;
+        console.log(`${relicDataArr[i].length} Rogue ${i} relics loaded in ${(Date.now() - start) / 1000}s`);
+    }
+    for (let i = 0; i < variationDataArr.length; i++) {
+        if (variationDataArr[i].length === 0) continue;
+        console.log(`${variationDataArr[i].length} Rogue ${i} variations loaded in ${(Date.now() - start) / 1000}s`);
+    }
 }
 async function loadSandboxes() {
     /* 
@@ -772,20 +797,26 @@ async function loadSandboxes() {
     */
 
     const start = Date.now();
-    const collection = ["sandbox", "sandboxstage"];
+    const collection = ["sandbox", "sandbox/stage", "sandbox/item", "sandbox/weather"];
     const oldDocuments = await db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
     const oldStageDocs: any[] = [];
+    const oldItemDocs: any[] = [];
+    const oldWeatherDocs: any[] = [];
 
     const sandboxTable = await fetchData('excel/sandbox_perm_table.json');
     const basicInfo: { [key: string]: any } = sandboxTable.basicInfo;
     const SANDBOX_V2: { [key: string]: any } = sandboxTable.detail.SANDBOX_V2;
-    
-    for (let i = 0; i < Object.keys(basicInfo).length; i++) {
+
+    const numOfThemes = Object.keys(basicInfo).length;
+
+    for (let i = 0; i < numOfThemes; i++) {
         oldStageDocs.push(await db.collection(`${collection[1]}/${i}`).find({}).toArray());
+        oldItemDocs.push(await db.collection(`${collection[2]}/${i}`).find({}).toArray());
+        oldWeatherDocs.push(await db.collection(`${collection[3]}/${i}`).find({}).toArray());
     }
 
     const sandArr: Doc[] = [];
-    for (let i = 0; i < Object.keys(SANDBOX_V2).length; i++) {
+    for (let i = 0; i < numOfThemes; i++) {
         const sandbox = Object.values(SANDBOX_V2)[i];
         const name = Object.values(basicInfo)[i].topicName;
         // const rewardConfigData: { [key: string]: any } = sandbox.rewardConfigData; // stage/enemy/minable/other drops
@@ -793,10 +824,8 @@ async function loadSandboxes() {
         const stageDict = {};
         const stageData: { [key: string]: any } = sandbox.stageData;
         for (const excel of Object.values(stageData)) {
-            const levelId = excel.levelId.toLowerCase();
-            const stageName = excel.name.toLowerCase();
-            const levels = await fetchData(`levels/${levelId}.json`);
-            stageDict[stageName] = { excel, levels };
+            const levels = await fetchData(`levels/${excel.levelId.toLowerCase()}.json`);
+            stageDict[excel.stageId.toLowerCase()] = { excel, levels };
         }
         const itemData: { [key: string]: any } = sandboxTable.itemData;
         const itemDict = {};
@@ -816,14 +845,27 @@ async function loadSandboxes() {
     }
 
     const sandStageArr: Doc[][] = [];
+    const sandItemArr: Doc[][] = [];
+    const sandWeatherArr: Doc[][] = [];
     sandArr.forEach((theme, i) => {
-        sandStageArr[i] = Object.keys(theme.value.stageDict).map(key =>
-            createDoc(oldStageDocs[i], [theme.value.stageDict[key].excel.stageId, key, theme.value.stageDict[key].excel.code], theme.value.stageDict[key])
-        );
+        sandStageArr[i] = Object.keys(theme.value.stageDict).map(key => {
+            const stage = theme.value.stageDict[key];
+            return createDoc(oldStageDocs[i], [stage.excel.stageId, stage.excel.name, stage.excel.code], stage);
+        });
+        sandItemArr[i] = Object.keys(theme.value.itemDict).map(key => {
+            const item = theme.value.itemDict[key];
+            return createDoc(oldItemDocs[i], [item.data.itemId, item.data.itemName], item);
+        });
+        sandWeatherArr[i] = Object.keys(theme.value.weatherDict).map(key => {
+            const weather = theme.value.weatherDict[key];
+            return createDoc(oldWeatherDocs[i], [weather.weatherId, weather.name], weather);
+        });
     });
 
     const dataArr = filterDocuments(oldDocuments, sandArr);
     const stageDataArr = sandStageArr.map((stageArr, i) => filterDocuments(oldStageDocs[i], stageArr));
+    const itemDataArr = sandItemArr.map((itemArr, i) => filterDocuments(oldItemDocs[i], itemArr));
+    const weatherDataArr = sandWeatherArr.map((weatherArr, i) => filterDocuments(oldWeatherDocs[i], weatherArr));
 
     for (const datum of dataArr) {
         try {
@@ -836,14 +878,25 @@ async function loadSandboxes() {
     }
 
     await updateDb(collection[0], dataArr);
-    for (let i = 0; i < stageDataArr.length; i++) {
+    for (let i = 0; i < numOfThemes; i++) {
         await updateDb(`${collection[1]}/${i}`, stageDataArr[i]);
+        await updateDb(`${collection[2]}/${i}`, itemDataArr[i]);
+        await updateDb(`${collection[3]}/${i}`, weatherDataArr[i]);
     }
     console.log(`${dataArr.length} Sandbox acts loaded in ${(Date.now() - start) / 1000}s`);
     for (let i = 0; i < stageDataArr.length; i++) {
         if (stageDataArr[i].length === 0) continue;
         console.log(`${stageDataArr[i].length} Sandbox ${i} stages loaded in ${(Date.now() - start) / 1000}s`);
     }
+    for (let i = 0; i < itemDataArr.length; i++) {
+        if (itemDataArr[i].length === 0) continue;
+        console.log(`${itemDataArr[i].length} Sandbox ${i} items loaded in ${(Date.now() - start) / 1000}s`);
+    }
+    for (let i = 0; i < weatherDataArr.length; i++) {
+        if (weatherDataArr[i].length === 0) continue;
+        console.log(`${weatherDataArr[i].length} Sandbox ${i} weathers loaded in ${(Date.now() - start) / 1000}s`);
+    }
+
 }
 async function loadSandbox0() {
     /* 
