@@ -1,15 +1,16 @@
 # HellaAPI
 
-
 > https://awedtan.ca/api
 
-> ~~https://hellabotapi.cyclic.app~~
+An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and self-hosted (RIP Cyclic). Also an under construction personal project.
 
-An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and ~~hosted on Cyclic~~ self-hosted (RIP). Also an under construction personal project.
+<sup>1</sup> See here for TypeScript data types: https://github.com/Awedtan/HellaTypes/blob/main/src/index.ts
 
 ## Usage
 
-To query the API, send an HTTP GET request to an endpoint. All endpoints support four different operations:
+### Document Selection
+
+To query the API for a document, send an HTTP GET request to an endpoint. _Most_ endpoints support four different operations:
 
 #### Multi
 
@@ -21,13 +22,13 @@ Returns all documents under the specified resource type.
 
 > api/resource/{key}
 
-Returns a single document whose `keys` array includes the specified key. Checks for exact, whole string equality.
+Returns a single document whose `keys` includes the specified key. Checks for exact, whole string equality.
 
 #### Match
 
 > api/resource/match/{key}
 
-Returns all documents whose `keys` array includes the specified key. Checks for substring matches.
+Returns all documents whose `keys` includes the specified key. Checks for substring matches.
 
 #### Search
 
@@ -37,7 +38,7 @@ Returns all documents where their fields are equal to the specified values. Uses
 
 ### Additional Parameters
 
-In addition to the four modes, all endpoints also support the following parameters:
+In addition to the four selection modes, all endpoints also support the following parameters to narrow down what data the API returns:
 
 #### Include
 
@@ -66,7 +67,7 @@ Valid responses will have the below JSON format. The `keys` array contains all v
     _id: string,
     meta: { ... },
     canon: canon_key,
-    keys: [ key1, key2, ... ]
+    keys: [ key1, key2, ... ],
     value: {
         ...
     }
@@ -79,7 +80,7 @@ This request will get all "Musha" operators (Hellagur, Utage, etc.) and returns 
 
 > https://awedtan.ca/api/operator/search?data.subProfessionId=musha&include=data.rarity
 
-These two requests are functionally identical and will return the same object. They both exclude the `termId` and `termName` fields from the `Definition` object, leaving only the `description` field.
+The following two requests are functionally identical and will return the same object. They both exclude the `termId` and `termName` fields from the `Definition` object, leaving only the `description` field.
 
 > https://awedtan.ca/api/define/slow?exclude=termId&exclude=termName
 > 
@@ -103,33 +104,41 @@ Requests that return very large amounts of data may take a long time or even tim
 
 | Resources | Description | Valid Keys | Return Type<sup>1</sup> |
 |-|-|-|-|
-| https://awedtan.ca/api/archetype               | External archetype name | Internal archetype name | `string`     |
-| https://awedtan.ca/api/base                    | RIIC base skills        | Base skill ID           | `Base`       |
-| https://awedtan.ca/api/cc                      | CC stages               | Stage ID/name           | `CCStage`    |
-| https://awedtan.ca/api/define                  | In-game terms           | Term name               | `Definition` |
-| https://awedtan.ca/api/enemy                   | Enemies                 | Enemy ID/name/code      | `Enemy`      |
-| https://awedtan.ca/api/event                   | Game events             | Event ID                | `GameEvent`  |
-| https://awedtan.ca/api/item                    | Items                   | Item ID/name            | `Item`       |
-| https://awedtan.ca/api/module                  | Modules                 | Module ID               | `Module`     |
-| https://awedtan.ca/api/operator                | Operators               | Operator ID/name        | `Operator`   |
-| https://awedtan.ca/api/paradox                 | Paradox Simulations     | Operator ID             | `Paradox`    |
-| https://awedtan.ca/api/range                   | Operator attack ranges  | Range ID                | `GridRange`  |
-| https://awedtan.ca/api/rogue                   | Integrated Strategies   | IS index (IS2=0, IS3=1) | `RogueTheme` |
-| https://awedtan.ca/api/roguestage/{index}      | IS stages               | IS stage ID/name        | `RogueStage` |
-| https://awedtan.ca/api/roguetoughstage/{index} | IS emergency stages     | IS stage ID/name        | `RogueStage` |
-| https://awedtan.ca/api/sandbox                 | Reclamation Algorithm   | RA index                | `SandboxAct` |
-| https://awedtan.ca/api/skill                   | Operator skills         | Skill ID                | `Skill`      |
-| https://awedtan.ca/api/skin                    | Operator skins          | Skin ID                 | `Skin[]`     |
-| https://awedtan.ca/api/stage                   | Normal stages           | Stage ID/code           | `Stage[]`    |
-| https://awedtan.ca/api/toughstage              | Challenge stages        | Stage ID/code           | `Stage[]`    |
-| CN (experimental) |
-| https://awedtan.ca/api/cn/archetype            | External archetype name | Internal archetype name | `string`     |
-| https://awedtan.ca/api/cn/base                 | RIIC base skills        | Base skill ID           | `Base`       |
-| https://awedtan.ca/api/cn/module               | Modules                 | Module ID               | `Module`     |
-| https://awedtan.ca/api/cn/operator             | Operators               | Operator ID/name        | `Operator`   |
-| https://awedtan.ca/api/cn/paradox              | Paradox Simulations     | Operator ID             | `Paradox`    |
-| https://awedtan.ca/api/cn/range                | Operator attack ranges  | Range ID                | `GridRange`  |
-| https://awedtan.ca/api/cn/skill                | Operator skills         | Skill ID                | `Skill`      |
-| https://awedtan.ca/api/cn/skin                 | Operator skins          | Skin ID                 | `Skin[]`     |
-
-<sup>1</sup> See here for all return types: https://github.com/Awedtan/HellaTypes/blob/main/src/index.ts
+| EN |
+| https://awedtan.ca/api/archetype                | External archetype name | Internal archetype name       | `string`         |
+| https://awedtan.ca/api/base                     | RIIC base skills        | Base skill ID                 | `Base`           |
+| https://awedtan.ca/api/cc                       | CC stages               | Stage ID/name                 | `CCStage`        |
+| https://awedtan.ca/api/ccb                      | CCB stages              | Stage ID/name                 | `CCStage`        |
+| https://awedtan.ca/api/define                   | In-game terms           | Term name                     | `Definition`     |
+| https://awedtan.ca/api/enemy                    | Enemies                 | Enemy ID/name/code            | `Enemy`          |
+| https://awedtan.ca/api/event                    | Game events             | Event ID                      | `GameEvent`      |
+| https://awedtan.ca/api/item                     | Items                   | Item ID/name                  | `Item`           |
+| https://awedtan.ca/api/module                   | Modules                 | Module ID                     | `Module`         |
+| https://awedtan.ca/api/operator                 | Operators               | Operator ID/name              | `Operator`       |
+| https://awedtan.ca/api/paradox                  | Paradox Simulations     | Operator ID                   | `Paradox`        |
+| https://awedtan.ca/api/range                    | Operator attack ranges  | Range ID                      | `GridRange`      |
+| https://awedtan.ca/api/rogue                    | Integrated Strategies   | IS index (IS2=0, IS3=1, etc.) | `RogueTheme`     |
+| https://awedtan.ca/api/rogue/relic/{index}      | IS relics               | IS relic ID/name              | `RogueRelic`     |
+| https://awedtan.ca/api/rogue/stage/{index}      | IS stages               | IS stage ID/name              | `RogueStage`     |
+| https://awedtan.ca/api/rogue/toughstage/{index} | IS emergency stages     | IS stage ID/name              | `RogueStage`     |
+| https://awedtan.ca/api/rogue/variation/{index}  | IS floor effects        | IS variation ID/name          | `RogueVariation` |
+| https://awedtan.ca/api/sandbox                  | Reclamation Algorithm   | RA index (RA2=0, etc.)        | `SandboxAct`     |
+| https://awedtan.ca/api/sandbox/item/{index}     | RA items                | RA item ID/name               | `SandboxItem`    |
+| https://awedtan.ca/api/sandbox/stage/{index}    | RA stages               | RA stage ID/name              | `SandboxStage`   |
+| https://awedtan.ca/api/sandbox/weather/{index}  | RA weather effects      | RA weather ID/name            | `SandboxWeather` |
+| https://awedtan.ca/api/skill                    | Operator skills         | Skill ID                      | `Skill`          |
+| https://awedtan.ca/api/skin                     | Operator skins          | Skin ID                       | `Skin[]`         |
+| https://awedtan.ca/api/stage                    | Normal stages           | Stage ID/code                 | `Stage[]`        |
+| https://awedtan.ca/api/toughstage               | Challenge stages        | Stage ID/code                 | `Stage[]`        |
+| CN |
+| https://awedtan.ca/api/cn/archetype             | External archetype name | Internal archetype name       | `string`         |
+| https://awedtan.ca/api/cn/base                  | RIIC base skills        | Base skill ID                 | `Base`           |
+| https://awedtan.ca/api/cn/module                | Modules                 | Module ID                     | `Module`         |
+| https://awedtan.ca/api/cn/operator              | Operators               | Operator ID/name              | `Operator`       |
+| https://awedtan.ca/api/cn/paradox               | Paradox Simulations     | Operator ID                   | `Paradox`        |
+| https://awedtan.ca/api/cn/range                 | Operator attack ranges  | Range ID                      | `GridRange`      |
+| https://awedtan.ca/api/cn/skill                 | Operator skills         | Skill ID                      | `Skill`          |
+| https://awedtan.ca/api/cn/skin                  | Operator skins          | Skin ID                       | `Skin[]`         |
+| Misc |
+| https://awedtan.ca/api/about |
+| https://awedtan.ca/api/new |
