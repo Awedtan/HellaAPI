@@ -127,7 +127,7 @@ Requests that return very large amounts of data may take a long time or even tim
 | https://awedtan.ca/api/sandbox/stage/{index}    | RA stages               | RA stage ID/name              | `SandboxStage`   |
 | https://awedtan.ca/api/sandbox/weather/{index}  | RA weather effects      | RA weather ID/name            | `SandboxWeather` |
 | https://awedtan.ca/api/skill                    | Operator skills         | Skill ID                      | `Skill`          |
-| https://awedtan.ca/api/skin                     | Operator skins          | Skin ID                       | `Skin[]`         |
+| https://awedtan.ca/api/skin                     | Operator skins          | Skin ID                       | `Skin`         |
 | https://awedtan.ca/api/stage                    | Normal stages           | Stage ID/code                 | `Stage[]`        |
 | https://awedtan.ca/api/toughstage               | Challenge stages        | Stage ID/code                 | `Stage[]`        |
 | CN |
@@ -138,7 +138,7 @@ Requests that return very large amounts of data may take a long time or even tim
 | https://awedtan.ca/api/cn/paradox               | Paradox Simulations     | Operator ID                   | `Paradox`        |
 | https://awedtan.ca/api/cn/range                 | Operator attack ranges  | Range ID                      | `GridRange`      |
 | https://awedtan.ca/api/cn/skill                 | Operator skills         | Skill ID                      | `Skill`          |
-| https://awedtan.ca/api/cn/skin                  | Operator skins          | Skin ID                       | `Skin[]`         |
+| https://awedtan.ca/api/cn/skin                  | Operator skins          | Skin ID                       | `Skin`         |
 | Misc |
 | https://awedtan.ca/api/about |
 | https://awedtan.ca/api/new |
