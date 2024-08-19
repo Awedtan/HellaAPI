@@ -75,6 +75,7 @@ async function main() {
         await loadEnemies();
         await loadEvents();
         await loadItems();
+        await loadRecruit();
         await loadRogueThemes();
         await loadSandboxes();
         await loadStages();
@@ -658,6 +659,30 @@ async function loadRanges() {
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} Ranges loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadRecruit() {
+    function removeStyleTags(text: string) {
+        const regex = /<.[a-z]{2,5}?\.[^<]+>|<\/[^<]*>|<color=[^>]+>/g;
+        return text.replace(regex, '') ?? '';
+    }
+
+    const start = Date.now();
+    const collection = "recruitpool";
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+
+    const gachaTable = await fetchData('excel/gacha_table.json');
+    const recruitDetail = gachaTable.recruitDetail;
+
+    const lines = removeStyleTags(recruitDetail)
+        .split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    const recruitables = `${lines[7]}/${lines[10]}/${lines[13]}/${lines[16]}/${lines[19]}/${lines[22]}`
+        .split('/').map(line => line.trim()).filter(line => line.length > 0)
+        .map(line => operatorDict[line.toLowerCase()].id);
+
+    const dataArr = filterDocuments(oldDocuments, [createDoc(oldDocuments, ['recruitpool'], recruitables)]);
+
+    await updateDb(collection, dataArr);
+    console.log(`${dataArr.length} Recruitment pool loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadRogueThemes() {
     /* 
