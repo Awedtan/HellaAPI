@@ -142,3 +142,4 @@ Requests that return very large amounts of data may take a long time or even tim
 | Misc |
 | https://awedtan.ca/api/about |
 | https://awedtan.ca/api/new |
+| https://awedtan.ca/api/recruitpool |
