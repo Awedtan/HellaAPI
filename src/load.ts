@@ -4,6 +4,7 @@ import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZo
 import { Db, ObjectId } from "mongodb";
 import getDb from "./db";
 import simpleGit from 'simple-git';
+import { DeployableZod } from 'hella-types';
 const objectHash = require('object-hash');
 
 const localPath = 'ArknightsGameData_YoStar/en_US/gamedata';
@@ -72,6 +73,7 @@ async function main() {
         await loadCC();
         await loadCCB();
         await loadDefinitions();
+        await loadDeployables();
         await loadEnemies();
         await loadEvents();
         await loadItems();
@@ -145,15 +147,15 @@ function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Doc[] {
         return !docsAreEqual;
     });
 }
-function readOperatorIntoArr(opId: string, file, charEquip, charBaseBuffs, oldDocuments) {
+function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, oldDocuments) {
     const arr: Doc[] = [];
 
     if (['char_512_aprot'].includes(opId)) return []; // why are there two shalems???
     if (!opId.startsWith('char_')) return [];
 
     // ID AND DATA
-    const opData = file[opId];
-    if (opData.tagList === null) return []; // Summons and deployables dont have tags, skip them
+    const opData = charFile[opId];
+    if (['notchar1', 'notchar2'].includes(opData.subProfessionId)) return []; // Summons and deployables dont have tags, skip them
 
     // RECRUIT ID
     const rarityId = gameConsts.tagValues[opData.rarity] ?? 1;
@@ -392,6 +394,41 @@ async function loadDefinitions() {
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} Definitions loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadDeployables() {
+    /* 
+    Canonical key: deployId
+    Additional keys: name
+    */
+
+    const start = Date.now();
+    const collection = "deployable";
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+    const characterTable: { [key: string]: any } = await fetchData('excel/character_table.json');
+
+    const dataArr = filterDocuments(oldDocuments,
+        Object.keys(characterTable)
+            .filter(key => ['notchar1', 'notchar2'].includes(characterTable[key].subProfessionId))
+            .map(key => {
+                const data = characterTable[key];
+                return createDoc(oldDocuments, [key, data.name, data.name.replace(/['-]/g, '')], data)
+            })
+    );
+
+    for (const datum of dataArr) {
+        try {
+            DeployableZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nDeployable type conformity error: ' + datum.keys);
+            log(e);
+            // break;
+        }
+    }
+
+    console.log(dataArr);
+
+    await updateDb(collection, dataArr);
+    console.log(`${dataArr.length} Deployables loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadEnemies() {
     /* 
