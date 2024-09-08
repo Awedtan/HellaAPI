@@ -68,12 +68,12 @@ async function main() {
         await loadRanges();
         await loadSkills();
         await loadSkins();
+        await loadDeployables();
         await loadOperators();
 
         await loadCC();
         await loadCCB();
         await loadDefinitions();
-        await loadDeployables();
         await loadEnemies();
         await loadEvents();
         await loadItems();
@@ -411,7 +411,15 @@ async function loadDeployables() {
             .filter(key => ['notchar1', 'notchar2'].includes(characterTable[key].subProfessionId))
             .map(key => {
                 const data = characterTable[key];
-                return createDoc(oldDocuments, [key, data.name, data.name.replace(/['-]/g, '')], data)
+                return createDoc(oldDocuments, [key, data.name, data.name.replace(/['-]/g, '')], {
+                    id: key,
+                    archetype: archetypeDict[data.subProfessionId]
+                        ?? cnArchetypeDict[data.subProfessionId],
+                    range: rangeDict[data.phases[data.phases.length - 1].rangeId]
+                        ?? cnRangeDict[data.phases[data.phases.length - 1]]
+                        ?? null,
+                    data: data
+                })
             })
     );
 
@@ -421,7 +429,7 @@ async function loadDeployables() {
         } catch (e: any) {
             log('\nDeployable type conformity error: ' + datum.keys);
             log(e);
-            // break;
+            break;
         }
     }
 
