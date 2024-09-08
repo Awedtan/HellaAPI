@@ -425,8 +425,6 @@ async function loadDeployables() {
         }
     }
 
-    console.log(dataArr);
-
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} Deployables loaded in ${(Date.now() - start) / 1000}s`);
 }
