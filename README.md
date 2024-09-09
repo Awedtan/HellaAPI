@@ -110,6 +110,7 @@ Requests that return very large amounts of data may take a long time or even tim
 | https://awedtan.ca/api/cc                       | CC stages               | Stage ID/name                 | `CCStage`        |
 | https://awedtan.ca/api/ccb                      | CCB stages              | Stage ID/name                 | `CCStage`        |
 | https://awedtan.ca/api/define                   | In-game terms           | Term name                     | `Definition`     |
+| https://awedtan.ca/api/deploy                   | Traps/summons/equipment | Deployable ID/name            | `Deployable`     |
 | https://awedtan.ca/api/enemy                    | Enemies                 | Enemy ID/name/code            | `Enemy`          |
 | https://awedtan.ca/api/event                    | Game events             | Event ID                      | `GameEvent`      |
 | https://awedtan.ca/api/item                     | Items                   | Item ID/name                  | `Item`           |
