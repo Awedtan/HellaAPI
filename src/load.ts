@@ -1,10 +1,11 @@
+import { exec } from 'child_process';
 import 'dotenv/config';
 import * as fs from 'fs';
-import { BaseZod, CCStageZod, DefinitionZod, EnemyZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
-import { Db, ObjectId } from "mongodb";
-import getDb from "./db";
+import { BaseZod, CCStageZod, DefinitionZod, DeployableZod, EnemyZod, GachaPoolZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
+import { Db, ObjectId } from 'mongodb';
 import simpleGit from 'simple-git';
-import { DeployableZod } from 'hella-types';
+import { promisify } from 'util';
+import getDb from "./db";
 const objectHash = require('object-hash');
 
 const localPath = 'ArknightsGameData_YoStar/en_US/gamedata';
@@ -30,7 +31,7 @@ const cnRangeDict = {};
 const cnSkillDict = {};
 const cnSkinArrDict = {};
 
-const log = (msg: any) => fs.appendFileSync('log.txt', JSON.stringify(msg) + '\n');
+const log = (msg: any) => fs.appendFileSync('log.json', JSON.stringify(msg) + '\n');
 
 const fetchLocal = true;
 const writeToDb = true;
@@ -76,6 +77,7 @@ async function main() {
         await loadDefinitions();
         await loadEnemies();
         await loadEvents();
+        await loadGacha();
         await loadItems();
         await loadRecruit();
         await loadRogueThemes();
@@ -702,6 +704,45 @@ async function loadRanges() {
 
     await updateDb(collection, dataArr);
     console.log(`${dataArr.length} Ranges loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadGacha() {
+    /* 
+    Canonical key: poolId
+    Additional keys: none
+    */
+
+    const execWait = promisify(exec);
+
+    const start = Date.now();
+    const collection = "gacha";
+    const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+
+    const gachaTable = await fetchData('excel/gacha_table.json');
+    const gachaPoolClient: any[] = gachaTable.gachaPoolClient;
+    // only get 8 most recent pools to minimize official api calls
+    // each call waits 5 secs to avoid getting rate limited
+    // ~250 gacha pools, 250 calls = 20 mins!
+    const gachaPools = gachaPoolClient.sort((a, b) => b.openTime - a.openTime).slice(0, 8);
+    const poolDetails: any[] = JSON.parse((await execWait(`python src/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
+
+    const dataArr: Doc[] = [];
+    gachaPools.forEach((pool, i) => {
+        dataArr.push(createDoc(oldDocuments, [pool.gachaPoolId], { client: pool, details: poolDetails[i] }));
+    })
+    const filteredArr = filterDocuments(oldDocuments, dataArr);
+
+    for (const datum of filteredArr) {
+        try {
+            GachaPoolZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nGacha pool type conformity error: ' + datum.keys);
+            log(e);
+            break;
+        }
+    }
+
+    await updateDb(collection, filteredArr);
+    console.log(`${filteredArr.length} Gacha pools loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadRecruit() {
     function removeStyleTags(text: string) {
