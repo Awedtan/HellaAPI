@@ -113,6 +113,7 @@ Requests that return very large amounts of data may take a long time or even tim
 | https://awedtan.ca/api/deploy                   | Traps/summons/equipment | Deployable ID/name            | `Deployable`     |
 | https://awedtan.ca/api/enemy                    | Enemies                 | Enemy ID/name/code            | `Enemy`          |
 | https://awedtan.ca/api/event                    | Game events             | Event ID                      | `GameEvent`      |
+| https://awedtan.ca/api/gacha                    | Gacha pools             | Pool ID                       | `GachaPool`      |
 | https://awedtan.ca/api/item                     | Items                   | Item ID/name                  | `Item`           |
 | https://awedtan.ca/api/module                   | Modules                 | Module ID                     | `Module`         |
 | https://awedtan.ca/api/operator                 | Operators               | Operator ID/name              | `Operator`       |
@@ -144,3 +145,11 @@ Requests that return very large amounts of data may take a long time or even tim
 | https://awedtan.ca/api/about |
 | https://awedtan.ca/api/new |
 | https://awedtan.ca/api/recruitpool |
+
+## Acknowledgements
+
+[Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar) for providing the raw game data.
+
+[Aceship/Arknight-Images](https://github.com/Aceship/Arknight-Images) for providing game images.
+
+[thesadru/ArkPRTS](https://github.com/thesadru/ArkPRTS) for providing direct access to official game servers and data.
