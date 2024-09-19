@@ -150,6 +150,4 @@ Requests that return very large amounts of data may take a long time or even tim
 
 [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar) for providing the raw game data.
 
-[Aceship/Arknight-Images](https://github.com/Aceship/Arknight-Images) for providing game images.
-
 [thesadru/ArkPRTS](https://github.com/thesadru/ArkPRTS) for providing direct access to official game servers and data.
