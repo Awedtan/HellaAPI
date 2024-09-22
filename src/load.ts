@@ -39,16 +39,14 @@ const writeToDb = true;
 let db: Db;
 let gameConsts: any;
 let commit: any;
-let date: Date;
+let date: number;
 
 async function main() {
-    const start = Date.now();
-
     db = await getDb();
     gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
     const hash = (await simpleGit(localPath).log()).latest?.hash;
     commit = (await (await fetch(`https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits/${hash}`)).json());
-    date = new Date();
+    date = Math.round(Date.now() / 1000); // seconds since unix epoch
 
     if (!db) {
         console.error('Failed to connect to database');
@@ -93,7 +91,7 @@ async function main() {
         await loadCnSkins();
         await loadCnOperators();
 
-        console.log(`Finished loading data in ${(Date.now() - start) / 1000}s`);
+        console.log(`Finished loading data in ${(Date.now() - date) / 1000}s`);
     } catch (e) {
         console.error(e);
     } finally {
@@ -107,7 +105,7 @@ type Doc = {
         hash: string,
         created: string,
         updated: string,
-        date: Date
+        date: number,
     },
     canon: string,
     keys: string[],
