@@ -8,14 +8,14 @@ import time
 async def main() -> None:
     endpoint = 'gacha/getPoolDetail'
 
-    auth = arkprts.GuestAuth(max_sessions=1)
-    auth.network.default_server = "en"
-    client = arkprts.Client(auth)
-
     if len(sys.argv) <= 1:
         return
 
     try:
+        auth = arkprts.GuestAuth(max_sessions=1)
+        auth.network.default_server = "en"
+        client = arkprts.Client(auth)
+
         sys.stdout.write("[")
         for i in range(1, len(sys.argv)):
             time.sleep(5)  # avoid rate limit

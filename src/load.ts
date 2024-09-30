@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import 'dotenv/config';
 import * as fs from 'fs';
-import { BaseZod, CCStageZod, DefinitionZod, DeployableZod, EnemyZod, GachaPoolZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
+import { BaseZod, CCSeasonZod, CCStageLegacyZod, CCStageZod, DefinitionZod, DeployableZod, EnemyZod, GachaPoolZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
 import { Db, ObjectId } from 'mongodb';
 import simpleGit from 'simple-git';
 import { promisify } from 'util';
@@ -12,6 +12,31 @@ const localPath = 'ArknightsGameData_YoStar/en_US/gamedata';
 const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_YoStar/main/en_US/gamedata';
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 const cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
+
+const collectionsToLoad = {
+    archetype: true,
+    base: true,
+    module: true,
+    paradox: true,
+    range: true,
+    skill: true,
+    skin: true,
+    deployable: true,
+    operator: true,
+    cc: false,
+    ccb: false,
+    ccblegacy: false,
+    define: true,
+    enemy: true,
+    event: true,
+    gacha: true,
+    item: true,
+    recruit: true,
+    rogue: true,
+    sandbox: true,
+    stage: true,
+    cn: true
+}
 
 const archetypeDict = {};       // Archetype id -> archetype name
 const baseDict = {};            // Base skill id -> Base object
@@ -32,9 +57,11 @@ const cnSkillDict = {};
 const cnSkinArrDict = {};
 
 const log = (msg: any) => fs.appendFileSync('log.json', JSON.stringify(msg) + '\n');
+const execWait = promisify(exec);
 
 const fetchLocal = true;
 const writeToDb = true;
+const updateAbout = false;
 
 let db: Db;
 let gameConsts: any;
@@ -42,6 +69,18 @@ let commit: any;
 let date: number;
 
 async function main() {
+    const args = process.argv.slice(2);
+    if (args.length !== 0) {
+        for (const key in collectionsToLoad) {
+            collectionsToLoad[key] = false;
+        }
+        for (const arg of args) {
+            if (collectionsToLoad.hasOwnProperty(arg)) {
+                collectionsToLoad[arg] = true;
+            }
+        }
+    }
+
     db = await getDb();
     gameConsts = (await (await fetch('https://raw.githubusercontent.com/Awedtan/HellaBot/main/src/constants.json')).json()).gameConsts;
     const hash = (await simpleGit(localPath).log()).latest?.hash;
@@ -56,42 +95,66 @@ async function main() {
     fs.writeFileSync('log.txt', '');
 
     try {
-        if (writeToDb) {
+        if (writeToDb && updateAbout) {
             await db.collection('about').updateOne({}, { $set: { date: date, hash: commit.sha, message: commit.commit.message } }, { upsert: true });
         }
 
-        await loadArchetypes();
-        await loadBases();
-        await loadModules();
-        await loadParadoxes();
-        await loadRanges();
-        await loadSkills();
-        await loadSkins();
-        await loadDeployables();
-        await loadOperators();
+        if (collectionsToLoad.archetype)
+            await loadArchetypes();
+        if (collectionsToLoad.base)
+            await loadBases();
+        if (collectionsToLoad.module)
+            await loadModules();
+        if (collectionsToLoad.paradox)
+            await loadParadoxes();
+        if (collectionsToLoad.range)
+            await loadRanges();
+        if (collectionsToLoad.skill)
+            await loadSkills();
+        if (collectionsToLoad.skin)
+            await loadSkins();
+        if (collectionsToLoad.deployable)
+            await loadDeployables();
+        if (collectionsToLoad.operator)
+            await loadOperators();
 
-        await loadCC();
-        await loadCCB();
-        await loadDefinitions();
-        await loadEnemies();
-        await loadEvents();
-        await loadGacha();
-        await loadItems();
-        await loadRecruit();
-        await loadRogueThemes();
-        await loadSandboxes();
-        await loadStages();
+        if (collectionsToLoad.cc)
+            await loadCC();
+        if (collectionsToLoad.ccb)
+            await loadCCB();
+        if (collectionsToLoad.ccblegacy)
+            await loadCCBLegacy();
+        if (collectionsToLoad.define)
+            await loadDefinitions();
+        if (collectionsToLoad.enemy)
+            await loadEnemies();
+        if (collectionsToLoad.event)
+            await loadEvents();
+        if (collectionsToLoad.item)
+            await loadGacha();
+        if (collectionsToLoad.item)
+            await loadItems();
+        if (collectionsToLoad.recruit)
+            await loadRecruit();
+        if (collectionsToLoad.rogue)
+            await loadRogueThemes();
+        if (collectionsToLoad.sandbox)
+            await loadSandboxes();
+        if (collectionsToLoad.stage)
+            await loadStages();
 
-        await loadCnArchetypes();
-        await loadCnBases();
-        await loadCnModules();
-        await loadCnParadoxes();
-        await loadCnRanges();
-        await loadCnSkills();
-        await loadCnSkins();
-        await loadCnOperators();
+        if (collectionsToLoad.cn) {
+            await loadCnArchetypes();
+            await loadCnBases();
+            await loadCnModules();
+            await loadCnParadoxes();
+            await loadCnRanges();
+            await loadCnSkills();
+            await loadCnSkins();
+            await loadCnOperators();
+        }
 
-        console.log(`Finished loading data in ${(Date.now() - date) / 1000}s`);
+        console.log(`Finished loading data in ${(Date.now() / 1000 - date)}s`);
     } catch (e) {
         console.error(e);
     } finally {
@@ -334,14 +397,61 @@ async function loadCC() {
 }
 async function loadCCB() {
     /* 
+    Canonical key: seasonId
+    Additional keys: name
+    */
+
+    const start = Date.now();
+    const collection = ["ccb", "ccb/stage"];
+    const oldDocuments = await db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
+    const oldStageDocs = await db.collection(collection[1]).find({}, { projection: { 'value': 0 } }).toArray();
+
+    const crisisDetails: any = JSON.parse((await execWait('python src/crisisv2.py')).stdout);
+
+    if (!crisisDetails || !crisisDetails.info)
+        return console.log('No crisisv2 data was found!')
+
+    const mapStageDataMap: { [key: string]: any } = crisisDetails.info.mapStageDataMap;
+    const stageDict: { [key: string]: any } = {};
+    for (const stage of Object.values(mapStageDataMap)) {
+        const levels = await fetchData(`levels/${stage.levelId.toLowerCase()}.json`);
+        stageDict[stage.stageId] = { excel: stage, levels: levels };
+    }
+
+    const dataArr = filterDocuments(oldDocuments,
+        [createDoc(oldDocuments, [crisisDetails.info.seasonId], { seasonId: crisisDetails.info.seasonId, stageDict: stageDict })]
+    );
+    const stageArr = filterDocuments(oldStageDocs,
+        await Promise.all(Object.values(stageDict).map(async stage =>
+            createDoc(oldStageDocs, [stage.excel.stageId, stage.excel.name, stage.excel.code], stage)
+        ))
+    );
+
+    for (const datum of dataArr) {
+        try {
+            CCSeasonZod.parse(datum.value);
+        } catch (e: any) {
+            log('\nCCB type conformity error: ' + datum.keys);
+            log(e);
+            break;
+        }
+    }
+
+    await updateDb(collection[0], dataArr);
+    await updateDb(collection[1], stageArr);
+    console.log(`${dataArr.length} CCB seasons loaded in ${(Date.now() - start) / 1000}s`);
+    console.log(`${stageArr.length} CCB stages loaded in ${(Date.now() - start) / 1000}s`);
+}
+async function loadCCBLegacy() {
+    /* 
     Canonical key: levelId
     Additional keys: name
     */
 
     const start = Date.now();
-    const collection = "ccb";
+    const collection = "ccb/legacy";
     const oldDocuments = await db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
-    const ccbStages = gameConsts.ccbStages;
+    const ccbStages = gameConsts.ccbStages; // legacy, manually collected data
 
     const dataArr = filterDocuments(oldDocuments,
         await Promise.all(ccbStages.map(async stage => {
@@ -352,16 +462,16 @@ async function loadCCB() {
 
     for (const datum of dataArr) {
         try {
-            CCStageZod.parse(datum.value);
+            CCStageLegacyZod.parse(datum.value);
         } catch (e: any) {
-            log('\nCCB type conformity error: ' + datum.keys);
+            log('\nCCB legacy type conformity error: ' + datum.keys);
             log(e);
             break;
         }
     }
 
     await updateDb(collection, dataArr);
-    console.log(`${dataArr.length} CCB stages loaded in ${(Date.now() - start) / 1000}s`);
+    console.log(`${dataArr.length} legacy CCB stages loaded in ${(Date.now() - start) / 1000}s`);
 }
 async function loadDefinitions() {
     /* 
@@ -708,8 +818,6 @@ async function loadGacha() {
     Canonical key: poolId
     Additional keys: none
     */
-
-    const execWait = promisify(exec);
 
     const start = Date.now();
     const collection = "gacha";
