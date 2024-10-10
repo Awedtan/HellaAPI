@@ -130,7 +130,7 @@ async function main() {
             await loadEnemies();
         if (collectionsToLoad.event)
             await loadEvents();
-        if (collectionsToLoad.item)
+        if (collectionsToLoad.gacha)
             await loadGacha();
         if (collectionsToLoad.item)
             await loadItems();
