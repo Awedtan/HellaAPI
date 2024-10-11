@@ -276,13 +276,27 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
 
     const opName = opData.name.toLowerCase();
     const keyArr: string[] = [opId, opName, opName.replace(/['-]/g, '')];
-    
+
+    // not intended to be a comprehensive list, just what i call them
     const hardcodeOpId = {
         'char_4055_bgsnow': ['pozemka'],
         'char_4064_mlynar': ['mlynar'],
         'char_002_amiya': ['caster amiya', 'amiya caster'],
         'char_1001_amiya2': ['guard amiya', 'amiya guard'],
-        'char_1037_amiya3': ['medic amiya', 'amiya medic']
+        'char_1037_amiya3': ['medic amiya', 'amiya medic'],
+        'char_1012_skadi2': ['skalter'],
+        'char_1013_chen2': ['chalter'],
+        'char_1014_nearl2': ['ntr'],
+        'char_1023_ghost2': ['spalter'],
+        'char_1026_gval2': ['gavialter'],
+        'char_1028_texas2': ['texalter'],
+        'char_1020_reed2': ['reedalter'],
+        'char_1029_yato2': ['yalter'],
+        'char_1016_agoat2': ['eyjalter'],
+        'char_1033_swire2': ['swalter'],
+        'char_1034_jesca2': ['jessicalter'],
+        'char_1035_wisdel': ['wisadel', 'walter'], // waltuh white :^)
+        'char_1019_siege2': ['salter']
     }
     keyArr.push(...hardcodeOpId[opId]);
 
