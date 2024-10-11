@@ -13,6 +13,7 @@ const dataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData_
 const backupPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/5ba509ad5a07f17b7e220a25f1ff66794dd79af1/en_US/gamedata'; // last commit before removing en_US folder
 const cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
 
+const requiredOpCollections = ['archetype', 'base', 'module', 'paradox', 'range', 'skill', 'skin', 'deployable'];
 const collectionsToLoad = {
     archetype: true,
     base: true,
@@ -77,6 +78,11 @@ async function main() {
         for (const arg of args) {
             if (collectionsToLoad.hasOwnProperty(arg)) {
                 collectionsToLoad[arg] = true;
+            }
+            if (arg === 'operator') {
+                for (const key of requiredOpCollections) {
+                    collectionsToLoad[key] = true;
+                }
             }
         }
     }
@@ -269,9 +275,16 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     const opParadox = paradoxDict[opId] ?? cnParadoxDict[opId] ?? null;
 
     const opName = opData.name.toLowerCase();
-    const keyArr = [opId, opName, opName.replace(/['-]/g, '')];
-    if (opId === 'char_4055_bgsnow') keyArr.push('pozemka');
-    if (opId === 'char_4064_mlynar') keyArr.push('mlynar');
+    const keyArr: string[] = [opId, opName, opName.replace(/['-]/g, '')];
+    
+    const hardcodeOpId = {
+        'char_4055_bgsnow': ['pozemka'],
+        'char_4064_mlynar': ['mlynar'],
+        'char_002_amiya': ['caster amiya', 'amiya caster'],
+        'char_1001_amiya2': ['guard amiya', 'amiya guard'],
+        'char_1037_amiya3': ['medic amiya', 'amiya medic']
+    }
+    keyArr.push(...hardcodeOpId[opId]);
 
     arr.push(createDoc(oldDocuments, keyArr,
         {
