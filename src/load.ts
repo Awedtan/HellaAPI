@@ -406,7 +406,7 @@ async function loadCCB() {
     const oldDocuments = await db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
     const oldStageDocs = await db.collection(collection[1]).find({}, { projection: { 'value': 0 } }).toArray();
 
-    const crisisDetails: any = JSON.parse((await execWait('python src/crisisv2.py')).stdout);
+    const crisisDetails: any = JSON.parse((await execWait('python3 src/crisisv2.py')).stdout);
 
     if (!crisisDetails || !crisisDetails.info)
         return console.log('No crisisv2 data was found!')
