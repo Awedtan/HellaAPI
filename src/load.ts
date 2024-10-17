@@ -66,7 +66,7 @@ class G {
     static cnskinArrDict = {};
 
     static fetchLocal = true;
-    static writeToDb = false;
+    static writeToDb = true;
     static updateAbout = true;
 
     static db: Db;
@@ -264,7 +264,10 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     }
 
     // SKINS
-    const opSkins = G.skinArrDict[opId] ?? G.cnskinArrDict[opId] ?? [];
+    const tmplIdAmiya = ['char_1001_amiya2', 'char_1037_amiya3'];
+    const opSkins = tmplIdAmiya.includes(opId)
+        ? G.skinArrDict['char_002_amiya'].filter(skin => skin.tmplId === opId)
+        : G.skinArrDict[opId] ?? G.cnskinArrDict[opId] ?? [];
 
     // BASE SKILLS
     const opBases: any[] = [];
