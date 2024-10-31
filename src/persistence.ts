@@ -41,8 +41,18 @@ export async function getSearch(collectionName: string, req) {
     const filter = {};
 
     for (const key in req.query) {
-        if (['include', 'exclude', 'limit'].includes(key)) continue;
-        filter[`value.${key}`] = { $eq: req.query[key] };
+        if (key.charAt(key.length - 1) === '>') {
+            filter[`value.${key.slice(0, -1)}`] = { $gte: parseInt(req.query[key]) };
+            continue;
+        }
+        else if (key.charAt(key.length - 1) === '<') {
+            filter[`value.${key.slice(0, -1)}`] = { $lte: parseInt(req.query[key]) };
+            continue;
+        }
+        else {
+            if (['include', 'exclude', 'limit'].includes(key)) continue;
+            filter[`value.${key}`] = { $eq: req.query[key] };
+        }
     }
 
     const result = await collection.find(filter, createOptions(req)).toArray();

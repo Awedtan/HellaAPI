@@ -125,9 +125,19 @@ function getSearch(collectionName, req) {
                     collection = (_a.sent()).collection(collectionName);
                     filter = {};
                     for (key in req.query) {
-                        if (['include', 'exclude', 'limit'].includes(key))
+                        if (key.charAt(key.length - 1) === '>') {
+                            filter["value.".concat(key.slice(0, -1))] = { $gte: parseInt(req.query[key]) };
                             continue;
-                        filter["value.".concat(key)] = { $eq: req.query[key] };
+                        }
+                        else if (key.charAt(key.length - 1) === '<') {
+                            filter["value.".concat(key.slice(0, -1))] = { $lte: parseInt(req.query[key]) };
+                            continue;
+                        }
+                        else {
+                            if (['include', 'exclude', 'limit'].includes(key))
+                                continue;
+                            filter["value.".concat(key)] = { $eq: req.query[key] };
+                        }
                     }
                     return [4 /*yield*/, collection.find(filter, createOptions(req)).toArray()];
                 case 2:
