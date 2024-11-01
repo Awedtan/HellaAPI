@@ -840,7 +840,7 @@ async function loadGacha() {
         });
 }
 async function loadRecruit() {
-    await loadGeneric('recruit',
+    await loadGeneric('recruitpool',
         async () => {
             function removeStyleTags(text: string) {
                 const regex = /<.[a-z]{2,5}?\.[^<]+>|<\/[^<]*>|<color=[^>]+>/g;
