@@ -6,6 +6,7 @@ import { Db, ObjectId } from 'mongodb';
 import simpleGit from 'simple-git';
 import { promisify } from 'util';
 import getDb from "./db";
+import { normalize } from 'path';
 const objectHash = require('object-hash');
 
 class G {
@@ -186,6 +187,8 @@ type Doc = {
     value: any
 }
 
+const getCollectionMetaInfo = async (collection:string) => await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+
 function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
     const createdHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
     return {
@@ -208,7 +211,7 @@ function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
 }
 async function fetchData(path: string) {
     if (G.fetchLocal) {
-        return JSON.parse(fs.readFileSync(`${G.localPath}/${path}`, 'utf8'));
+        return JSON.parse(fs.readFileSync(normalize(`${G.localPath}/${path}`.replace(/\\/g, '/')), 'utf8'));
     }
     else {
         return await (await fetch(`${G.dataPath}/${path}`)).json();
@@ -266,7 +269,7 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     // SKINS
     const tmplIdAmiya = ['char_1001_amiya2', 'char_1037_amiya3'];
     const opSkins = tmplIdAmiya.includes(opId)
-        ? G.skinArrDict['char_002_amiya'].filter(skin => skin.tmplId === opId)
+        ? G.skinArrDict['char_002_amiya']?.filter(skin => skin.tmplId === opId) ?? G.cnskinArrDict['char_002_amiya']?.filter(skin => skin.tmplId === opId)
         : G.skinArrDict[opId] ?? G.cnskinArrDict[opId] ?? [];
 
     // BASE SKILLS
@@ -357,7 +360,7 @@ async function loadArchetypes() {
     await loadGeneric('archetype',
         async () => {
             const collection = "archetype";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const moduleTable = await fetchData('excel/uniequip_table.json');
             const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
@@ -375,7 +378,7 @@ async function loadBases() {
     await loadGeneric('base',
         async () => {
             const collection = "base";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const buildingData = await fetchData('excel/building_data.json');
             const buffs: { [key: string]: any } = buildingData.buffs;
@@ -403,7 +406,7 @@ async function loadCC() {
     await loadGeneric('cc',
         async () => {
             const collection = "cc";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
             const ccStages = G.gameConsts.ccStages;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -435,8 +438,8 @@ async function loadCCB() {
 
     const start = Date.now();
     const collection = ["ccb", "ccb/stage"];
-    const oldDocuments = await G.db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
-    const oldStageDocs = await G.db.collection(collection[1]).find({}, { projection: { 'value': 0 } }).toArray();
+    const oldDocuments = await getCollectionMetaInfo(collection[0]);
+    const oldStageDocs = await getCollectionMetaInfo(collection[1]);
 
     const crisisDetails: any = JSON.parse((await G.execWait('python3 src/crisisv2.py')).stdout);
 
@@ -478,7 +481,7 @@ async function loadCCBLegacy() {
     await loadGeneric('ccblegacy',
         async () => {
             const collection = "ccblegacy";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
             const ccbStages = G.gameConsts.ccbStages; // legacy, manually collected data
 
             const dataArr = filterDocuments(oldDocuments,
@@ -506,7 +509,7 @@ async function loadDefinitions() {
     await loadGeneric('define',
         async () => {
             const collection = "define";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const gamedataConst = await fetchData('excel/gamedata_const.json');
             const termDescriptionDict: { [key: string]: any } = gamedataConst.termDescriptionDict;
@@ -534,7 +537,7 @@ async function loadDeployables() {
     await loadGeneric('deployable',
         async () => {
             const collection = "deployable";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
             const characterTable: { [key: string]: any } = await fetchData('excel/character_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
@@ -571,7 +574,7 @@ async function loadEnemies() {
     await loadGeneric('enemy',
         async () => {
             const collection = "enemy";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             // Find matches between enemy_handbook_table and enemy_database
             // Stores data in enemyDict[enemy] = {excel, levels}
@@ -614,7 +617,7 @@ async function loadEvents() {
     await loadGeneric('event',
         async () => {
             const collection = "event";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const activityTable = await fetchData('excel/activity_table.json');
             const basicInfo: { [key: string]: any } = activityTable.basicInfo;
@@ -642,7 +645,7 @@ async function loadItems() {
     await loadGeneric('item',
         async () => {
             const collection = "item";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const itemTable = await fetchData('excel/item_table.json');
             const buildingData = await fetchData('excel/building_data.json');
@@ -683,7 +686,7 @@ async function loadModules() {
     await loadGeneric('module',
         async () => {
             const collection = "module";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const moduleTable = await fetchData('excel/uniequip_table.json');
             const battleDict = await fetchData('excel/battle_equip_table.json');
@@ -713,7 +716,7 @@ async function loadOperators() {
     await loadGeneric('operator',
         async () => {
             const collection = "operator";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const operatorTable = await fetchData('excel/character_table.json');
             const patchChars = (await fetchData('excel/char_patch_table.json')).patchChars;
@@ -752,7 +755,7 @@ async function loadParadoxes() {
     await loadGeneric('paradox',
         async () => {
             const collection = "paradox";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const handbookTable = await fetchData('excel/handbook_info_table.json');
             const stages: { [key: string]: any } = handbookTable.handbookStageData;
@@ -782,7 +785,7 @@ async function loadRanges() {
     await loadGeneric('range',
         async () => {
             const collection = "range";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const rangeTable: { [key: string]: any } = await fetchData('excel/range_table.json');
 
@@ -810,7 +813,7 @@ async function loadGacha() {
     await loadGeneric('gacha',
         async () => {
             const collection = "gacha";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const gachaTable = await fetchData('excel/gacha_table.json');
             const gachaPoolClient: any[] = gachaTable.gachaPoolClient;
@@ -818,7 +821,7 @@ async function loadGacha() {
             // each call waits 5 secs to avoid getting rate limited
             // ~250 gacha pools, 250 calls = 20 mins!
             const gachaPools = gachaPoolClient.sort((a, b) => b.openTime - a.openTime).slice(0, 8);
-            const poolDetails: any[] = JSON.parse((await G.execWait(`python src/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
+            const poolDetails: any[] = JSON.parse((await G.execWait(`python3 src/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
 
             const dataArr: Doc[] = [];
             gachaPools.forEach((pool, i) => {
@@ -848,7 +851,7 @@ async function loadRecruit() {
             }
 
             const collection = "recruit";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const gachaTable = await fetchData('excel/gacha_table.json');
             const recruitDetail = gachaTable.recruitDetail;
@@ -875,7 +878,7 @@ async function loadRogueThemes() {
 
     const start = Date.now();
     const collection = ["rogue", "rogue/stage", "rogue/toughstage", "rogue/relic", "rogue/variation"];
-    const oldDocuments = await G.db.collection(collection[0]).find({}).toArray();
+    const oldDocuments = await getCollectionMetaInfo(collection[0]);
     const oldStageDocs: any[] = [];
     const oldToughDocs: any[] = [];
     const oldRelicDocs: any[] = [];
@@ -888,10 +891,10 @@ async function loadRogueThemes() {
     const numOfThemes = Object.keys(rogueDetails).length;
 
     for (let i = 0; i < Object.keys(rogueDetails).length; i++) {
-        oldStageDocs.push(await G.db.collection(`${collection[1]}/${i}`).find({}).toArray());
-        oldToughDocs.push(await G.db.collection(`${collection[2]}/${i}`).find({}).toArray());
-        oldRelicDocs.push(await G.db.collection(`${collection[3]}/${i}`).find({}).toArray());
-        oldVariationDocs.push(await G.db.collection(`${collection[4]}/${i}`).find({}).toArray());
+        oldStageDocs.push(await getCollectionMetaInfo(`${collection[1]}/${i}`));
+        oldToughDocs.push(await getCollectionMetaInfo(`${collection[2]}/${i}`));
+        oldRelicDocs.push(await getCollectionMetaInfo(`${collection[3]}/${i}`));
+        oldVariationDocs.push(await getCollectionMetaInfo(`${collection[4]}/${i}`));
     }
 
     const rogueArr: Doc[] = [];
@@ -1002,7 +1005,7 @@ async function loadSandboxes() {
 
     const start = Date.now();
     const collection = ["sandbox", "sandbox/stage", "sandbox/item", "sandbox/weather"];
-    const oldDocuments = await G.db.collection(collection[0]).find({}, { projection: { 'value': 0 } }).toArray();
+    const oldDocuments = await getCollectionMetaInfo(collection[0]);
     const oldStageDocs: any[] = [];
     const oldItemDocs: any[] = [];
     const oldWeatherDocs: any[] = [];
@@ -1014,9 +1017,9 @@ async function loadSandboxes() {
     const numOfThemes = Object.keys(basicInfo).length;
 
     for (let i = 0; i < numOfThemes; i++) {
-        oldStageDocs.push(await G.db.collection(`${collection[1]}/${i}`).find({}).toArray());
-        oldItemDocs.push(await G.db.collection(`${collection[2]}/${i}`).find({}).toArray());
-        oldWeatherDocs.push(await G.db.collection(`${collection[3]}/${i}`).find({}).toArray());
+        oldStageDocs.push(await getCollectionMetaInfo(`${collection[1]}/${i}`));
+        oldItemDocs.push(await getCollectionMetaInfo(`${collection[2]}/${i}`));
+        oldWeatherDocs.push(await getCollectionMetaInfo(`${collection[3]}/${i}`));
     }
 
     const sandArr: Doc[] = [];
@@ -1110,7 +1113,7 @@ async function loadSandbox0() {
 
     const start = Date.now();
     const collection = "sandbox";
-    const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+    const oldDocuments = await getCollectionMetaInfo(collection);
 
     const sandboxTable = await fetchData('excel/sandbox_table.json');
     const sandboxActTables: { [key: string]: any } = sandboxTable.sandboxActTables;
@@ -1150,7 +1153,7 @@ async function loadSkills() {
     await loadGeneric('skill',
         async () => {
             const collection = "skill";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
@@ -1178,7 +1181,7 @@ async function loadSkins() {
     await loadGeneric('skin',
         async () => {
             const collection = "skin";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
             const skinTable = await fetchData('excel/skin_table.json');
             const charSkins: { [key: string]: any } = skinTable.charSkins;
@@ -1221,8 +1224,8 @@ async function loadStages() {
 
     const start = Date.now();
     const collection = ["stage", "toughstage"];
-    const oldStageDocs = await G.db.collection(collection[0]).find({}).toArray();
-    const oldToughDocs = await G.db.collection(collection[1]).find({}).toArray();
+    const oldStageDocs = await getCollectionMetaInfo(collection[0]);
+    const oldToughDocs = await getCollectionMetaInfo(collection[1]);
 
     const stageTable = await fetchData('excel/stage_table.json');
     const stages: { [key: string]: any } = stageTable.stages;
@@ -1327,9 +1330,9 @@ async function loadCnArchetypes() {
     await loadGeneric('cn/archetype',
         async () => {
             const collection = "cn/archetype";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const moduleTable = await fetchData('excel/uniequip_table.json');
+            const moduleTable = await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json();
             const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -1348,9 +1351,9 @@ async function loadCnBases() {
     await loadGeneric('cn/base',
         async () => {
             const collection = "cn/base";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const buildingData = await fetchData('excel/building_data.json');
+            const buildingData = await (await fetch(`${G.cnDataPath}/excel/building_data.json`)).json();
             const buffs: { [key: string]: any } = buildingData.buffs;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -1379,11 +1382,11 @@ async function loadCnModules() {
     await loadGeneric('cn/module',
         async () => {
             const collection = "cn/module";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const moduleTable = await fetchData('excel/uniequip_table.json');
+            const moduleTable = await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json();
             const equipDict: { [key: string]: any } = moduleTable.equipDict;
-            const battleDict = await fetchData('excel/battle_equip_table.json');
+            const battleDict = await (await fetch(`${G.cnDataPath}/excel/battle_equip_table.json`)).json();
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(equipDict)
@@ -1401,12 +1404,12 @@ async function loadCnOperators() {
     await loadGeneric('cn/operator',
         async () => {
             const collection = "cn/operator";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const operatorTable = await fetchData('excel/character_table.json');
-            const patchChars = (await fetchData('excel/char_patch_table.json')).patchChars;
-            const charEquip = (await fetchData('excel/uniequip_table.json')).charEquip;
-            const charBaseBuffs = (await fetchData('excel/building_data.json')).chars;
+            const operatorTable = await (await fetch(`${G.cnDataPath}/excel/character_table.json`)).json();
+            const patchChars = (await (await fetch(`${G.cnDataPath}/excel/char_patch_table.json`)).json()).patchChars;
+            const charEquip = (await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json()).charEquip;
+            const charBaseBuffs = (await (await fetch(`${G.cnDataPath}/excel/building_data.json`)).json()).chars;
 
             const opArr: Doc[] = [];
             for (const opId of Object.keys(operatorTable)) {
@@ -1427,16 +1430,16 @@ async function loadCnParadoxes() {
     await loadGeneric('cn/paradox',
         async () => {
             const collection = "cn/paradox";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const handbookTable = await fetchData('excel/handbook_info_table.json');
+            const handbookTable = await (await fetch(`${G.cnDataPath}/excel/handbook_info_table.json`)).json();
             const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
             const dataArr = filterDocuments(oldDocuments,
                 await Promise.all(Object.values(stages)
                     .filter(excel => !G.paradoxDict.hasOwnProperty(excel.charId))
                     .map(async excel => {
-                        const levels = await fetchData(`levels/${excel.levelId.toLowerCase()}.json`);
+                        const levels = await (await (fetch(`${G.cnDataPath}/levels/${excel.levelId.toLowerCase()}.json`))).json();
                         G.cnparadoxDict[excel.charId] = { excel: excel, levels: levels };
                         return createDoc(oldDocuments, [excel.charId, excel.stageId], { excel: excel, levels: levels });
                     })
@@ -1450,9 +1453,9 @@ async function loadCnRanges() {
     await loadGeneric('cn/range',
         async () => {
             const collection = "cn/range";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const rangeTable: { [key: string]: any } = await fetchData('excel/range_table.json');
+            const rangeTable: { [key: string]: any } = await (await fetch(`${G.cnDataPath}/excel/range_table.json`)).json();
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(rangeTable)
@@ -1470,9 +1473,9 @@ async function loadCnSkills() {
     await loadGeneric('cn/skill',
         async () => {
             const collection = "cn/skill";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
+            const skillTable: { [key: string]: any } = await (await fetch(`${G.cnDataPath}/excel/skill_table.json`)).json();
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(skillTable)
@@ -1490,9 +1493,9 @@ async function loadCnSkins() {
     await loadGeneric('cn/skin',
         async () => {
             const collection = "cn/skin";
-            const oldDocuments = await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+            const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const skinTable = await fetchData('excel/skin_table.json');
+            const skinTable = await (await fetch(`${G.cnDataPath}/excel/skin_table.json`)).json();
             const charSkins: { [key: string]: any } = skinTable.charSkins;
 
             const skinArr: Doc[] = [];
