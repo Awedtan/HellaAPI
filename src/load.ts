@@ -1,12 +1,12 @@
 import { exec } from 'child_process';
 import 'dotenv/config';
 import * as fs from 'fs';
-import { BaseZod, CCSeasonZod, CCStageLegacyZod, CCStageZod, DefinitionZod, DeployableZod, EnemyZod, GachaPoolZod, GameEventZod, GridRangeZod, ItemZod, ModuleZod, OperatorZod, ParadoxZod, RogueThemeZod, SandboxActZod, SkillZod, SkinZod, StageZod } from "hella-types";
+import * as T from "hella-types";
 import { Db, ObjectId } from 'mongodb';
+import { normalize } from 'path';
 import simpleGit from 'simple-git';
 import { promisify } from 'util';
 import getDb from "./db";
-import { normalize } from 'path';
 const objectHash = require('object-hash');
 
 class G {
@@ -187,7 +187,7 @@ type Doc = {
     value: any
 }
 
-const getCollectionMetaInfo = async (collection:string) => await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
+const getCollectionMetaInfo = async (collection: string) => await G.db.collection(collection).find({}, { projection: { 'value': 0 } }).toArray();
 
 function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
     const createdHash = oldDocuments.find(doc => doc.canon === keys[0])?.meta?.created;
@@ -267,10 +267,7 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     }
 
     // SKINS
-    const tmplIdAmiya = ['char_1001_amiya2', 'char_1037_amiya3'];
-    const opSkins = tmplIdAmiya.includes(opId)
-        ? G.skinArrDict['char_002_amiya']?.filter(skin => skin.tmplId === opId) ?? G.cnskinArrDict['char_002_amiya']?.filter(skin => skin.tmplId === opId)
-        : G.skinArrDict[opId] ?? G.cnskinArrDict[opId] ?? [];
+    const opSkins = G.skinArrDict[opId] ?? G.cnskinArrDict[opId] ?? [];
 
     // BASE SKILLS
     const opBases: any[] = [];
@@ -392,7 +389,7 @@ async function loadBases() {
 
             for (const datum of dataArr) {
                 try {
-                    BaseZod.parse(datum.value);
+                    T.BaseZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nBase type conformity error: ' + datum.keys);
                     G.log(e);
@@ -419,7 +416,7 @@ async function loadCC() {
 
             for (const datum of dataArr) {
                 try {
-                    CCStageZod.parse(datum.value);
+                    T.CCStageZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nCC type conformity error: ' + datum.keys);
                     G.log(e);
@@ -464,7 +461,7 @@ async function loadCCB() {
 
     for (const datum of dataArr) {
         try {
-            CCSeasonZod.parse(datum.value);
+            T.CCSeasonZod.parse(datum.value);
         } catch (e: any) {
             G.log('\nCCB type conformity error: ' + datum.keys);
             G.log(e);
@@ -494,7 +491,7 @@ async function loadCCBLegacy() {
 
             for (const datum of dataArr) {
                 try {
-                    CCStageLegacyZod.parse(datum.value);
+                    T.CCStageLegacyZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nCCB legacy type conformity error: ' + datum.keys);
                     G.log(e);
@@ -522,7 +519,7 @@ async function loadDefinitions() {
 
             for (const datum of dataArr) {
                 try {
-                    DefinitionZod.parse(datum.value);
+                    T.DefinitionZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nDefinition type conformity error: ' + datum.keys);
                     G.log(e);
@@ -559,7 +556,7 @@ async function loadDeployables() {
 
             for (const datum of dataArr) {
                 try {
-                    DeployableZod.parse(datum.value);
+                    T.DeployableZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nDeployable type conformity error: ' + datum.keys);
                     G.log(e);
@@ -602,7 +599,7 @@ async function loadEnemies() {
 
             for (const datum of dataArr) {
                 try {
-                    EnemyZod.parse(datum.value);
+                    T.EnemyZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nEnemy type conformity error: ' + datum.keys);
                     G.log(e);
@@ -630,7 +627,7 @@ async function loadEvents() {
 
             for (const datum of dataArr) {
                 try {
-                    GameEventZod.parse(datum.value);
+                    T.GameEventZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nGame event type conformity error: ' + datum.keys);
                     G.log(e);
@@ -671,7 +668,7 @@ async function loadItems() {
 
             for (const datum of dataArr) {
                 try {
-                    ItemZod.parse(datum.value);
+                    T.ItemZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nItem type conformity error: ' + datum.keys);
                     G.log(e);
@@ -701,7 +698,7 @@ async function loadModules() {
 
             for (const datum of dataArr) {
                 try {
-                    ModuleZod.parse(datum.value);
+                    T.ModuleZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nModule type conformity error: ' + datum.keys);
                     G.log(e);
@@ -740,7 +737,7 @@ async function loadOperators() {
 
             for (const datum of dataArr) {
                 try {
-                    OperatorZod.parse(datum.value);
+                    T.OperatorZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nOperator type conformity error: ' + datum.keys);
                     G.log(e);
@@ -770,7 +767,7 @@ async function loadParadoxes() {
 
             for (const datum of dataArr) {
                 try {
-                    ParadoxZod.parse(datum.value);
+                    T.ParadoxZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nParadox type conformity error: ' + datum.keys);
                     G.log(e);
@@ -798,7 +795,7 @@ async function loadRanges() {
 
             for (const datum of dataArr) {
                 try {
-                    GridRangeZod.parse(datum.value);
+                    T.GridRangeZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nGrid range type conformity error: ' + datum.keys);
                     G.log(e);
@@ -831,7 +828,7 @@ async function loadGacha() {
 
             for (const datum of filteredArr) {
                 try {
-                    GachaPoolZod.parse(datum.value);
+                    T.GachaPoolZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nGacha pool type conformity error: ' + datum.keys);
                     G.log(e);
@@ -964,7 +961,7 @@ async function loadRogueThemes() {
 
     for (const datum of dataArr) {
         try {
-            RogueThemeZod.parse(datum.value);
+            T.RogueThemeZod.parse(datum.value);
         } catch (e: any) {
             G.log('\nRogue theme type conformity error: ' + datum.keys);
             G.log(e);
@@ -1076,7 +1073,7 @@ async function loadSandboxes() {
 
     for (const datum of dataArr) {
         try {
-            SandboxActZod.parse(datum.value);
+            T.SandboxActZod.parse(datum.value);
         } catch (e: any) {
             G.log('\nSandbox act type conformity error: ' + datum.keys);
             G.log(e);
@@ -1138,7 +1135,7 @@ async function loadSandbox0() {
 
     for (const datum of dataArr) {
         try {
-            SandboxActZod.parse(datum.value);
+            T.SandboxActZod.parse(datum.value);
         } catch (e: any) {
             G.log('\nSandbox act type conformity error: ' + datum.keys);
             G.log(e);
@@ -1166,7 +1163,7 @@ async function loadSkills() {
 
             for (const datum of dataArr) {
                 try {
-                    SkillZod.parse(datum.value);
+                    T.SkillZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nSkill type conformity error: ' + datum.keys);
                     G.log(e);
@@ -1188,10 +1185,11 @@ async function loadSkins() {
 
             const skinArr: Doc[] = [];
             for (const skin of Object.values(charSkins)) {
-                if (!G.skinArrDict.hasOwnProperty(skin.charId)) {
-                    G.skinArrDict[skin.charId] = []; // Create an empty array if it's the first skin for that op
+                const charId = skin.tmplId ?? skin.charId
+                if (!G.skinArrDict.hasOwnProperty(charId)) {
+                    G.skinArrDict[charId] = [];
                 }
-                G.skinArrDict[skin.charId].push(skin);
+                G.skinArrDict[charId].push(skin);
                 G.skinDict[skin.skinId] = skin;
 
                 skinArr.push(createDoc(oldDocuments, [skin.skinId], skin));
@@ -1201,7 +1199,7 @@ async function loadSkins() {
 
             for (const datum of dataArr) {
                 try {
-                    SkinZod.parse(datum.value);
+                    T.SkinZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nSkin type conformity error: ' + datum.keys);
                     G.log(e);
@@ -1300,7 +1298,7 @@ async function loadStages() {
     for (const datumArr of dataArr) {
         for (const datum of datumArr.value) {
             try {
-                StageZod.parse(datum);
+                T.StageZod.parse(datum);
             } catch (e: any) {
                 G.log('\nStage type conformity error: ' + datumArr.keys);
                 G.log(e);
@@ -1311,7 +1309,7 @@ async function loadStages() {
     for (const datumArr of toughDataArr) {
         for (const datum of datumArr.value) {
             try {
-                StageZod.parse(datum);
+                T.StageZod.parse(datum);
             } catch (e: any) {
                 G.log('\nTough stage type conformity error: ' + datum.keys);
                 G.log(e);
@@ -1367,7 +1365,7 @@ async function loadCnBases() {
 
             for (const datum of dataArr) {
                 try {
-                    BaseZod.parse(datum.value);
+                    T.BaseZod.parse(datum.value);
                 } catch (e: any) {
                     G.log('\nBase type conformity error: ' + datum.keys);
                     G.log(e);
