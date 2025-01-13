@@ -19,4 +19,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Update database
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          CHANNEL_UID: ${{ secrets.CHANNEL_UID }}
+          YOSTAR_TOKEN: ${{ secrets.YOSTAR_TOKEN }}
         run: npm run load
