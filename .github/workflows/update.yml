@@ -17,6 +17,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Install dependencies
-        run: npm Install
+        run: npm install
       - name: Update database
         run: npm run load
