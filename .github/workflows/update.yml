@@ -1,0 +1,19 @@
+name: Update database
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0,12 * * *'
+
+jobs:
+  update:
+    name: Update database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install dependencies
+        run: npm Install
+      - name: Update database
+        run: npm run load
