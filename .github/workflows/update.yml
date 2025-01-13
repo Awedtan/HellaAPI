@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
           git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
       - name: ArkPRTS auth cache fix
-        run: mkdir -p ~/.local/share/arkprts && touch ~/.local/share/arkprts/arkprts_auth_cache.json
+        run: mkdir -p ~/.local/share/arkprts && echo "{}" | tee ~/.local/share/arkprts/arkprts_auth_cache.json
       - name: Update database
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
