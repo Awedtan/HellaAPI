@@ -847,7 +847,7 @@ async function loadRecruit() {
                 return text.replace(regex, '') ?? '';
             }
 
-            const collection = "recruit";
+            const collection = "recruitpool";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
             const gachaTable = await fetchData('excel/gacha_table.json');
