@@ -1,0 +1,28 @@
+name: Update database
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '*/15 * * * *'
+
+jobs:
+  update:
+    name: Update database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install dependencies
+        run: |
+          npm install
+          pip install -r requirements.txt
+          git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
+      - name: ArkPRTS auth cache fix
+        run: mkdir -p ~/.local/share/arkprts && echo "{}" | tee ~/.local/share/arkprts/arkprts_auth_cache.json
+      - name: Update database
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          CHANNEL_UID: ${{ secrets.CHANNEL_UID }}
+          YOSTAR_TOKEN: ${{ secrets.YOSTAR_TOKEN }}
+        run: npm run load
