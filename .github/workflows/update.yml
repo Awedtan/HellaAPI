@@ -17,9 +17,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Install dependencies
-        run: npm install
-      - name: Clone ArknightsGameData_YoStar
-        run: git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
+        run: |
+          npm install
+          pip install -r requirements.txt
+          git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
       - name: Update database
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
