@@ -1,6 +1,9 @@
 name: Update database
 
 on:
+  push:
+    branches:
+      - actions
   workflow_dispatch:
   schedule:
     - cron:  '0 0,12 * * *'
