@@ -342,9 +342,15 @@ async function loadGeneric(collection: string, func: () => Promise<Doc[]>) {
 
     const dataArr = await func();
 
-    G.logTime(`Found ${dataArr.length} documents to be updated`);
-    await updateDb(collection, dataArr);
+    if (dataArr.length === 0) {
+        G.logTime('Up to date')
+    }
+    else {
+        G.logTime(`Found ${dataArr.length} documents to be updated`);
+        await updateDb(collection, dataArr);
+    }
     G.logTime(`Finished ${collection}`);
+
 }
 
 async function loadArchetypes() {
