@@ -104,74 +104,68 @@ async function main() {
     G.commit = (await (await fetch(`https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits/${hash}`)).json());
     G.date = Math.round(Date.now() / 1000); // seconds since unix epoch
 
-    try {
-        G.logDate('Starting DB load');
-        G.logDate(`Collections to load: ${Object.entries(G.collectionsToLoad).filter(([_, v]) => v).map(([k, _]) => k).join(', ')}`); // copilot fuckery
+    G.logDate('Starting DB load');
+    G.logDate(`Collections to load: ${Object.entries(G.collectionsToLoad).filter(([_, v]) => v).map(([k, _]) => k).join(', ')}`); // copilot fuckery
 
-        if (G.writeToDb && G.updateAbout)
-            await G.db.collection('about').updateOne({}, { $set: { date: G.date, hash: G.commit.sha, message: G.commit.commit.message } }, { upsert: true });
+    if (G.writeToDb && G.updateAbout)
+        await G.db.collection('about').updateOne({}, { $set: { date: G.date, hash: G.commit.sha, message: G.commit.commit.message } }, { upsert: true });
 
-        if (G.collectionsToLoad.archetype)
-            await loadArchetypes();
-        if (G.collectionsToLoad.base)
-            await loadBases();
-        if (G.collectionsToLoad.module)
-            await loadModules();
-        if (G.collectionsToLoad.paradox)
-            await loadParadoxes();
-        if (G.collectionsToLoad.range)
-            await loadRanges();
-        if (G.collectionsToLoad.skill)
-            await loadSkills();
-        if (G.collectionsToLoad.skin)
-            await loadSkins();
-        if (G.collectionsToLoad.deployable)
-            await loadDeployables();
-        if (G.collectionsToLoad.operator)
-            await loadOperators();
+    if (G.collectionsToLoad.archetype)
+        await loadArchetypes();
+    if (G.collectionsToLoad.base)
+        await loadBases();
+    if (G.collectionsToLoad.module)
+        await loadModules();
+    if (G.collectionsToLoad.paradox)
+        await loadParadoxes();
+    if (G.collectionsToLoad.range)
+        await loadRanges();
+    if (G.collectionsToLoad.skill)
+        await loadSkills();
+    if (G.collectionsToLoad.skin)
+        await loadSkins();
+    if (G.collectionsToLoad.deployable)
+        await loadDeployables();
+    if (G.collectionsToLoad.operator)
+        await loadOperators();
 
-        if (G.collectionsToLoad.cc)
-            await loadCC();
-        if (G.collectionsToLoad.ccb)
-            await loadCCB();
-        if (G.collectionsToLoad.ccblegacy)
-            await loadCCBLegacy();
-        if (G.collectionsToLoad.define)
-            await loadDefinitions();
-        if (G.collectionsToLoad.enemy)
-            await loadEnemies();
-        if (G.collectionsToLoad.event)
-            await loadEvents();
-        if (G.collectionsToLoad.gacha)
-            await loadGacha();
-        if (G.collectionsToLoad.item)
-            await loadItems();
-        if (G.collectionsToLoad.recruit)
-            await loadRecruit();
-        if (G.collectionsToLoad.rogue)
-            await loadRogueThemes();
-        if (G.collectionsToLoad.sandbox)
-            await loadSandboxes();
-        if (G.collectionsToLoad.stage)
-            await loadStages();
+    if (G.collectionsToLoad.cc)
+        await loadCC();
+    if (G.collectionsToLoad.ccb)
+        await loadCCB();
+    if (G.collectionsToLoad.ccblegacy)
+        await loadCCBLegacy();
+    if (G.collectionsToLoad.define)
+        await loadDefinitions();
+    if (G.collectionsToLoad.enemy)
+        await loadEnemies();
+    if (G.collectionsToLoad.event)
+        await loadEvents();
+    if (G.collectionsToLoad.gacha)
+        await loadGacha();
+    if (G.collectionsToLoad.item)
+        await loadItems();
+    if (G.collectionsToLoad.recruit)
+        await loadRecruit();
+    if (G.collectionsToLoad.rogue)
+        await loadRogueThemes();
+    if (G.collectionsToLoad.sandbox)
+        await loadSandboxes();
+    if (G.collectionsToLoad.stage)
+        await loadStages();
 
-        if (G.collectionsToLoad.cn) {
-            await loadCnArchetypes();
-            await loadCnBases();
-            await loadCnModules();
-            await loadCnParadoxes();
-            await loadCnRanges();
-            await loadCnSkills();
-            await loadCnSkins();
-            await loadCnOperators();
-        }
-
-        G.logDate('Finished DB load');
-    } catch (e) {
-        console.error(e);
-    } finally {
-        process.exit();
+    if (G.collectionsToLoad.cn) {
+        await loadCnArchetypes();
+        await loadCnBases();
+        await loadCnModules();
+        await loadCnParadoxes();
+        await loadCnRanges();
+        await loadCnSkills();
+        await loadCnSkins();
+        await loadCnOperators();
     }
+
+    G.logDate('Finished DB load');
 }
 
 type Doc = {
