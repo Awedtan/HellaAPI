@@ -349,9 +349,8 @@ async function loadGeneric(collection: string, func: () => Promise<Doc[]>) {
     else {
         G.logTime(`Found ${dataArr.length} documents to be updated`);
         await updateDb(collection, dataArr);
+        G.logTime(`Finished ${collection}`);
     }
-    G.logTime(`Finished ${collection}`);
-
 }
 
 async function loadArchetypes() {
