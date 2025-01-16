@@ -6,7 +6,7 @@ import { Db, ObjectId } from 'mongodb';
 import { normalize } from 'path';
 import simpleGit from 'simple-git';
 import { promisify } from 'util';
-import getDb from "./db";
+import getDb from "../src/db";
 const objectHash = require('object-hash');
 
 class G {
@@ -438,7 +438,7 @@ async function loadCCB() {
     const oldDocuments = await getCollectionMetaInfo(collection[0]);
     const oldStageDocs = await getCollectionMetaInfo(collection[1]);
 
-    const crisisDetails: any = JSON.parse((await G.execWait('python3 src/crisisv2.py')).stdout);
+    const crisisDetails: any = JSON.parse((await G.execWait('python3 scripts/crisisv2.py')).stdout);
 
     if (!crisisDetails || !crisisDetails.info)
         return console.log('No crisisv2 data was found!')
@@ -818,7 +818,7 @@ async function loadGacha() {
             // each call waits 5 secs to avoid getting rate limited
             // ~250 gacha pools, 250 calls = 20 mins!
             const gachaPools = gachaPoolClient.sort((a, b) => b.openTime - a.openTime).slice(0, 8);
-            const poolDetails: any[] = JSON.parse((await G.execWait(`python3 src/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
+            const poolDetails: any[] = JSON.parse((await G.execWait(`python3 scripts/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
 
             const dataArr: Doc[] = [];
             gachaPools.forEach((pool, i) => {

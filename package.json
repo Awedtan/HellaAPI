@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsc --build",
     "start": "node dist/index.js",
-    "load": "ts-node src/load.ts"
+    "load": "ts-node scripts/load.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
