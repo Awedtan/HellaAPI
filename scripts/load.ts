@@ -166,6 +166,7 @@ async function main() {
     }
 
     G.logDate('Finished DB load');
+    process.exit(0);
 }
 
 type Doc = {
