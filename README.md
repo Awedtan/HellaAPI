@@ -4,7 +4,7 @@
 
 An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and self-hosted (RIP Cyclic). Also an under construction personal project.
 
-<sup>1</sup> See here for TypeScript data types: https://github.com/Awedtan/HellaTypes/blob/main/src/index.ts
+[See here for TypeScript data types.](https://github.com/Awedtan/HellaAPI/tree/main/types)
 
 ## Usage
 
