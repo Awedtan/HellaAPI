@@ -2,13 +2,13 @@
   "scripts": {
     "build": "tsc --build",
     "start": "node dist/index.js",
-    "load": "ts-node src/load.ts"
+    "load": "ts-node scripts/load.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
-    "hella-types": "^0.1.1",
+    "hella-types": "file:./types",
     "mongodb": "^6.10.0",
     "object-hash": "^3.0.0",
     "simple-git": "^3.27.0",

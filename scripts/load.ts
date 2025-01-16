@@ -6,7 +6,7 @@ import { Db, ObjectId } from 'mongodb';
 import { normalize } from 'path';
 import simpleGit from 'simple-git';
 import { promisify } from 'util';
-import getDb from "./db";
+import getDb from "../src/db";
 const objectHash = require('object-hash');
 
 class G {
@@ -104,74 +104,69 @@ async function main() {
     G.commit = (await (await fetch(`https://api.github.com/repos/Kengxxiao/ArknightsGameData_YoStar/commits/${hash}`)).json());
     G.date = Math.round(Date.now() / 1000); // seconds since unix epoch
 
-    try {
-        G.logDate('Starting DB load');
-        G.logDate(`Collections to load: ${Object.entries(G.collectionsToLoad).filter(([_, v]) => v).map(([k, _]) => k).join(', ')}`); // copilot fuckery
+    G.logDate('Starting DB load');
+    G.logDate(`Collections to load: ${Object.entries(G.collectionsToLoad).filter(([_, v]) => v).map(([k, _]) => k).join(', ')}`); // copilot fuckery
 
-        if (G.writeToDb && G.updateAbout)
-            await G.db.collection('about').updateOne({}, { $set: { date: G.date, hash: G.commit.sha, message: G.commit.commit.message } }, { upsert: true });
+    if (G.writeToDb && G.updateAbout)
+        await G.db.collection('about').updateOne({}, { $set: { date: G.date, hash: G.commit.sha, message: G.commit.commit.message } }, { upsert: true });
 
-        if (G.collectionsToLoad.archetype)
-            await loadArchetypes();
-        if (G.collectionsToLoad.base)
-            await loadBases();
-        if (G.collectionsToLoad.module)
-            await loadModules();
-        if (G.collectionsToLoad.paradox)
-            await loadParadoxes();
-        if (G.collectionsToLoad.range)
-            await loadRanges();
-        if (G.collectionsToLoad.skill)
-            await loadSkills();
-        if (G.collectionsToLoad.skin)
-            await loadSkins();
-        if (G.collectionsToLoad.deployable)
-            await loadDeployables();
-        if (G.collectionsToLoad.operator)
-            await loadOperators();
+    if (G.collectionsToLoad.archetype)
+        await loadArchetypes();
+    if (G.collectionsToLoad.base)
+        await loadBases();
+    if (G.collectionsToLoad.module)
+        await loadModules();
+    if (G.collectionsToLoad.paradox)
+        await loadParadoxes();
+    if (G.collectionsToLoad.range)
+        await loadRanges();
+    if (G.collectionsToLoad.skill)
+        await loadSkills();
+    if (G.collectionsToLoad.skin)
+        await loadSkins();
+    if (G.collectionsToLoad.deployable)
+        await loadDeployables();
+    if (G.collectionsToLoad.operator)
+        await loadOperators();
 
-        if (G.collectionsToLoad.cc)
-            await loadCC();
-        if (G.collectionsToLoad.ccb)
-            await loadCCB();
-        if (G.collectionsToLoad.ccblegacy)
-            await loadCCBLegacy();
-        if (G.collectionsToLoad.define)
-            await loadDefinitions();
-        if (G.collectionsToLoad.enemy)
-            await loadEnemies();
-        if (G.collectionsToLoad.event)
-            await loadEvents();
-        if (G.collectionsToLoad.gacha)
-            await loadGacha();
-        if (G.collectionsToLoad.item)
-            await loadItems();
-        if (G.collectionsToLoad.recruit)
-            await loadRecruit();
-        if (G.collectionsToLoad.rogue)
-            await loadRogueThemes();
-        if (G.collectionsToLoad.sandbox)
-            await loadSandboxes();
-        if (G.collectionsToLoad.stage)
-            await loadStages();
+    if (G.collectionsToLoad.cc)
+        await loadCC();
+    if (G.collectionsToLoad.ccb)
+        await loadCCB();
+    if (G.collectionsToLoad.ccblegacy)
+        await loadCCBLegacy();
+    if (G.collectionsToLoad.define)
+        await loadDefinitions();
+    if (G.collectionsToLoad.enemy)
+        await loadEnemies();
+    if (G.collectionsToLoad.event)
+        await loadEvents();
+    if (G.collectionsToLoad.gacha)
+        await loadGacha();
+    if (G.collectionsToLoad.item)
+        await loadItems();
+    if (G.collectionsToLoad.recruit)
+        await loadRecruit();
+    if (G.collectionsToLoad.rogue)
+        await loadRogueThemes();
+    if (G.collectionsToLoad.sandbox)
+        await loadSandboxes();
+    if (G.collectionsToLoad.stage)
+        await loadStages();
 
-        if (G.collectionsToLoad.cn) {
-            await loadCnArchetypes();
-            await loadCnBases();
-            await loadCnModules();
-            await loadCnParadoxes();
-            await loadCnRanges();
-            await loadCnSkills();
-            await loadCnSkins();
-            await loadCnOperators();
-        }
-
-        G.logDate('Finished DB load');
-    } catch (e) {
-        console.error(e);
-    } finally {
-        process.exit();
+    if (G.collectionsToLoad.cn) {
+        await loadCnArchetypes();
+        await loadCnBases();
+        await loadCnModules();
+        await loadCnParadoxes();
+        await loadCnRanges();
+        await loadCnSkills();
+        await loadCnSkins();
+        await loadCnOperators();
     }
+
+    G.logDate('Finished DB load');
+    process.exit(0);
 }
 
 type Doc = {
@@ -348,9 +343,14 @@ async function loadGeneric(collection: string, func: () => Promise<Doc[]>) {
 
     const dataArr = await func();
 
-    G.logTime(`Found ${dataArr.length} documents to be updated`);
-    await updateDb(collection, dataArr);
-    G.logTime(`Finished ${collection}`);
+    if (dataArr.length === 0) {
+        G.logTime('Up to date')
+    }
+    else {
+        G.logTime(`Found ${dataArr.length} documents to be updated`);
+        await updateDb(collection, dataArr);
+        G.logTime(`Finished ${collection}`);
+    }
 }
 
 async function loadArchetypes() {
@@ -438,7 +438,7 @@ async function loadCCB() {
     const oldDocuments = await getCollectionMetaInfo(collection[0]);
     const oldStageDocs = await getCollectionMetaInfo(collection[1]);
 
-    const crisisDetails: any = JSON.parse((await G.execWait('python3 src/crisisv2.py')).stdout);
+    const crisisDetails: any = JSON.parse((await G.execWait('python3 scripts/crisisv2.py')).stdout);
 
     if (!crisisDetails || !crisisDetails.info)
         return console.log('No crisisv2 data was found!')
@@ -818,7 +818,7 @@ async function loadGacha() {
             // each call waits 5 secs to avoid getting rate limited
             // ~250 gacha pools, 250 calls = 20 mins!
             const gachaPools = gachaPoolClient.sort((a, b) => b.openTime - a.openTime).slice(0, 8);
-            const poolDetails: any[] = JSON.parse((await G.execWait(`python3 src/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
+            const poolDetails: any[] = JSON.parse((await G.execWait(`python3 scripts/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
 
             const dataArr: Doc[] = [];
             gachaPools.forEach((pool, i) => {
