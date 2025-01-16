@@ -4,8 +4,6 @@
 
 An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and self-hosted (RIP Cyclic). Also an under construction personal project.
 
-[See here for TypeScript data types.](https://github.com/Awedtan/HellaAPI/tree/main/types)
-
 ## Usage
 
 ### Document Selection
@@ -60,7 +58,7 @@ Specify a maximum number of documents to return.
 
 ### Data format
 
-Valid responses will have the below JSON format. The `keys` array contains all valid keys for that resource, and the `value` field is where the actual information resides<sup>1</sup>.
+Valid responses will have the below JSON format. The `keys` array contains all valid keys for that resource, and the `value` field is where the actual information resides.
 
 ```
 {
@@ -102,7 +100,7 @@ Requests that return very large amounts of data may take a long time or even tim
 
 ## Endpoints
 
-| Resources | Description | Valid Keys | Return Type<sup>1</sup> |
+| Resources | Description | Valid Keys | [Return Type](https://github.com/Awedtan/HellaAPI/tree/main/types) |
 |-|-|-|-|
 | EN |
 | https://awedtan.ca/api/archetype                | External archetype name | Internal archetype name       | `string`         |
