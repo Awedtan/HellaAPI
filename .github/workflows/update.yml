@@ -32,10 +32,8 @@ jobs:
           npm run load | tee load.out
           if [[ $(grep -c "to be updated" load.out) -gt 0 ]]; then
             echo "condition=true" >> $GITHUB_OUTPUT
-            echo hey
           else
             echo "condition=false" >> $GITHUB_OUTPUT
-            echo asdf
           fi
   test:
     name: Verify types
