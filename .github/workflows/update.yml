@@ -3,12 +3,14 @@ name: Update database
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '*/30 * * * *'
+    - cron: "*/30 * * * *"
 
 jobs:
   update:
     name: Update database
     runs-on: ubuntu-latest
+    outputs:
+      condition: ${{ steps.update.outputs.condition }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,8 +23,24 @@ jobs:
       - name: ArkPRTS auth cache fix
         run: mkdir -p ~/.local/share/arkprts && echo "{}" | tee ~/.local/share/arkprts/arkprts_auth_cache.json
       - name: Update database
+        id: update
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           CHANNEL_UID: ${{ secrets.CHANNEL_UID }}
           YOSTAR_TOKEN: ${{ secrets.YOSTAR_TOKEN }}
-        run: npm run load
+        run: |
+          npm run load | tee load.out
+          if [[ $(grep -c "to be updated" load.out) -gt 0 ]]; then
+            echo "condition=true" >> $GITHUB_OUTPUT
+            echo hey
+          else
+            echo "condition=false" >> $GITHUB_OUTPUT
+            echo asdf
+          fi
+  test:
+    name: Verify types
+    needs: update
+    if: needs.update.outputs.condition == 'true'
+    uses: ./.github/workflows/test.yml
+    secrets:
+      MONGO_URI: ${{ secrets.MONGO_URI }}

@@ -18,7 +18,7 @@ async def main() -> None:
 
         sys.stdout.write("[")
         for i in range(1, len(sys.argv)):
-            time.sleep(5)  # avoid rate limit
+            time.sleep(3)  # avoid rate limit
 
             payload = f'{{"poolId": "{sys.argv[i]}"}}'
             data = await client.auth.auth_request(endpoint, json=payload and json.loads(payload), handle_errors=False)

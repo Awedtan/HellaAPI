@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 const BlackboardZod = z.strictObject({
     key: z.string(),
-    value: z.number().nullable(),
+    value: z.number().nullable().optional(),
     valueStr: z.string().nullable().optional(),
 });
 const DefinedStringZod = z.strictObject({
@@ -48,6 +48,7 @@ const AttributesKeyFrameZod = z.strictObject({
         frozenImmune: z.boolean(),
         levitateImmune: z.boolean(),
         disarmedCombatImmune: z.boolean(),
+        fearedImmune: z.boolean(),
     }),
 });
 const EnemyAttributesZod = z.strictObject({
@@ -77,6 +78,7 @@ const EnemyAttributesZod = z.strictObject({
     frozenImmune: DefinedBooleanZod.optional(),
     levitateImmune: DefinedBooleanZod.optional(),
     disarmedCombatImmune: DefinedBooleanZod.optional(),
+    fearedImmune: DefinedBooleanZod.optional(),
 });
 const EnemySkillsZod = z.strictObject({
     prefabKey: z.string(),
@@ -385,16 +387,22 @@ const StageDataZod = z.strictObject({
                 frozenImmune: z.boolean(),
                 levitateImmune: z.boolean(),
                 disarmedCombatImmune: z.boolean(),
+                fearedImmune: z.boolean().optional(),
             }),
+            applyWay: z.string(),
+            motion: z.string(),
+            enemyTags: z.array(z.string()).nullable(),
+            notCountInTotal: z.boolean(),
             alias: z.null(),
             lifePointReduce: z.number(),
             rangeRadius: z.number(),
             numOfExtraDrops: z.number(),
             viewRadius: z.number(),
-            levelType: z.number(),
+            levelType: z.string(),
             talentBlackboard: z.array(BlackboardZod).nullable(),
             skills: z.array(EnemySkillsZod).nullable(),
             spData: EnemySpDataZod.nullable(),
+            m_runtimeData: z.null(),
         })
     ),
     enemyDbRefs: z.array(
@@ -491,6 +499,7 @@ const SandboxItemZod = z.strictObject({
         buildingUnlockDesc: z.string(),
         materialItems: z.record(z.string(), z.number()),
         upgradeItems: z.record(z.string(), z.number()).nullable(),
+        outputRatio: z.number(),
         withdrawRatio: z.number(),
         repairCost: z.number(),
         isHidden: z.boolean(),
@@ -506,6 +515,8 @@ const SandboxItemZod = z.strictObject({
         id: z.string(),
         type: z.string(),
         attribute: z.string(),
+        variantType: z.string(),
+        bonusDuration: z.number(),
         buffDesc: z.string().nullable(),
         sortId: z.number(),
     }).nullable(),
@@ -516,12 +527,12 @@ const SandboxItemZod = z.strictObject({
             foodId: z.string(),
             mats: z.array(z.string()),
         })).nullable(),
+        variants: z.array(z.strictObject({
+            type: z.string(),
+            name: z.string(),
+            usage: z.string(),
+        })),
         duration: z.number(),
-        itemName: z.string(),
-        generalName: z.string().nullable(),
-        enhancedName: z.string().nullable(),
-        itemUsage: z.string(),
-        enhancedUsage: z.string().nullable(),
         sortId: z.number(),
     }).nullable(),
     data: z.strictObject({
@@ -652,30 +663,41 @@ export const GachaPoolZod = z.strictObject({
         gachaPoolDetail: z.string().nullable(),
         guarantee5Avail: z.number(),
         guarantee5Count: z.number(),
-        LMTGSID: z.null(),
-        CDPrimColor: z.null(),
-        CDSecColor: z.null(),
+        LMTGSID: z.string().nullable(),
+        CDPrimColor: z.string().nullable(),
+        CDSecColor: z.string().nullable(),
+        freeBackColor: z.string().nullable().optional(),
         gachaRuleType: z.string(),
         dynMeta: z.union([
             z.strictObject({
-                chooseRuleConst: z.string().optional(),
-                homeDescConst: z.string().optional(),
-                rarityPickCharDict: z.record(z.string(), z.array(z.string())).optional(),
+                chooseRuleConst: z.string(),
+                homeDescConst: z.string(),
+                rarityPickCharDict: z.record(z.string(), z.array(z.string())),
                 scrollIndex: z.number(),
-                star5ChooseRuleConst: z.string().optional(),
-                star6ChooseRuleConst: z.string().optional(),
+                star5ChooseRuleConst: z.string(),
+                star6ChooseRuleConst: z.string(),
             }),
             z.strictObject({
-                main6RarityCharId: z.string().optional(),
-                rare5CharList: z.array(z.string()).optional(),
+                main6RarityCharId: z.string(),
+                rare5CharList: z.array(z.string()),
                 scrollIndex: z.number(),
-                sub6RarityCharId: z.string().optional(),
+                sub6RarityCharId: z.string(),
             }),
+            z.strictObject({
+                attainRare6CharList: z.array(z.string()),
+                attainRare6Num: z.number(),
+                scrollIndex: z.number().optional(),
+            })
         ]).nullable(),
         linkageRuleId: z.string().nullable(),
         linkageParam: z.strictObject({
             guaranteeTarget6Count: z.number(),
         }).nullable(),
+        limitParam: z.strictObject({
+            freeCount: z.number(),
+            hasFreeChar: z.boolean(),
+            limitedCharId: z.string(),
+        }).nullable().optional(),
     }),
     details: z.strictObject({
         detailInfo: z.strictObject({
@@ -703,8 +725,12 @@ export const GachaPoolZod = z.strictObject({
                     })
                 ),
             }),
-            limitedChar: z.null(),
-            weightUpCharInfoList: z.null(),
+            limitedChar: z.union([z.string(), z.array(z.string())]).nullable(),
+            weightUpCharInfoList: z.array(z.strictObject({
+                rarityRank: z.number(),
+                charId: z.string(),
+                weight: z.number(),
+            })).nullable(),
             gachaObjList: z.array(
                 z.strictObject({
                     gachaObject: z.string(),
@@ -717,7 +743,13 @@ export const GachaPoolZod = z.strictObject({
         gachaObjGroupType: z.number(),
         playerDataDelta: z.strictObject({
             modified: z.strictObject({}),
-            deleted: z.strictObject({}),
+            deleted: z.strictObject({
+                activity: z.strictObject({
+                    TYPE_ACT9D0: z.array(z.string()),
+                    CHECKIN_ONLY: z.array(z.string()),
+                    LOGIN_ONLY: z.array(z.string()),
+                }).optional(),
+            }),
         }),
     }),
 });
@@ -736,6 +768,9 @@ export const GameEventZod = z.strictObject({
     ungroupedMedalIds: z.array(z.string()).nullable(),
     isReplicate: z.boolean(),
     needFixedSync: z.boolean(),
+    trapDomainId: z.string().nullable(),
+    recType: z.string().nullable(),
+    isPageEntry: z.boolean(),
 });
 export const GridRangeZod = z.strictObject({
     id: z.string(),
@@ -799,12 +834,21 @@ export const ModuleZod = z.strictObject({
         tmplId: z.string().nullable(),
         showLevel: z.number(),
         unlockLevel: z.number(),
-        unlockFavorPoint: z.number(),
+        unlockFavorPoint: z.number().optional(),
         missionList: z.array(z.string()),
+        unlockFavors: z.strictObject({
+            1: z.number(),
+            2: z.number(),
+            3: z.number(),
+        }).nullable(),
         itemCost: z.record(z.string(), z.array(LevelUpCostZod)).nullable(),
         type: z.string(),
         uniEquipGetTime: z.number(),
         charEquipOrder: z.number(),
+        hasUnlockMission: z.boolean(),
+        isSpecialEquip: z.boolean(),
+        specialEquipDesc: z.string().nullable(),
+        specialEquipColor: z.string().nullable(),
     }),
     data: z.strictObject({
         phases: z.array(
@@ -829,6 +873,7 @@ export const ModuleZod = z.strictObject({
                                     rangeId: z.string().nullable(),
                                     blackboard: z.array(BlackboardZod),
                                     tokenKey: z.string().optional(),
+                                    isHideTalent: z.boolean(),
                                 }),
                             ).nullable(),
                         }),
@@ -1043,6 +1088,7 @@ export const StageZod = z.strictObject({
         canUseTech: z.boolean(),
         canUseTrapTool: z.boolean(),
         canUseBattlePerformance: z.boolean(),
+        canContinuousBattle: z.boolean(),
         startButtonOverrideId: z.string().nullable(),
         isStagePatch: z.boolean(),
         mainStageId: z.string().nullable(),
@@ -1141,6 +1187,7 @@ export const DeployableZod = z.strictObject({
                         rangeId: z.string().nullable(),
                         blackboard: z.array(BlackboardZod),
                         tokenKey: z.string().nullable(),
+                        isHideTalent: z.boolean(),
                     })
                 ).nullable(),
             })
