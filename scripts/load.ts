@@ -815,8 +815,6 @@ async function loadGacha() {
             const gachaTable = await fetchData('excel/gacha_table.json');
             const gachaPoolClient: any[] = gachaTable.gachaPoolClient;
             // only get 8 most recent pools to minimize official api calls
-            // each call waits 5 secs to avoid getting rate limited
-            // ~250 gacha pools, 250 calls = 20 mins!
             const gachaPools = gachaPoolClient.sort((a, b) => b.openTime - a.openTime).slice(0, 8);
             const poolDetails: any[] = JSON.parse((await G.execWait(`python3 scripts/gacha.py ${gachaPools.map(pool => pool.gachaPoolId).join(' ')}`)).stdout);
 

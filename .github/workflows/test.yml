@@ -1,0 +1,33 @@
+name: Verify types
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      MONGO_URI:
+        required: true
+  pull_request:
+    branches:
+      - main
+    paths:
+      - types/**/*.ts
+  push:
+    branches:
+      - main
+    paths:
+      - types/**/*.ts
+
+jobs:
+  test:
+    name: Verify types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install dependencies
+        run: npm install
+      - name: Verify types
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: npm run test
