@@ -8,7 +8,7 @@ An Arknights EN game data API made for my own use. Data is loaded from [Kengxxia
 
 ### Document Selection
 
-To query the API for a document, send an HTTP GET request to an endpoint. _Most_ endpoints support four different operations:
+To query the API for a document, send an HTTP GET request to an endpoint. Endpoints support four different selection modes:
 
 #### Multi
 
@@ -30,9 +30,9 @@ Returns all documents whose `keys` includes the specified key. Checks for substr
 
 #### Search
 
-> api/resource/search?{field1}={value1}&{field2}={value2}
+> api/resource/search?{field1}={value1}&{field2}>={value2}&{field3}<={value3}
 
-Returns all documents where their fields are equal to the specified values. Uses dot notation for searching nested fields.
+Returns all documents where their fields are equal to, greater than, or less than the specified values. Uses dot notation for searching nested fields.
 
 ### Additional Parameters
 

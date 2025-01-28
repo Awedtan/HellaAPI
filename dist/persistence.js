@@ -113,11 +113,11 @@ function getMatch(collectionName, req) {
     });
 }
 exports.getMatch = getMatch;
-// Gets all documents where the document fields are equal to the request params
+// Gets all documents where the document fields match the request params
 // operator/search?data.subProfessionId=musha
 function getSearch(collectionName, req) {
     return __awaiter(this, void 0, void 0, function () {
-        var collection, filter, key, result;
+        var collection, filter, key, field, field, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, db_1.default)()];
@@ -126,11 +126,15 @@ function getSearch(collectionName, req) {
                     filter = {};
                     for (key in req.query) {
                         if (key.charAt(key.length - 1) === '>') {
-                            filter["value.".concat(key.slice(0, -1))] = { $gte: parseInt(req.query[key]) };
+                            field = "value.".concat(key.slice(0, -1));
+                            filter[field] = filter[field] || {};
+                            filter[field].$gte = parseInt(req.query[key]);
                             continue;
                         }
                         else if (key.charAt(key.length - 1) === '<') {
-                            filter["value.".concat(key.slice(0, -1))] = { $lte: parseInt(req.query[key]) };
+                            field = "value.".concat(key.slice(0, -1));
+                            filter[field] = filter[field] || {};
+                            filter[field].$lte = parseInt(req.query[key]);
                             continue;
                         }
                         else {
@@ -192,6 +196,7 @@ function createOptions(req) {
     var includeParams = req.query.include;
     var excludeParams = req.query.exclude;
     var projection = {};
+    var limit = (_a = parseInt(req.query.limit)) !== null && _a !== void 0 ? _a : 0;
     if (includeParams) {
         projection['meta'] = 1;
         projection['canon'] = 1;
@@ -211,6 +216,6 @@ function createOptions(req) {
             projection["value.".concat(excludeParams)] = 0;
         }
     }
-    var options = { projection: projection, limit: (_a = parseInt(req.query.limit)) !== null && _a !== void 0 ? _a : 0 };
+    var options = { projection: projection, limit: limit };
     return options;
 }

@@ -1,3 +1,4 @@
+import { Filter, FindOptions } from "mongodb";
 import getDb from "./db";
 
 export async function getCollections() {
@@ -10,7 +11,6 @@ export async function getCollections() {
 export async function getMulti(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
     const result = await collection.find({}, createOptions(req)).toArray();
-
     return result;
 }
 
@@ -19,7 +19,6 @@ export async function getMulti(collectionName: string, req) {
 export async function getSingle(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
     const result = await collection.findOne({ keys: { $eq: req.params.id } }, createOptions(req));
-
     return result;
 }
 
@@ -27,26 +26,28 @@ export async function getSingle(collectionName: string, req) {
 // operator/match/helage
 export async function getMatch(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-
     // Find matching keys through a regex match with case insensitivity
     const result = await collection.find({ keys: { $regex: req.params.id, $options: 'i' } }, createOptions(req)).toArray();
-
     return result;
 }
 
-// Gets all documents where the document fields are equal to the request params
+// Gets all documents where the document fields match the request params
 // operator/search?data.subProfessionId=musha
 export async function getSearch(collectionName: string, req) {
     const collection = (await getDb()).collection(collectionName);
-    const filter = {};
+    const filter: Filter<Document> = {};
 
     for (const key in req.query) {
         if (key.charAt(key.length - 1) === '>') {
-            filter[`value.${key.slice(0, -1)}`] = { $gte: parseInt(req.query[key]) };
+            const field = `value.${key.slice(0, -1)}`;
+            filter[field] = filter[field] || {};
+            filter[field].$gte = parseInt(req.query[key]);
             continue;
         }
         else if (key.charAt(key.length - 1) === '<') {
-            filter[`value.${key.slice(0, -1)}`] = { $lte: parseInt(req.query[key]) };
+            const field = `value.${key.slice(0, -1)}`;
+            filter[field] = filter[field] || {};
+            filter[field].$lte = parseInt(req.query[key]);
             continue;
         }
         else {
@@ -56,7 +57,6 @@ export async function getSearch(collectionName: string, req) {
     }
 
     const result = await collection.find(filter, createOptions(req)).toArray();
-
     return result;
 }
 
@@ -83,6 +83,7 @@ function createOptions(req) {
     const includeParams = req.query.include;
     const excludeParams = req.query.exclude;
     const projection = {};
+    const limit = parseInt(req.query.limit) ?? 0;
 
     if (includeParams) {
         projection['meta'] = 1;
@@ -104,6 +105,6 @@ function createOptions(req) {
         }
     }
 
-    const options = { projection: projection, limit: parseInt(req.query.limit) ?? 0 };
+    const options: FindOptions = { projection, limit };
     return options;
 }
