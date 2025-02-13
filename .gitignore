@@ -1,4 +1,4 @@
 ArknightsGameData_YoStar
 node_modules
 .env
-log*
+*.log

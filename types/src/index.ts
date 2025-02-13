@@ -687,6 +687,14 @@ export const GachaPoolZod = z.strictObject({
                 attainRare6CharList: z.array(z.string()),
                 attainRare6Num: z.number(),
                 scrollIndex: z.number().optional(),
+            }),
+            z.strictObject({
+                detailInfo: z.string(),
+                detailTitle: z.string(),
+                homeIntroDesc: z.string(),
+                rarityPickCharDict: z.record(z.string(), z.array(z.string())),
+                star5ChooseRule: z.string(),
+                star6ChooseRule: z.string(),
             })
         ]).nullable(),
         linkageRuleId: z.string().nullable(),
@@ -923,9 +931,6 @@ export const ParadoxZod = z.strictObject({
                 type: z.string(),
             })
         ),
-        stageNameForShow: z.string(),
-        zoneNameForShow: z.string(),
-        picId: z.string(),
         stageGetTime: z.number(),
     }),
     levels: StageDataZod,

@@ -929,8 +929,8 @@ declare const StageDataZod: z.ZodObject<{
         }>>;
         m_runtimeData: z.ZodNull;
     }, "strict", z.ZodTypeAny, {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -993,8 +993,8 @@ declare const StageDataZod: z.ZodObject<{
         alias: null;
         m_runtimeData: null;
     }, {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -4350,8 +4350,8 @@ declare const StageDataZod: z.ZodObject<{
         visitEveryCheckPoint?: boolean | undefined;
     } | null)[];
     enemies: {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -5066,8 +5066,8 @@ declare const StageDataZod: z.ZodObject<{
         visitEveryCheckPoint?: boolean | undefined;
     } | null)[];
     enemies: {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -5667,9 +5667,9 @@ declare const RogueRelicZod: z.ZodObject<{
     canSacrifice: z.ZodBoolean;
     unlockCondDesc: z.ZodNullable<z.ZodString>;
 }, "strict", z.ZodTypeAny, {
+    name: string;
     type: string;
     id: string;
-    name: string;
     value: number;
     description: string | null;
     sortId: number;
@@ -5681,9 +5681,9 @@ declare const RogueRelicZod: z.ZodObject<{
     canSacrifice: boolean;
     unlockCondDesc: string | null;
 }, {
+    name: string;
     type: string;
     id: string;
-    name: string;
     value: number;
     description: string | null;
     sortId: number;
@@ -5715,8 +5715,8 @@ declare const RogueStageZod: z.ZodObject<{
         specialNodeId: z.ZodNullable<z.ZodString>;
     }, "strict", z.ZodTypeAny, {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -5732,8 +5732,8 @@ declare const RogueStageZod: z.ZodObject<{
         specialNodeId: string | null;
     }, {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -6652,8 +6652,8 @@ declare const RogueStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -6716,8 +6716,8 @@ declare const RogueStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -10073,8 +10073,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -10789,8 +10789,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -11378,8 +11378,8 @@ declare const RogueStageZod: z.ZodObject<{
 }, "strict", z.ZodTypeAny, {
     excel: {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -11525,8 +11525,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -12114,8 +12114,8 @@ declare const RogueStageZod: z.ZodObject<{
 }, {
     excel: {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -12261,8 +12261,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -12970,12 +12970,12 @@ declare const SandboxItemZod: z.ZodObject<{
             name: z.ZodString;
             usage: z.ZodString;
         }, "strict", z.ZodTypeAny, {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }, {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }>, "many">;
         duration: z.ZodNumber;
@@ -12989,8 +12989,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13003,8 +13003,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13084,8 +13084,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13137,8 +13137,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -14074,8 +14074,8 @@ declare const SandboxStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -14138,8 +14138,8 @@ declare const SandboxStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -17495,8 +17495,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -18211,8 +18211,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -18938,8 +18938,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -19665,8 +19665,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -20324,13 +20324,13 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         name: z.ZodString;
         description: z.ZodString;
     }, "strict", z.ZodTypeAny, {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     }, {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     }>;
@@ -21238,8 +21238,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -21302,8 +21302,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -24659,8 +24659,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -25375,8 +25375,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -26093,8 +26093,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -26680,8 +26680,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         runtimeData?: null | undefined;
     };
     const: {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     };
@@ -26817,8 +26817,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -27404,8 +27404,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         runtimeData?: null | undefined;
     };
     const: {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     };
@@ -27426,8 +27426,8 @@ export declare const CCStageZod: z.ZodObject<{
         rewardEndTime: z.ZodNumber;
     }, "strict", z.ZodTypeAny, {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -27439,8 +27439,8 @@ export declare const CCStageZod: z.ZodObject<{
         rewardEndTime: number;
     }, {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -28355,8 +28355,8 @@ export declare const CCStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -28419,8 +28419,8 @@ export declare const CCStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -31776,8 +31776,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -32492,8 +32492,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -33081,8 +33081,8 @@ export declare const CCStageZod: z.ZodObject<{
 }, "strict", z.ZodTypeAny, {
     excel: {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -33224,8 +33224,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -33813,8 +33813,8 @@ export declare const CCStageZod: z.ZodObject<{
 }, {
     excel: {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -33956,8 +33956,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -34561,8 +34561,8 @@ export declare const CCSeasonZod: z.ZodObject<{
             rewardEndTime: z.ZodNumber;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -34574,8 +34574,8 @@ export declare const CCSeasonZod: z.ZodObject<{
             rewardEndTime: number;
         }, {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -35490,8 +35490,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -35554,8 +35554,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -38911,8 +38911,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -39627,8 +39627,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -40216,8 +40216,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -40359,8 +40359,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -40948,8 +40948,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     }, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -41091,8 +41091,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -41683,8 +41683,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -41826,8 +41826,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -42418,8 +42418,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -42561,8 +42561,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -45554,6 +45554,27 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        }>, z.ZodObject<{
+            detailInfo: z.ZodString;
+            detailTitle: z.ZodString;
+            homeIntroDesc: z.ZodString;
+            rarityPickCharDict: z.ZodRecord<z.ZodString, z.ZodArray<z.ZodString, "many">>;
+            star5ChooseRule: z.ZodString;
+            star6ChooseRule: z.ZodString;
+        }, "strict", z.ZodTypeAny, {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
+        }, {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         }>]>>;
         linkageRuleId: z.ZodNullable<z.ZodString>;
         linkageParam: z.ZodNullable<z.ZodObject<{
@@ -45606,6 +45627,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         }) & ({
             chooseRuleConst: string;
             homeDescConst: string;
@@ -45622,6 +45650,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         } | undefined)) | null;
         linkageRuleId: string | null;
         linkageParam: {
@@ -45663,6 +45698,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         }) & ({
             chooseRuleConst: string;
             homeDescConst: string;
@@ -45679,6 +45721,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         } | undefined)) | null;
         linkageRuleId: string | null;
         linkageParam: {
@@ -46082,6 +46131,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         }) & ({
             chooseRuleConst: string;
             homeDescConst: string;
@@ -46098,6 +46154,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         } | undefined)) | null;
         linkageRuleId: string | null;
         linkageParam: {
@@ -46188,6 +46251,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         }) & ({
             chooseRuleConst: string;
             homeDescConst: string;
@@ -46204,6 +46274,13 @@ export declare const GachaPoolZod: z.ZodObject<{
             attainRare6CharList: string[];
             attainRare6Num: number;
             scrollIndex?: number | undefined;
+        } | {
+            rarityPickCharDict: Record<string, string[]>;
+            detailInfo: string;
+            detailTitle: string;
+            homeIntroDesc: string;
+            star5ChooseRule: string;
+            star6ChooseRule: string;
         } | undefined)) | null;
         linkageRuleId: string | null;
         linkageParam: {
@@ -46236,11 +46313,11 @@ export declare const GameEventZod: z.ZodObject<{
     recType: z.ZodNullable<z.ZodString>;
     isPageEntry: z.ZodBoolean;
 }, "strict", z.ZodTypeAny, {
+    name: string;
     type: string;
     endTime: number;
     startTime: number;
     id: string;
-    name: string;
     rewardEndTime: number;
     displayType: string;
     displayOnHome: boolean;
@@ -46254,11 +46331,11 @@ export declare const GameEventZod: z.ZodObject<{
     recType: string | null;
     isPageEntry: boolean;
 }, {
+    name: string;
     type: string;
     endTime: number;
     startTime: number;
     id: string;
-    name: string;
     rewardEndTime: number;
     displayType: string;
     displayOnHome: boolean;
@@ -47807,9 +47884,6 @@ export declare const ParadoxZod: z.ZodObject<{
             id: string;
             count: number;
         }>, "many">;
-        stageNameForShow: z.ZodString;
-        zoneNameForShow: z.ZodString;
-        picId: z.ZodString;
         stageGetTime: z.ZodNumber;
     }, "strict", z.ZodTypeAny, {
         code: string;
@@ -47818,7 +47892,6 @@ export declare const ParadoxZod: z.ZodObject<{
         stageId: string;
         levelId: string;
         loadingPicId: string;
-        picId: string;
         charId: string;
         zoneId: string;
         unlockParam: {
@@ -47832,8 +47905,6 @@ export declare const ParadoxZod: z.ZodObject<{
             id: string;
             count: number;
         }[];
-        stageNameForShow: string;
-        zoneNameForShow: string;
         stageGetTime: number;
     }, {
         code: string;
@@ -47842,7 +47913,6 @@ export declare const ParadoxZod: z.ZodObject<{
         stageId: string;
         levelId: string;
         loadingPicId: string;
-        picId: string;
         charId: string;
         zoneId: string;
         unlockParam: {
@@ -47856,8 +47926,6 @@ export declare const ParadoxZod: z.ZodObject<{
             id: string;
             count: number;
         }[];
-        stageNameForShow: string;
-        zoneNameForShow: string;
         stageGetTime: number;
     }>;
     levels: z.ZodObject<{
@@ -48764,8 +48832,8 @@ export declare const ParadoxZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -48828,8 +48896,8 @@ export declare const ParadoxZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -52185,8 +52253,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -52901,8 +52969,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -53495,7 +53563,6 @@ export declare const ParadoxZod: z.ZodObject<{
         stageId: string;
         levelId: string;
         loadingPicId: string;
-        picId: string;
         charId: string;
         zoneId: string;
         unlockParam: {
@@ -53509,8 +53576,6 @@ export declare const ParadoxZod: z.ZodObject<{
             id: string;
             count: number;
         }[];
-        stageNameForShow: string;
-        zoneNameForShow: string;
         stageGetTime: number;
     };
     levels: {
@@ -53644,8 +53709,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -54238,7 +54303,6 @@ export declare const ParadoxZod: z.ZodObject<{
         stageId: string;
         levelId: string;
         loadingPicId: string;
-        picId: string;
         charId: string;
         zoneId: string;
         unlockParam: {
@@ -54252,8 +54316,6 @@ export declare const ParadoxZod: z.ZodObject<{
             id: string;
             count: number;
         }[];
-        stageNameForShow: string;
-        zoneNameForShow: string;
         stageGetTime: number;
     };
     levels: {
@@ -54387,8 +54449,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -54996,8 +55058,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: z.ZodNullable<z.ZodString>;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -55013,8 +55075,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: string | null;
         }, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -55933,8 +55995,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -55997,8 +56059,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -59354,8 +59416,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -60070,8 +60132,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -60659,8 +60721,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -60806,8 +60868,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -61395,8 +61457,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     }, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -61542,8 +61604,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -62149,8 +62211,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: z.ZodNullable<z.ZodString>;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -62166,8 +62228,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: string | null;
         }, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -63086,8 +63148,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -63150,8 +63212,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -66507,8 +66569,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -67223,8 +67285,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -67812,8 +67874,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -67959,8 +68021,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -68548,8 +68610,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     }, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -68695,8 +68757,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -69297,9 +69359,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         canSacrifice: z.ZodBoolean;
         unlockCondDesc: z.ZodNullable<z.ZodString>;
     }, "strict", z.ZodTypeAny, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -69311,9 +69373,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         canSacrifice: boolean;
         unlockCondDesc: string | null;
     }, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -69358,8 +69420,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -69505,8 +69567,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -70095,8 +70157,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     toughStageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -70242,8 +70304,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -70830,9 +70892,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         };
     }>;
     relicDict: Record<string, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -70859,8 +70921,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -71006,8 +71068,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -71596,8 +71658,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     toughStageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -71743,8 +71805,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -72331,9 +72393,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         };
     }>;
     relicDict: Record<string, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -72452,12 +72514,12 @@ export declare const SandboxActZod: z.ZodObject<{
                 name: z.ZodString;
                 usage: z.ZodString;
             }, "strict", z.ZodTypeAny, {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }, {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }>, "many">;
             duration: z.ZodNumber;
@@ -72471,8 +72533,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72485,8 +72547,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72566,8 +72628,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72619,8 +72681,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -73587,8 +73649,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -73651,8 +73713,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -77008,8 +77070,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -77724,8 +77786,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -78451,8 +78513,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -79178,8 +79240,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -79908,8 +79970,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -80542,8 +80604,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -80703,8 +80765,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -81337,8 +81399,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -82951,8 +83013,8 @@ export declare const StageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -83015,8 +83077,8 @@ export declare const StageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -86372,8 +86434,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -87088,8 +87150,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -87895,8 +87957,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -88702,8 +88764,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -93562,9 +93624,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }>, "many">;
-            stageNameForShow: z.ZodString;
-            zoneNameForShow: z.ZodString;
-            picId: z.ZodString;
             stageGetTime: z.ZodNumber;
         }, "strict", z.ZodTypeAny, {
             code: string;
@@ -93573,7 +93632,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -93587,8 +93645,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         }, {
             code: string;
@@ -93597,7 +93653,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -93611,8 +93666,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         }>;
         levels: z.ZodObject<{
@@ -94519,8 +94572,8 @@ export declare const OperatorZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -94583,8 +94636,8 @@ export declare const OperatorZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -97940,8 +97993,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -98656,8 +98709,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -99250,7 +99303,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -99264,8 +99316,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         };
         levels: {
@@ -99399,8 +99449,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -99993,7 +100043,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -100007,8 +100056,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         };
         levels: {
@@ -100142,8 +100189,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -101123,7 +101170,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -101137,8 +101183,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         };
         levels: {
@@ -101272,8 +101316,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -102253,7 +102297,6 @@ export declare const OperatorZod: z.ZodObject<{
             stageId: string;
             levelId: string;
             loadingPicId: string;
-            picId: string;
             charId: string;
             zoneId: string;
             unlockParam: {
@@ -102267,8 +102310,6 @@ export declare const OperatorZod: z.ZodObject<{
                 id: string;
                 count: number;
             }[];
-            stageNameForShow: string;
-            zoneNameForShow: string;
             stageGetTime: number;
         };
         levels: {
@@ -102402,8 +102443,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;

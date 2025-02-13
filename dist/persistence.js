@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -39,7 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNewEn = exports.getSearch = exports.getMatch = exports.getSingle = exports.getMulti = exports.getCollections = void 0;
+exports.getCollections = getCollections;
+exports.getMulti = getMulti;
+exports.getSingle = getSingle;
+exports.getMatch = getMatch;
+exports.getSearch = getSearch;
+exports.getNewEn = getNewEn;
 var db_1 = __importDefault(require("./db"));
 function getCollections() {
     return __awaiter(this, void 0, void 0, function () {
@@ -55,7 +60,6 @@ function getCollections() {
         });
     });
 }
-exports.getCollections = getCollections;
 // Gets all documents from a collection
 // operator
 function getMulti(collectionName, req) {
@@ -74,7 +78,6 @@ function getMulti(collectionName, req) {
         });
     });
 }
-exports.getMulti = getMulti;
 // Gets a single document that has a key equal to the request id
 // operator/char_188_helage
 function getSingle(collectionName, req) {
@@ -93,7 +96,6 @@ function getSingle(collectionName, req) {
         });
     });
 }
-exports.getSingle = getSingle;
 // Gets all documents whose keys contain the request id as a substring
 // operator/match/helage
 function getMatch(collectionName, req) {
@@ -112,7 +114,6 @@ function getMatch(collectionName, req) {
         });
     });
 }
-exports.getMatch = getMatch;
 // Gets all documents where the document fields match the request params
 // operator/search?data.subProfessionId=musha
 function getSearch(collectionName, req) {
@@ -151,7 +152,6 @@ function getSearch(collectionName, req) {
         });
     });
 }
-exports.getSearch = getSearch;
 // Gets all documents that have been created during the last EN update
 function getNewEn() {
     return __awaiter(this, void 0, void 0, function () {
@@ -190,7 +190,6 @@ function getNewEn() {
         });
     });
 }
-exports.getNewEn = getNewEn;
 function createOptions(req) {
     var _a;
     var includeParams = req.query.include;

@@ -103,11 +103,11 @@ async function main() {
                 }
             } catch (e) {
                 console.log(`${name} error for ${JSON.stringify(doc.canon.toLowerCase())}: ${e.message}`);
-                code = 1
+                code = 1;
             }
         }
     }
-
+    console.log('Done');
     process.exit(code);
 }
 

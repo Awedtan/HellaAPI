@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc",
     "start": "node dist/index.js",
     "load": "ts-node scripts/load.ts",
     "test": "ts-node scripts/test.ts"
@@ -14,7 +14,7 @@
     "object-hash": "^3.0.0",
     "simple-git": "^3.27.0",
     "ts-node": "^10.9.2",
-    "zod": "^3.23.8"
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.0"
