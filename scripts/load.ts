@@ -278,7 +278,11 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     const opParadox = G.paradoxDict[opId] ?? G.cnparadoxDict[opId] ?? null;
 
     const opName = opData.name.toLowerCase();
-    const keyArr: string[] = [opId, opName, opName.replace(/['-]/g, '')];
+    const keyArr: string[] = [opId, opName, opName.replace(/['-]/g, ''), opName.replace(/['-]/g, ' ')];
+
+    if (opName.includes(' the ')) {
+        keyArr.push(`${opName.split(' the ')[0]} alter`);
+    }
 
     // not intended to be a comprehensive list, just what i call them
     const hardcodeOpId = {
@@ -295,10 +299,10 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
         'char_1028_texas2': ['texalter'],
         'char_1020_reed2': ['reedalter'],
         'char_1029_yato2': ['yalter'],
-        'char_1016_agoat2': ['eyjalter'],
+        'char_1016_agoat2': ['eyjafyalla the hvit aska', 'eyjalter'],
         'char_1033_swire2': ['swalter'],
         'char_1034_jesca2': ['jessicalter'],
-        'char_1035_wisdel': ['wisadel', 'walter'], // waltuh white :^)
+        'char_1035_wisdel': ['wisadel', 'w alter', 'walter'],
         'char_1019_siege2': ['salter']
     }
     keyArr.push(...hardcodeOpId[opId]);
