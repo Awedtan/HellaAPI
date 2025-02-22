@@ -279,10 +279,7 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
 
     const opName = opData.name.toLowerCase();
     const keyArr: string[] = [opId, opName, opName.replace(/['-]/g, ''), opName.replace(/['-]/g, ' ')];
-
-    if (opName.includes(' the ')) {
-        keyArr.push(`${opName.split(' the ')[0]} alter`);
-    }
+    keyArr.push(...keyArr.slice(1).filter(k => k.includes(' the ')).map(k => k.split(' the ')[0] + ' alter'));
 
     // not intended to be a comprehensive list, just what i call them
     const hardcodeOpId = {
