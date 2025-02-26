@@ -1,5 +1,5 @@
-import { Filter, FindOptions } from "mongodb";
-import getDb from "./db";
+import { Filter, FindOptions } from 'mongodb';
+import getDb from './db';
 
 export async function getCollections() {
     const collections = await (await getDb()).collections();
@@ -60,6 +60,45 @@ export async function getSearch(collectionName: string, req) {
     return result;
 }
 
+const operatorMap = {
+    '=': '$eq',
+    '!=': '$ne',
+    '>': '$gt',
+    '>=': '$gte',
+    '<': '$lt',
+    '<=': '$lte',
+    'in': '$in',
+    'nin': '$nin'
+};
+
+// Gets all documents that satisfy the request filter
+// Symbols that are intended to be used in a filter must be URL encoded
+// item/searchV2?filter={"data.subProfessionId":"musha"}
+export async function getSearchV2(collectionName: string, req) {
+    const filter = JSON.parse(req.query.filter || '{}');
+    const mongoFilter: Filter<Document> = {};
+
+    for (const [field, condition] of Object.entries(filter)) {
+        const mongoField = `value.${field}`;
+        if (condition && typeof condition === 'object') {
+            const mongoCondition = {};
+            for (const [operator, value] of Object.entries(condition)) {
+                if (operatorMap[operator]) {
+                    mongoCondition[operatorMap[operator]] = value;
+                }
+            }
+            mongoFilter[mongoField] = mongoCondition;
+        }
+        else {
+            mongoFilter[mongoField] = { $eq: condition };
+        }
+    }
+
+    const collection = (await getDb()).collection(collectionName);
+    const result = await collection.find(mongoFilter, createOptions(req)).toArray();
+    return result;
+}
+
 // Gets all documents that have been created during the last EN update
 export async function getNewEn() {
     const collections = await (await getDb()).collections();
@@ -85,6 +124,7 @@ function createOptions(req) {
     const projection = {};
     const limit = parseInt(req.query.limit) ?? 0;
 
+    // mongodb does not support including and excluding fields at the same time
     if (includeParams) {
         projection['meta'] = 1;
         projection['canon'] = 1;

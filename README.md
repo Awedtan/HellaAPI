@@ -28,7 +28,24 @@ Returns a single document whose `keys` includes the specified key. Checks for ex
 
 Returns all documents whose `keys` includes the specified key. Checks for substring matches.
 
-#### Search
+#### SearchV2
+
+> api/resource/searchV2?filter={"field1": "value1", "field2": {">=": "value2"}, "field3": {"in": ["value3", "value4"]}}
+
+Returns all documents that satisfy the specified filter. Supported search operators are:
+
+| Operator | Description
+|-|-|
+| =   | Equal                                |
+| !=  | Not equal                            |
+| >   | Greater than                         |
+| >=  | Greater than or equal                |
+| <   | Less than                            |
+| <=  | Less than or equal                   |
+| in  | Matches any value in an array        |
+| nin | Does not match any value in an array |
+
+#### Search (legacy, use SearchV2 instead)
 
 > api/resource/search?{field1}={value1}&{field2}>={value2}&{field3}<={value3}
 
