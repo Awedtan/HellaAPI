@@ -16,6 +16,7 @@ class G {
     static cnDataPath = 'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata';
 
     static collectionDeps = {
+        'deployable': ['archetype', 'range', 'skill', 'skin'],
         'operator': ['archetype', 'base', 'module', 'paradox', 'range', 'skill', 'skin', 'deployable'],
         'recruit': ['operator', 'archetype', 'base', 'module', 'paradox', 'range', 'skill', 'skin', 'deployable'],
     }
@@ -307,15 +308,15 @@ function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, o
     arr.push(createDoc(oldDocuments, keyArr,
         {
             id: opId,
-            recruit: recruitId,
-            data: opData,
             archetype: opArchetype,
-            range: opRange,
-            skills: opSkills,
-            modules: opModules,
-            skins: opSkins,
             bases: opBases,
-            paradox: opParadox
+            data: opData,
+            modules: opModules,
+            paradox: opParadox,
+            range: opRange,
+            recruit: recruitId,
+            skills: opSkills,
+            skins: opSkins,
         }
     ));
 
@@ -547,11 +548,12 @@ async function loadDeployables() {
                             id: key,
                             archetype: G.archetypeDict[data.subProfessionId]
                                 ?? G.cnarchetypeDict[data.subProfessionId],
+                            data: data,
                             range: G.rangeDict[data.phases[data.phases.length - 1].rangeId]
                                 ?? G.cnrangeDict[data.phases[data.phases.length - 1]]
                                 ?? null,
-                            data: data,
-                            skills: data.skills.map(s => G.skillDict[s.skillId] ?? G.cnskillDict[s.skillId])
+                            skills: data.skills.map(s => G.skillDict[s.skillId] ?? G.cnskillDict[s.skillId] ?? null),
+                            skins: G.skinArrDict[key] ?? G.cnskinArrDict[key] ?? []
                         })
                     })
             );

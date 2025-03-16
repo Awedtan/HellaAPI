@@ -1124,7 +1124,6 @@ export const StageZod = z.strictObject({
 export const DeployableZod = z.strictObject({
     id: z.string(),
     archetype: z.string(),
-    range: GridRangeZod.nullable(),
     data: z.strictObject({
         name: z.string(),
         description: z.string().nullable(),
@@ -1230,12 +1229,11 @@ export const DeployableZod = z.strictObject({
             })
         ),
     }),
-    skills: z.array(SkillZod.nullable())
+    range: GridRangeZod.nullable(),
+    skills: z.array(SkillZod.nullable()),
+    skins: z.array(SkinZod.nullable()),
 });;
 export const OperatorZod = DeployableZod.extend({
-    recruit: z.number(),
-    modules: z.array(ModuleZod),
-    skins: z.array(SkinZod),
     bases: z.array(
         z.strictObject({
             condition: z.strictObject({
@@ -1245,7 +1243,9 @@ export const OperatorZod = DeployableZod.extend({
             skill: BaseZod,
         })
     ),
+    modules: z.array(ModuleZod),
     paradox: ParadoxZod.nullable(),
+    recruit: z.number(),
 })
 
 export type Blackboard = z.infer<typeof BlackboardZod>;

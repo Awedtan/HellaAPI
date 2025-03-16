@@ -1051,7 +1051,6 @@ exports.StageZod = z.strictObject({
 exports.DeployableZod = z.strictObject({
     id: z.string(),
     archetype: z.string(),
-    range: exports.GridRangeZod.nullable(),
     data: z.strictObject({
         name: z.string(),
         description: z.string().nullable(),
@@ -1141,13 +1140,12 @@ exports.DeployableZod = z.strictObject({
             lvlUpCost: z.array(LevelUpCostZod).nullable(),
         })),
     }),
-    skills: z.array(exports.SkillZod.nullable())
+    range: exports.GridRangeZod.nullable(),
+    skills: z.array(exports.SkillZod.nullable()),
+    skins: z.array(exports.SkinZod.nullable()),
 });
 ;
 exports.OperatorZod = exports.DeployableZod.extend({
-    recruit: z.number(),
-    modules: z.array(exports.ModuleZod),
-    skins: z.array(exports.SkinZod),
     bases: z.array(z.strictObject({
         condition: z.strictObject({
             buffId: z.string(),
@@ -1155,5 +1153,7 @@ exports.OperatorZod = exports.DeployableZod.extend({
         }),
         skill: exports.BaseZod,
     })),
+    modules: z.array(exports.ModuleZod),
     paradox: exports.ParadoxZod.nullable(),
+    recruit: z.number(),
 });

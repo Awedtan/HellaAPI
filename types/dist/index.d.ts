@@ -89354,34 +89354,6 @@ export declare const StageZod: z.ZodObject<{
 export declare const DeployableZod: z.ZodObject<{
     id: z.ZodString;
     archetype: z.ZodString;
-    range: z.ZodNullable<z.ZodObject<{
-        id: z.ZodString;
-        direction: z.ZodNumber;
-        grids: z.ZodArray<z.ZodObject<{
-            row: z.ZodNumber;
-            col: z.ZodNumber;
-        }, "strict", z.ZodTypeAny, {
-            col: number;
-            row: number;
-        }, {
-            col: number;
-            row: number;
-        }>, "many">;
-    }, "strict", z.ZodTypeAny, {
-        id: string;
-        direction: number;
-        grids: {
-            col: number;
-            row: number;
-        }[];
-    }, {
-        id: string;
-        direction: number;
-        grids: {
-            col: number;
-            row: number;
-        }[];
-    }>>;
     data: z.ZodObject<{
         name: z.ZodString;
         description: z.ZodNullable<z.ZodString>;
@@ -90612,6 +90584,34 @@ export declare const DeployableZod: z.ZodObject<{
             }[] | null;
         }[];
     }>;
+    range: z.ZodNullable<z.ZodObject<{
+        id: z.ZodString;
+        direction: z.ZodNumber;
+        grids: z.ZodArray<z.ZodObject<{
+            row: z.ZodNumber;
+            col: z.ZodNumber;
+        }, "strict", z.ZodTypeAny, {
+            col: number;
+            row: number;
+        }, {
+            col: number;
+            row: number;
+        }>, "many">;
+    }, "strict", z.ZodTypeAny, {
+        id: string;
+        direction: number;
+        grids: {
+            col: number;
+            row: number;
+        }[];
+    }, {
+        id: string;
+        direction: number;
+        grids: {
+            col: number;
+            row: number;
+        }[];
+    }>>;
     skills: z.ZodArray<z.ZodNullable<z.ZodObject<{
         skillId: z.ZodString;
         iconId: z.ZodNullable<z.ZodString>;
@@ -90754,6 +90754,188 @@ export declare const DeployableZod: z.ZodObject<{
             prefabId: string | null;
         }[];
         skillId: string;
+    }>>, "many">;
+    skins: z.ZodArray<z.ZodNullable<z.ZodObject<{
+        skinId: z.ZodString;
+        charId: z.ZodString;
+        tokenSkinMap: z.ZodNullable<z.ZodArray<z.ZodObject<{
+            tokenId: z.ZodString;
+            tokenSkinId: z.ZodString;
+        }, "strict", z.ZodTypeAny, {
+            tokenId: string;
+            tokenSkinId: string;
+        }, {
+            tokenId: string;
+            tokenSkinId: string;
+        }>, "many">>;
+        illustId: z.ZodNullable<z.ZodString>;
+        dynIllustId: z.ZodNullable<z.ZodString>;
+        avatarId: z.ZodString;
+        portraitId: z.ZodNullable<z.ZodString>;
+        dynPortraitId: z.ZodNullable<z.ZodString>;
+        dynEntranceId: z.ZodNullable<z.ZodString>;
+        buildingId: z.ZodNullable<z.ZodString>;
+        battleSkin: z.ZodObject<{
+            overwritePrefab: z.ZodBoolean;
+            skinOrPrefabId: z.ZodNullable<z.ZodString>;
+        }, "strict", z.ZodTypeAny, {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        }, {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        }>;
+        isBuySkin: z.ZodBoolean;
+        tmplId: z.ZodNullable<z.ZodString>;
+        voiceId: z.ZodNullable<z.ZodString>;
+        voiceType: z.ZodString;
+        displaySkin: z.ZodObject<{
+            skinName: z.ZodNullable<z.ZodString>;
+            colorList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            titleList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            modelName: z.ZodNullable<z.ZodString>;
+            drawerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            designerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            skinGroupId: z.ZodNullable<z.ZodString>;
+            skinGroupName: z.ZodNullable<z.ZodString>;
+            skinGroupSortIndex: z.ZodNumber;
+            content: z.ZodNullable<z.ZodString>;
+            dialog: z.ZodNullable<z.ZodString>;
+            usage: z.ZodNullable<z.ZodString>;
+            description: z.ZodNullable<z.ZodString>;
+            obtainApproach: z.ZodNullable<z.ZodString>;
+            sortId: z.ZodNumber;
+            displayTagId: z.ZodNullable<z.ZodString>;
+            getTime: z.ZodNumber;
+            onYear: z.ZodNumber;
+            onPeriod: z.ZodNumber;
+        }, "strict", z.ZodTypeAny, {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        }, {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        }>;
+    }, "strict", z.ZodTypeAny, {
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    }, {
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
     }>>, "many">;
 }, "strict", z.ZodTypeAny, {
     data: {
@@ -90977,6 +91159,50 @@ export declare const DeployableZod: z.ZodObject<{
             row: number;
         }[];
     } | null;
+    skins: ({
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    } | null)[];
 }, {
     data: {
         name: string;
@@ -91199,6 +91425,50 @@ export declare const DeployableZod: z.ZodObject<{
             row: number;
         }[];
     } | null;
+    skins: ({
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    } | null)[];
 }>;
 export declare const OperatorZod: z.ZodObject<{
     data: z.ZodObject<{
@@ -92604,7 +92874,289 @@ export declare const OperatorZod: z.ZodObject<{
             row: number;
         }[];
     }>>;
-    recruit: z.ZodNumber;
+    skins: z.ZodArray<z.ZodNullable<z.ZodObject<{
+        skinId: z.ZodString;
+        charId: z.ZodString;
+        tokenSkinMap: z.ZodNullable<z.ZodArray<z.ZodObject<{
+            tokenId: z.ZodString;
+            tokenSkinId: z.ZodString;
+        }, "strict", z.ZodTypeAny, {
+            tokenId: string;
+            tokenSkinId: string;
+        }, {
+            tokenId: string;
+            tokenSkinId: string;
+        }>, "many">>;
+        illustId: z.ZodNullable<z.ZodString>;
+        dynIllustId: z.ZodNullable<z.ZodString>;
+        avatarId: z.ZodString;
+        portraitId: z.ZodNullable<z.ZodString>;
+        dynPortraitId: z.ZodNullable<z.ZodString>;
+        dynEntranceId: z.ZodNullable<z.ZodString>;
+        buildingId: z.ZodNullable<z.ZodString>;
+        battleSkin: z.ZodObject<{
+            overwritePrefab: z.ZodBoolean;
+            skinOrPrefabId: z.ZodNullable<z.ZodString>;
+        }, "strict", z.ZodTypeAny, {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        }, {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        }>;
+        isBuySkin: z.ZodBoolean;
+        tmplId: z.ZodNullable<z.ZodString>;
+        voiceId: z.ZodNullable<z.ZodString>;
+        voiceType: z.ZodString;
+        displaySkin: z.ZodObject<{
+            skinName: z.ZodNullable<z.ZodString>;
+            colorList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            titleList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            modelName: z.ZodNullable<z.ZodString>;
+            drawerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            designerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
+            skinGroupId: z.ZodNullable<z.ZodString>;
+            skinGroupName: z.ZodNullable<z.ZodString>;
+            skinGroupSortIndex: z.ZodNumber;
+            content: z.ZodNullable<z.ZodString>;
+            dialog: z.ZodNullable<z.ZodString>;
+            usage: z.ZodNullable<z.ZodString>;
+            description: z.ZodNullable<z.ZodString>;
+            obtainApproach: z.ZodNullable<z.ZodString>;
+            sortId: z.ZodNumber;
+            displayTagId: z.ZodNullable<z.ZodString>;
+            getTime: z.ZodNumber;
+            onYear: z.ZodNumber;
+            onPeriod: z.ZodNumber;
+        }, "strict", z.ZodTypeAny, {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        }, {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        }>;
+    }, "strict", z.ZodTypeAny, {
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    }, {
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    }>>, "many">;
+    bases: z.ZodArray<z.ZodObject<{
+        condition: z.ZodObject<{
+            buffId: z.ZodString;
+            cond: z.ZodObject<{
+                phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                level: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                level: number;
+                phase: string | number;
+            }, {
+                level: number;
+                phase: string | number;
+            }>;
+        }, "strict", z.ZodTypeAny, {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        }, {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        }>;
+        skill: z.ZodObject<{
+            buffId: z.ZodString;
+            buffName: z.ZodString;
+            buffIcon: z.ZodString;
+            skillIcon: z.ZodString;
+            sortId: z.ZodNumber;
+            buffColor: z.ZodString;
+            textColor: z.ZodString;
+            buffCategory: z.ZodString;
+            roomType: z.ZodString;
+            description: z.ZodString;
+        }, "strict", z.ZodTypeAny, {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        }, {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        }>;
+    }, "strict", z.ZodTypeAny, {
+        condition: {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        };
+        skill: {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        };
+    }, {
+        condition: {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        };
+        skill: {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        };
+    }>, "many">;
     modules: z.ZodArray<z.ZodObject<{
         info: z.ZodObject<{
             uniEquipId: z.ZodString;
@@ -93497,289 +94049,6 @@ export declare const OperatorZod: z.ZodObject<{
             specialEquipDesc: string | null;
             specialEquipColor: string | null;
             unlockFavorPoint?: number | undefined;
-        };
-    }>, "many">;
-    skins: z.ZodArray<z.ZodObject<{
-        skinId: z.ZodString;
-        charId: z.ZodString;
-        tokenSkinMap: z.ZodNullable<z.ZodArray<z.ZodObject<{
-            tokenId: z.ZodString;
-            tokenSkinId: z.ZodString;
-        }, "strict", z.ZodTypeAny, {
-            tokenId: string;
-            tokenSkinId: string;
-        }, {
-            tokenId: string;
-            tokenSkinId: string;
-        }>, "many">>;
-        illustId: z.ZodNullable<z.ZodString>;
-        dynIllustId: z.ZodNullable<z.ZodString>;
-        avatarId: z.ZodString;
-        portraitId: z.ZodNullable<z.ZodString>;
-        dynPortraitId: z.ZodNullable<z.ZodString>;
-        dynEntranceId: z.ZodNullable<z.ZodString>;
-        buildingId: z.ZodNullable<z.ZodString>;
-        battleSkin: z.ZodObject<{
-            overwritePrefab: z.ZodBoolean;
-            skinOrPrefabId: z.ZodNullable<z.ZodString>;
-        }, "strict", z.ZodTypeAny, {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        }, {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        }>;
-        isBuySkin: z.ZodBoolean;
-        tmplId: z.ZodNullable<z.ZodString>;
-        voiceId: z.ZodNullable<z.ZodString>;
-        voiceType: z.ZodString;
-        displaySkin: z.ZodObject<{
-            skinName: z.ZodNullable<z.ZodString>;
-            colorList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
-            titleList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
-            modelName: z.ZodNullable<z.ZodString>;
-            drawerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
-            designerList: z.ZodNullable<z.ZodArray<z.ZodString, "many">>;
-            skinGroupId: z.ZodNullable<z.ZodString>;
-            skinGroupName: z.ZodNullable<z.ZodString>;
-            skinGroupSortIndex: z.ZodNumber;
-            content: z.ZodNullable<z.ZodString>;
-            dialog: z.ZodNullable<z.ZodString>;
-            usage: z.ZodNullable<z.ZodString>;
-            description: z.ZodNullable<z.ZodString>;
-            obtainApproach: z.ZodNullable<z.ZodString>;
-            sortId: z.ZodNumber;
-            displayTagId: z.ZodNullable<z.ZodString>;
-            getTime: z.ZodNumber;
-            onYear: z.ZodNumber;
-            onPeriod: z.ZodNumber;
-        }, "strict", z.ZodTypeAny, {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        }, {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        }>;
-    }, "strict", z.ZodTypeAny, {
-        skinId: string;
-        tmplId: string | null;
-        charId: string;
-        tokenSkinMap: {
-            tokenId: string;
-            tokenSkinId: string;
-        }[] | null;
-        illustId: string | null;
-        dynIllustId: string | null;
-        avatarId: string;
-        portraitId: string | null;
-        dynPortraitId: string | null;
-        dynEntranceId: string | null;
-        buildingId: string | null;
-        battleSkin: {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        };
-        isBuySkin: boolean;
-        voiceId: string | null;
-        voiceType: string;
-        displaySkin: {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        };
-    }, {
-        skinId: string;
-        tmplId: string | null;
-        charId: string;
-        tokenSkinMap: {
-            tokenId: string;
-            tokenSkinId: string;
-        }[] | null;
-        illustId: string | null;
-        dynIllustId: string | null;
-        avatarId: string;
-        portraitId: string | null;
-        dynPortraitId: string | null;
-        dynEntranceId: string | null;
-        buildingId: string | null;
-        battleSkin: {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        };
-        isBuySkin: boolean;
-        voiceId: string | null;
-        voiceType: string;
-        displaySkin: {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        };
-    }>, "many">;
-    bases: z.ZodArray<z.ZodObject<{
-        condition: z.ZodObject<{
-            buffId: z.ZodString;
-            cond: z.ZodObject<{
-                phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-                level: z.ZodNumber;
-            }, "strict", z.ZodTypeAny, {
-                level: number;
-                phase: string | number;
-            }, {
-                level: number;
-                phase: string | number;
-            }>;
-        }, "strict", z.ZodTypeAny, {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        }, {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        }>;
-        skill: z.ZodObject<{
-            buffId: z.ZodString;
-            buffName: z.ZodString;
-            buffIcon: z.ZodString;
-            skillIcon: z.ZodString;
-            sortId: z.ZodNumber;
-            buffColor: z.ZodString;
-            textColor: z.ZodString;
-            buffCategory: z.ZodString;
-            roomType: z.ZodString;
-            description: z.ZodString;
-        }, "strict", z.ZodTypeAny, {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
-        }, {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
-        }>;
-    }, "strict", z.ZodTypeAny, {
-        condition: {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        };
-        skill: {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
-        };
-    }, {
-        condition: {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        };
-        skill: {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
         };
     }>, "many">;
     paradox: z.ZodNullable<z.ZodObject<{
@@ -100973,6 +101242,7 @@ export declare const OperatorZod: z.ZodObject<{
             runtimeData?: null | undefined;
         };
     }>>;
+    recruit: z.ZodNumber;
 }, "strict", z.ZodTypeAny, {
     data: {
         name: string;
@@ -101195,7 +101465,71 @@ export declare const OperatorZod: z.ZodObject<{
             row: number;
         }[];
     } | null;
-    recruit: number;
+    skins: ({
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    } | null)[];
+    bases: {
+        condition: {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        };
+        skill: {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        };
+    }[];
     modules: {
         data: {
             phases: {
@@ -101292,71 +101626,6 @@ export declare const OperatorZod: z.ZodObject<{
             specialEquipDesc: string | null;
             specialEquipColor: string | null;
             unlockFavorPoint?: number | undefined;
-        };
-    }[];
-    skins: {
-        skinId: string;
-        tmplId: string | null;
-        charId: string;
-        tokenSkinMap: {
-            tokenId: string;
-            tokenSkinId: string;
-        }[] | null;
-        illustId: string | null;
-        dynIllustId: string | null;
-        avatarId: string;
-        portraitId: string | null;
-        dynPortraitId: string | null;
-        dynEntranceId: string | null;
-        buildingId: string | null;
-        battleSkin: {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        };
-        isBuySkin: boolean;
-        voiceId: string | null;
-        voiceType: string;
-        displaySkin: {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        };
-    }[];
-    bases: {
-        condition: {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        };
-        skill: {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
         };
     }[];
     paradox: {
@@ -102100,6 +102369,7 @@ export declare const OperatorZod: z.ZodObject<{
             runtimeData?: null | undefined;
         };
     } | null;
+    recruit: number;
 }, {
     data: {
         name: string;
@@ -102322,7 +102592,71 @@ export declare const OperatorZod: z.ZodObject<{
             row: number;
         }[];
     } | null;
-    recruit: number;
+    skins: ({
+        skinId: string;
+        tmplId: string | null;
+        charId: string;
+        tokenSkinMap: {
+            tokenId: string;
+            tokenSkinId: string;
+        }[] | null;
+        illustId: string | null;
+        dynIllustId: string | null;
+        avatarId: string;
+        portraitId: string | null;
+        dynPortraitId: string | null;
+        dynEntranceId: string | null;
+        buildingId: string | null;
+        battleSkin: {
+            overwritePrefab: boolean;
+            skinOrPrefabId: string | null;
+        };
+        isBuySkin: boolean;
+        voiceId: string | null;
+        voiceType: string;
+        displaySkin: {
+            content: string | null;
+            dialog: string | null;
+            description: string | null;
+            sortId: number;
+            usage: string | null;
+            obtainApproach: string | null;
+            skinName: string | null;
+            colorList: string[] | null;
+            titleList: string[] | null;
+            modelName: string | null;
+            drawerList: string[] | null;
+            designerList: string[] | null;
+            skinGroupId: string | null;
+            skinGroupName: string | null;
+            skinGroupSortIndex: number;
+            displayTagId: string | null;
+            getTime: number;
+            onYear: number;
+            onPeriod: number;
+        };
+    } | null)[];
+    bases: {
+        condition: {
+            buffId: string;
+            cond: {
+                level: number;
+                phase: string | number;
+            };
+        };
+        skill: {
+            description: string;
+            sortId: number;
+            buffId: string;
+            buffName: string;
+            buffIcon: string;
+            skillIcon: string;
+            buffColor: string;
+            textColor: string;
+            buffCategory: string;
+            roomType: string;
+        };
+    }[];
     modules: {
         data: {
             phases: {
@@ -102419,71 +102753,6 @@ export declare const OperatorZod: z.ZodObject<{
             specialEquipDesc: string | null;
             specialEquipColor: string | null;
             unlockFavorPoint?: number | undefined;
-        };
-    }[];
-    skins: {
-        skinId: string;
-        tmplId: string | null;
-        charId: string;
-        tokenSkinMap: {
-            tokenId: string;
-            tokenSkinId: string;
-        }[] | null;
-        illustId: string | null;
-        dynIllustId: string | null;
-        avatarId: string;
-        portraitId: string | null;
-        dynPortraitId: string | null;
-        dynEntranceId: string | null;
-        buildingId: string | null;
-        battleSkin: {
-            overwritePrefab: boolean;
-            skinOrPrefabId: string | null;
-        };
-        isBuySkin: boolean;
-        voiceId: string | null;
-        voiceType: string;
-        displaySkin: {
-            content: string | null;
-            dialog: string | null;
-            description: string | null;
-            sortId: number;
-            usage: string | null;
-            obtainApproach: string | null;
-            skinName: string | null;
-            colorList: string[] | null;
-            titleList: string[] | null;
-            modelName: string | null;
-            drawerList: string[] | null;
-            designerList: string[] | null;
-            skinGroupId: string | null;
-            skinGroupName: string | null;
-            skinGroupSortIndex: number;
-            displayTagId: string | null;
-            getTime: number;
-            onYear: number;
-            onPeriod: number;
-        };
-    }[];
-    bases: {
-        condition: {
-            buffId: string;
-            cond: {
-                level: number;
-                phase: string | number;
-            };
-        };
-        skill: {
-            description: string;
-            sortId: number;
-            buffId: string;
-            buffName: string;
-            buffIcon: string;
-            skillIcon: string;
-            buffColor: string;
-            textColor: string;
-            buffCategory: string;
-            roomType: string;
         };
     }[];
     paradox: {
@@ -103227,6 +103496,7 @@ export declare const OperatorZod: z.ZodObject<{
             runtimeData?: null | undefined;
         };
     } | null;
+    recruit: number;
 }>;
 export type Blackboard = z.infer<typeof BlackboardZod>;
 export type Base = z.infer<typeof BaseZod>;
