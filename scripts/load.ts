@@ -550,7 +550,8 @@ async function loadDeployables() {
                             range: G.rangeDict[data.phases[data.phases.length - 1].rangeId]
                                 ?? G.cnrangeDict[data.phases[data.phases.length - 1]]
                                 ?? null,
-                            data: data
+                            data: data,
+                            skills: data.skills.map(s => G.skillDict[s.skillId] ?? G.cnskillDict[s.skillId])
                         })
                     })
             );

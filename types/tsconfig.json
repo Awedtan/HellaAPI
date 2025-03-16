@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-        "allowJs": false,
-        "target": "es2022",
-        "module": "commonjs"
+        "declaration": true,
+        "outDir": "dist",
+        "strict": true
     },
     "include": [
         "src/**/*.ts"

@@ -1230,10 +1230,10 @@ export const DeployableZod = z.strictObject({
             })
         ),
     }),
+    skills: z.array(SkillZod.nullable())
 });;
 export const OperatorZod = DeployableZod.extend({
     recruit: z.number(),
-    skills: z.array(SkillZod),
     modules: z.array(ModuleZod),
     skins: z.array(SkinZod),
     bases: z.array(

@@ -1141,11 +1141,11 @@ exports.DeployableZod = z.strictObject({
             lvlUpCost: z.array(LevelUpCostZod).nullable(),
         })),
     }),
+    skills: z.array(exports.SkillZod.nullable())
 });
 ;
 exports.OperatorZod = exports.DeployableZod.extend({
     recruit: z.number(),
-    skills: z.array(exports.SkillZod),
     modules: z.array(exports.ModuleZod),
     skins: z.array(exports.SkinZod),
     bases: z.array(z.strictObject({
