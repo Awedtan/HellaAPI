@@ -1,6 +1,6 @@
 {
   "name": "hella-types",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "",
@@ -17,6 +17,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Awedtan/HellaAPI.git"
+    "url": "git+https://github.com/Awedtan/HellaAPI.git"
   }
 }
