@@ -81764,7 +81764,7 @@ export declare const StageZod: z.ZodObject<{
         zoneId: z.ZodString;
         code: z.ZodString;
         name: z.ZodString;
-        description: z.ZodString;
+        description: z.ZodNullable<z.ZodString>;
         hardStagedId: z.ZodNullable<z.ZodString>;
         dangerLevel: z.ZodNullable<z.ZodString>;
         dangerPoint: z.ZodNumber;
@@ -81935,7 +81935,7 @@ export declare const StageZod: z.ZodObject<{
     }, "strict", z.ZodTypeAny, {
         code: string;
         name: string;
-        description: string;
+        description: string | null;
         stageId: string;
         apCost: number;
         levelId: string;
@@ -82023,7 +82023,7 @@ export declare const StageZod: z.ZodObject<{
     }, {
         code: string;
         name: string;
-        description: string;
+        description: string | null;
         stageId: string;
         apCost: number;
         levelId: string;
@@ -87740,7 +87740,7 @@ export declare const StageZod: z.ZodObject<{
     excel: {
         code: string;
         name: string;
-        description: string;
+        description: string | null;
         stageId: string;
         apCost: number;
         levelId: string;
@@ -88547,7 +88547,7 @@ export declare const StageZod: z.ZodObject<{
     excel: {
         code: string;
         name: string;
-        description: string;
+        description: string | null;
         stageId: string;
         apCost: number;
         levelId: string;

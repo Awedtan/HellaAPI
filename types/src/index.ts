@@ -1036,7 +1036,7 @@ export const StageZod = z.strictObject({
         zoneId: z.string(),
         code: z.string(),
         name: z.string(),
-        description: z.string(),
+        description: z.string().nullable(),
         hardStagedId: z.string().nullable(),
         dangerLevel: z.string().nullable(),
         dangerPoint: z.number(),
