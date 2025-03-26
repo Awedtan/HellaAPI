@@ -38,6 +38,7 @@ jobs:
   test:
     name: Verify types
     needs: update
+    if: needs.update.outputs.condition == 'true'
     uses: ./.github/workflows/test.yml
     secrets:
       MONGO_URI: ${{ secrets.MONGO_URI }}

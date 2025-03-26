@@ -16,6 +16,8 @@ on:
       - main
     paths:
       - types/**/*.ts
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   test:

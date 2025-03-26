@@ -1,6 +1,7 @@
 # HellaAPI
 
-![update](https://github.com/Awedtan/HellaAPI/actions/workflows/update.yml/badge.svg)
+![update status](https://github.com/Awedtan/HellaAPI/actions/workflows/update.yml/badge.svg)
+![test status](https://github.com/Awedtan/HellaAPI/actions/workflows/test.yml/badge.svg)
 
 > https://awedtan.ca/api
 
