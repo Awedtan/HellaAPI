@@ -238,6 +238,7 @@ var StageActionZod = z.strictObject({
     isValid: z.boolean().optional(),
     extraMeta: z.null().optional(),
     actionId: z.null().optional(),
+    forceBlockWaveInBranch: z.boolean().optional(),
 });
 var StageRouteZod = z.strictObject({
     motionMode: z.union([z.string(), z.number()]),
@@ -417,6 +418,7 @@ var StageDataZod = z.strictObject({
     randomSeed: z.number(),
     operaConfig: z.string().nullable().optional(),
     runtimeData: z.null().optional(),
+    cameraPlugin: z.null().optional(),
 });
 var RogueRelicZod = z.strictObject({
     id: z.string(),
@@ -830,7 +832,7 @@ exports.ModuleZod = z.strictObject({
                         description: z.string().nullable(),
                         rangeId: z.string().nullable(),
                         blackboard: z.array(BlackboardZod),
-                        tokenKey: z.string().optional(),
+                        tokenKey: z.string().nullable().optional(),
                         isHideTalent: z.boolean(),
                     })).nullable(),
                 }),

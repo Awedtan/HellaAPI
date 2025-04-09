@@ -929,8 +929,8 @@ declare const StageDataZod: z.ZodObject<{
         }>>;
         m_runtimeData: z.ZodNull;
     }, "strict", z.ZodTypeAny, {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -993,8 +993,8 @@ declare const StageDataZod: z.ZodObject<{
         alias: null;
         m_runtimeData: null;
     }, {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -2532,6 +2532,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid: z.ZodOptional<z.ZodBoolean>;
                 extraMeta: z.ZodOptional<z.ZodNull>;
                 actionId: z.ZodOptional<z.ZodNull>;
+                forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
             }, "strict", z.ZodTypeAny, {
                 interval: number;
                 key: string;
@@ -2554,6 +2555,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }, {
                 interval: number;
                 key: string;
@@ -2576,6 +2578,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }>, "many">;
             name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
@@ -2602,6 +2605,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }, {
@@ -2628,6 +2632,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }>, "many">;
@@ -2661,6 +2666,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }[];
@@ -2694,6 +2700,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }[];
@@ -2725,6 +2732,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid: z.ZodOptional<z.ZodBoolean>;
                 extraMeta: z.ZodOptional<z.ZodNull>;
                 actionId: z.ZodOptional<z.ZodNull>;
+                forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
             }, "strict", z.ZodTypeAny, {
                 interval: number;
                 key: string;
@@ -2747,6 +2755,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }, {
                 interval: number;
                 key: string;
@@ -2769,6 +2778,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }>, "many">;
             m_randomActionGroups: z.ZodOptional<z.ZodNull>;
             m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -2797,6 +2807,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -2825,6 +2836,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -2855,6 +2867,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -2885,6 +2898,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -4219,6 +4233,7 @@ declare const StageDataZod: z.ZodObject<{
     randomSeed: z.ZodNumber;
     operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     runtimeData: z.ZodOptional<z.ZodNull>;
+    cameraPlugin: z.ZodOptional<z.ZodNull>;
 }, "strict", z.ZodTypeAny, {
     options: {
         characterLimit: number;
@@ -4350,8 +4365,8 @@ declare const StageDataZod: z.ZodObject<{
         visitEveryCheckPoint?: boolean | undefined;
     } | null)[];
     enemies: {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -4633,6 +4648,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }[];
@@ -4664,6 +4680,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -4935,6 +4952,7 @@ declare const StageDataZod: z.ZodObject<{
     } | null | undefined;
     operaConfig?: string | null | undefined;
     runtimeData?: null | undefined;
+    cameraPlugin?: null | undefined;
 }, {
     options: {
         characterLimit: number;
@@ -5066,8 +5084,8 @@ declare const StageDataZod: z.ZodObject<{
         visitEveryCheckPoint?: boolean | undefined;
     } | null)[];
     enemies: {
-        key: string;
         name: null;
+        key: string;
         attributes: {
             maxHp: number;
             atk: number;
@@ -5349,6 +5367,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             name?: string | null | undefined;
         }[];
@@ -5380,6 +5399,7 @@ declare const StageDataZod: z.ZodObject<{
                 isValid?: boolean | undefined;
                 extraMeta?: null | undefined;
                 actionId?: null | undefined;
+                forceBlockWaveInBranch?: boolean | undefined;
             }[];
             m_randomActionGroups?: null | undefined;
             m_actionWithRandomSpawn?: null | undefined;
@@ -5651,6 +5671,7 @@ declare const StageDataZod: z.ZodObject<{
     } | null | undefined;
     operaConfig?: string | null | undefined;
     runtimeData?: null | undefined;
+    cameraPlugin?: null | undefined;
 }>;
 declare const RogueRelicZod: z.ZodObject<{
     id: z.ZodString;
@@ -5667,9 +5688,9 @@ declare const RogueRelicZod: z.ZodObject<{
     canSacrifice: z.ZodBoolean;
     unlockCondDesc: z.ZodNullable<z.ZodString>;
 }, "strict", z.ZodTypeAny, {
+    name: string;
     type: string;
     id: string;
-    name: string;
     value: number;
     description: string | null;
     sortId: number;
@@ -5681,9 +5702,9 @@ declare const RogueRelicZod: z.ZodObject<{
     canSacrifice: boolean;
     unlockCondDesc: string | null;
 }, {
+    name: string;
     type: string;
     id: string;
-    name: string;
     value: number;
     description: string | null;
     sortId: number;
@@ -5715,8 +5736,8 @@ declare const RogueStageZod: z.ZodObject<{
         specialNodeId: z.ZodNullable<z.ZodString>;
     }, "strict", z.ZodTypeAny, {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -5732,8 +5753,8 @@ declare const RogueStageZod: z.ZodObject<{
         specialNodeId: string | null;
     }, {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -6652,8 +6673,8 @@ declare const RogueStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -6716,8 +6737,8 @@ declare const RogueStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -8255,6 +8276,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -8277,6 +8299,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -8299,6 +8322,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -8325,6 +8349,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -8351,6 +8376,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -8384,6 +8410,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -8417,6 +8444,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -8448,6 +8476,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -8470,6 +8499,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -8492,6 +8522,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -8520,6 +8551,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -8548,6 +8580,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -8578,6 +8611,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -8608,6 +8642,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -9942,6 +9977,7 @@ declare const RogueStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -10073,8 +10109,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -10356,6 +10392,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -10387,6 +10424,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -10658,6 +10696,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -10789,8 +10828,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -11072,6 +11111,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -11103,6 +11143,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -11374,12 +11415,13 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -11525,8 +11567,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -11808,6 +11850,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -11839,6 +11882,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -12110,12 +12154,13 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }, {
     excel: {
         code: string;
-        id: string;
         name: string;
+        id: string;
         description: string;
         levelId: string;
         linkedStageId: string;
@@ -12261,8 +12306,8 @@ declare const RogueStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -12544,6 +12589,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -12575,6 +12621,7 @@ declare const RogueStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -12846,6 +12893,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }>;
 declare const RogueVariationZod: z.ZodObject<{
@@ -12970,12 +13018,12 @@ declare const SandboxItemZod: z.ZodObject<{
             name: z.ZodString;
             usage: z.ZodString;
         }, "strict", z.ZodTypeAny, {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }, {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }>, "many">;
         duration: z.ZodNumber;
@@ -12989,8 +13037,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13003,8 +13051,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13084,8 +13132,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -13137,8 +13185,8 @@ declare const SandboxItemZod: z.ZodObject<{
             mats: string[];
         }[] | null;
         variants: {
-            type: string;
             name: string;
+            type: string;
             usage: string;
         }[];
         duration: number;
@@ -14074,8 +14122,8 @@ declare const SandboxStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -14138,8 +14186,8 @@ declare const SandboxStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -15677,6 +15725,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -15699,6 +15748,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -15721,6 +15771,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -15747,6 +15798,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -15773,6 +15825,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -15806,6 +15859,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -15839,6 +15893,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -15870,6 +15925,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -15892,6 +15948,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -15914,6 +15971,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -15942,6 +16000,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -15970,6 +16029,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -16000,6 +16060,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -16030,6 +16091,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -17364,6 +17426,7 @@ declare const SandboxStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -17495,8 +17558,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -17778,6 +17841,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -17809,6 +17873,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -18080,6 +18145,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -18211,8 +18277,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -18494,6 +18560,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -18525,6 +18592,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -18796,6 +18864,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -18938,8 +19007,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -19221,6 +19290,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -19252,6 +19322,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -19523,6 +19594,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }, {
     excel: {
@@ -19665,8 +19737,8 @@ declare const SandboxStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -19948,6 +20020,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -19979,6 +20052,7 @@ declare const SandboxStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -20250,6 +20324,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }>;
 declare const SandboxWeatherZod: z.ZodObject<{
@@ -20324,13 +20399,13 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         name: z.ZodString;
         description: z.ZodString;
     }, "strict", z.ZodTypeAny, {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     }, {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     }>;
@@ -21238,8 +21313,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -21302,8 +21377,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -22841,6 +22916,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -22863,6 +22939,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -22885,6 +22962,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -22911,6 +22989,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -22937,6 +23016,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -22970,6 +23050,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -23003,6 +23084,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -23034,6 +23116,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -23056,6 +23139,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -23078,6 +23162,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -23106,6 +23191,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -23134,6 +23220,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -23164,6 +23251,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -23194,6 +23282,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -24528,6 +24617,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -24659,8 +24749,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -24942,6 +25032,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -24973,6 +25064,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -25244,6 +25336,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -25375,8 +25468,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -25658,6 +25751,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -25689,6 +25783,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -25960,6 +26055,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     levels: {
@@ -26093,8 +26189,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -26376,6 +26472,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -26407,6 +26504,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -26678,10 +26776,11 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
     const: {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     };
@@ -26817,8 +26916,8 @@ export declare const CCStageLegacyZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -27100,6 +27199,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -27131,6 +27231,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -27402,10 +27503,11 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
     const: {
-        location: string;
         name: string;
+        location: string;
         description: string;
         levelId: string;
     };
@@ -27426,8 +27528,8 @@ export declare const CCStageZod: z.ZodObject<{
         rewardEndTime: z.ZodNumber;
     }, "strict", z.ZodTypeAny, {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -27439,8 +27541,8 @@ export declare const CCStageZod: z.ZodObject<{
         rewardEndTime: number;
     }, {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -28355,8 +28457,8 @@ export declare const CCStageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -28419,8 +28521,8 @@ export declare const CCStageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -29958,6 +30060,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -29980,6 +30083,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -30002,6 +30106,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -30028,6 +30133,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -30054,6 +30160,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -30087,6 +30194,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -30120,6 +30228,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -30151,6 +30260,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -30173,6 +30283,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -30195,6 +30306,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -30223,6 +30335,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -30251,6 +30364,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -30281,6 +30395,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -30311,6 +30426,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -31645,6 +31761,7 @@ export declare const CCStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -31776,8 +31893,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -32059,6 +32176,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -32090,6 +32208,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -32361,6 +32480,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -32492,8 +32612,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -32775,6 +32895,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -32806,6 +32927,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -33077,12 +33199,13 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -33224,8 +33347,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -33507,6 +33630,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -33538,6 +33662,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -33809,12 +33934,13 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }, {
     excel: {
         code: string;
-        startTime: number;
         name: string;
+        startTime: number;
         description: string;
         stageId: string;
         levelId: string;
@@ -33956,8 +34082,8 @@ export declare const CCStageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -34239,6 +34365,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -34270,6 +34397,7 @@ export declare const CCStageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -34541,6 +34669,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }>;
 export declare const CCSeasonZod: z.ZodObject<{
@@ -34561,8 +34690,8 @@ export declare const CCSeasonZod: z.ZodObject<{
             rewardEndTime: z.ZodNumber;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -34574,8 +34703,8 @@ export declare const CCSeasonZod: z.ZodObject<{
             rewardEndTime: number;
         }, {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -35490,8 +35619,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -35554,8 +35683,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -37093,6 +37222,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -37115,6 +37245,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -37137,6 +37268,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 }, "strict", z.ZodTypeAny, {
@@ -37163,6 +37295,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }, {
@@ -37189,6 +37322,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }>, "many">;
@@ -37222,6 +37356,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -37255,6 +37390,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -37286,6 +37422,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -37308,6 +37445,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -37330,6 +37468,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                     m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -37358,6 +37497,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -37386,6 +37526,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -37416,6 +37557,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -37446,6 +37588,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -38780,6 +38923,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNull>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -38911,8 +39055,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -39194,6 +39338,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -39225,6 +39370,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -39496,6 +39642,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -39627,8 +39774,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -39910,6 +40057,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -39941,6 +40089,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -40212,12 +40361,13 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -40359,8 +40509,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -40642,6 +40792,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -40673,6 +40824,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -40944,12 +41096,13 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -41091,8 +41244,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -41374,6 +41527,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -41405,6 +41559,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -41676,6 +41831,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>>;
 }, "strict", z.ZodTypeAny, {
@@ -41683,8 +41839,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -41826,8 +41982,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -42109,6 +42265,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -42140,6 +42297,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -42411,6 +42569,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
 }, {
@@ -42418,8 +42577,8 @@ export declare const CCSeasonZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            startTime: number;
             name: string;
+            startTime: number;
             description: string;
             stageId: string;
             levelId: string;
@@ -42561,8 +42720,8 @@ export declare const CCSeasonZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -42844,6 +43003,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -42875,6 +43035,7 @@ export declare const CCSeasonZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -43146,6 +43307,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
 }>;
@@ -46313,11 +46475,11 @@ export declare const GameEventZod: z.ZodObject<{
     recType: z.ZodNullable<z.ZodString>;
     isPageEntry: z.ZodBoolean;
 }, "strict", z.ZodTypeAny, {
+    name: string;
     type: string;
     endTime: number;
     startTime: number;
     id: string;
-    name: string;
     rewardEndTime: number;
     displayType: string;
     displayOnHome: boolean;
@@ -46331,11 +46493,11 @@ export declare const GameEventZod: z.ZodObject<{
     recType: string | null;
     isPageEntry: boolean;
 }, {
+    name: string;
     type: string;
     endTime: number;
     startTime: number;
     id: string;
-    name: string;
     rewardEndTime: number;
     displayType: string;
     displayOnHome: boolean;
@@ -47111,7 +47273,7 @@ export declare const ModuleZod: z.ZodObject<{
                             value?: number | null | undefined;
                             valueStr?: string | null | undefined;
                         }>, "many">;
-                        tokenKey: z.ZodOptional<z.ZodString>;
+                        tokenKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                         isHideTalent: z.ZodBoolean;
                     }, "strict", z.ZodTypeAny, {
                         name: string | null;
@@ -47132,7 +47294,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }, {
                         name: string | null;
                         description: string | null;
@@ -47152,7 +47314,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }>, "many">>;
                 }, "strict", z.ZodTypeAny, {
                     candidates: {
@@ -47174,7 +47336,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 }, {
                     candidates: {
@@ -47196,7 +47358,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 }>;
                 overrideTraitDataBundle: z.ZodObject<{
@@ -47319,7 +47481,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47364,7 +47526,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47438,7 +47600,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47496,7 +47658,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47556,7 +47718,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47616,7 +47778,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47678,7 +47840,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -47775,7 +47937,7 @@ export declare const ModuleZod: z.ZodObject<{
                         requiredPotentialRank: number;
                         rangeId: string | null;
                         isHideTalent: boolean;
-                        tokenKey?: string | undefined;
+                        tokenKey?: string | null | undefined;
                     }[] | null;
                 };
                 overrideTraitDataBundle: {
@@ -48832,8 +48994,8 @@ export declare const ParadoxZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -48896,8 +49058,8 @@ export declare const ParadoxZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -50435,6 +50597,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -50457,6 +50620,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -50479,6 +50643,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -50505,6 +50670,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -50531,6 +50697,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -50564,6 +50731,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -50597,6 +50765,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -50628,6 +50797,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -50650,6 +50820,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -50672,6 +50843,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -50700,6 +50872,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -50728,6 +50901,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -50758,6 +50932,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -50788,6 +50963,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -52122,6 +52298,7 @@ export declare const ParadoxZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -52253,8 +52430,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -52536,6 +52713,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -52567,6 +52745,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -52838,6 +53017,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -52969,8 +53149,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -53252,6 +53432,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -53283,6 +53464,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -53554,6 +53736,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -53709,8 +53892,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -53992,6 +54175,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -54023,6 +54207,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -54294,6 +54479,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }, {
     excel: {
@@ -54449,8 +54635,8 @@ export declare const ParadoxZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -54732,6 +54918,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -54763,6 +54950,7 @@ export declare const ParadoxZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -55034,6 +55222,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }>;
 export declare const RogueThemeZod: z.ZodObject<{
@@ -55058,8 +55247,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: z.ZodNullable<z.ZodString>;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -55075,8 +55264,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: string | null;
         }, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -55995,8 +56184,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -56059,8 +56248,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -57598,6 +57787,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -57620,6 +57810,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -57642,6 +57833,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 }, "strict", z.ZodTypeAny, {
@@ -57668,6 +57860,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }, {
@@ -57694,6 +57887,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }>, "many">;
@@ -57727,6 +57921,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -57760,6 +57955,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -57791,6 +57987,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -57813,6 +58010,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -57835,6 +58033,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                     m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -57863,6 +58062,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -57891,6 +58091,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -57921,6 +58122,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -57951,6 +58153,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -59285,6 +59488,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNull>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -59416,8 +59620,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -59699,6 +59903,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -59730,6 +59935,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -60001,6 +60207,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -60132,8 +60339,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -60415,6 +60622,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -60446,6 +60654,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -60717,12 +60926,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -60868,8 +61078,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -61151,6 +61361,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -61182,6 +61393,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -61453,12 +61665,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -61604,8 +61817,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -61887,6 +62100,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -61918,6 +62132,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -62189,6 +62404,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>>;
     toughStageDict: z.ZodRecord<z.ZodString, z.ZodObject<{
@@ -62211,8 +62427,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: z.ZodNullable<z.ZodString>;
         }, "strict", z.ZodTypeAny, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -62228,8 +62444,8 @@ export declare const RogueThemeZod: z.ZodObject<{
             specialNodeId: string | null;
         }, {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -63148,8 +63364,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -63212,8 +63428,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -64751,6 +64967,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -64773,6 +64990,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -64795,6 +65013,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 }, "strict", z.ZodTypeAny, {
@@ -64821,6 +65040,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }, {
@@ -64847,6 +65067,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }>, "many">;
@@ -64880,6 +65101,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -64913,6 +65135,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -64944,6 +65167,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -64966,6 +65190,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -64988,6 +65213,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                     m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -65016,6 +65242,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -65044,6 +65271,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -65074,6 +65302,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -65104,6 +65333,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -66438,6 +66668,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNull>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -66569,8 +66800,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -66852,6 +67083,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -66883,6 +67115,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -67154,6 +67387,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -67285,8 +67519,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -67568,6 +67802,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -67599,6 +67834,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -67870,12 +68106,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -68021,8 +68258,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -68304,6 +68541,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -68335,6 +68573,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -68606,12 +68845,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -68757,8 +68997,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -69040,6 +69280,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -69071,6 +69312,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -69342,6 +69584,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>>;
     relicDict: z.ZodRecord<z.ZodString, z.ZodObject<{
@@ -69359,9 +69602,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         canSacrifice: z.ZodBoolean;
         unlockCondDesc: z.ZodNullable<z.ZodString>;
     }, "strict", z.ZodTypeAny, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -69373,9 +69616,9 @@ export declare const RogueThemeZod: z.ZodObject<{
         canSacrifice: boolean;
         unlockCondDesc: string | null;
     }, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -69420,8 +69663,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -69567,8 +69810,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -69850,6 +70093,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -69881,6 +70125,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -70152,13 +70397,14 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     toughStageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -70304,8 +70550,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -70587,6 +70833,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -70618,6 +70865,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -70889,12 +71137,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     relicDict: Record<string, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -70921,8 +71170,8 @@ export declare const RogueThemeZod: z.ZodObject<{
     stageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -71068,8 +71317,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -71351,6 +71600,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -71382,6 +71632,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -71653,13 +71904,14 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     toughStageDict: Record<string, {
         excel: {
             code: string;
-            id: string;
             name: string;
+            id: string;
             description: string;
             levelId: string;
             linkedStageId: string;
@@ -71805,8 +72057,8 @@ export declare const RogueThemeZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -72088,6 +72340,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -72119,6 +72372,7 @@ export declare const RogueThemeZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -72390,12 +72644,13 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     relicDict: Record<string, {
+        name: string;
         type: string;
         id: string;
-        name: string;
         value: number;
         description: string | null;
         sortId: number;
@@ -72514,12 +72769,12 @@ export declare const SandboxActZod: z.ZodObject<{
                 name: z.ZodString;
                 usage: z.ZodString;
             }, "strict", z.ZodTypeAny, {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }, {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }>, "many">;
             duration: z.ZodNumber;
@@ -72533,8 +72788,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72547,8 +72802,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72628,8 +72883,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -72681,8 +72936,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -73649,8 +73904,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -73713,8 +73968,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -75252,6 +75507,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -75274,6 +75530,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -75296,6 +75553,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 }, "strict", z.ZodTypeAny, {
@@ -75322,6 +75580,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }, {
@@ -75348,6 +75607,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }>, "many">;
@@ -75381,6 +75641,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -75414,6 +75675,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -75445,6 +75707,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -75467,6 +75730,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -75489,6 +75753,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                     m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -75517,6 +75782,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -75545,6 +75811,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -75575,6 +75842,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -75605,6 +75873,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -76939,6 +77208,7 @@ export declare const SandboxActZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNull>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -77070,8 +77340,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -77353,6 +77623,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -77384,6 +77655,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -77655,6 +77927,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -77786,8 +78059,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -78069,6 +78342,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -78100,6 +78374,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -78371,6 +78646,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -78513,8 +78789,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -78796,6 +79072,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -78827,6 +79104,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -79098,6 +79376,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }, {
         excel: {
@@ -79240,8 +79519,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -79523,6 +79802,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -79554,6 +79834,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -79825,6 +80106,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>>;
 }, "strict", z.ZodTypeAny, {
@@ -79970,8 +80252,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -80253,6 +80535,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -80284,6 +80567,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -80555,6 +80839,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     itemDict: Record<string, {
@@ -80604,8 +80889,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -80765,8 +81050,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -81048,6 +81333,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -81079,6 +81365,7 @@ export declare const SandboxActZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -81350,6 +81637,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>;
     itemDict: Record<string, {
@@ -81399,8 +81687,8 @@ export declare const SandboxActZod: z.ZodObject<{
                 mats: string[];
             }[] | null;
             variants: {
-                type: string;
                 name: string;
+                type: string;
                 usage: string;
             }[];
             duration: number;
@@ -83013,8 +83301,8 @@ export declare const StageZod: z.ZodObject<{
             }>>;
             m_runtimeData: z.ZodNull;
         }, "strict", z.ZodTypeAny, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -83077,8 +83365,8 @@ export declare const StageZod: z.ZodObject<{
             alias: null;
             m_runtimeData: null;
         }, {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -84616,6 +84904,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -84638,6 +84927,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -84660,6 +84950,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strict", z.ZodTypeAny, {
@@ -84686,6 +84977,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }, {
@@ -84712,6 +85004,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }>, "many">;
@@ -84745,6 +85038,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -84778,6 +85072,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -84809,6 +85104,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid: z.ZodOptional<z.ZodBoolean>;
                     extraMeta: z.ZodOptional<z.ZodNull>;
                     actionId: z.ZodOptional<z.ZodNull>;
+                    forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                 }, "strict", z.ZodTypeAny, {
                     interval: number;
                     key: string;
@@ -84831,6 +85127,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }, {
                     interval: number;
                     key: string;
@@ -84853,6 +85150,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }>, "many">;
                 m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                 m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -84881,6 +85179,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -84909,6 +85208,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -84939,6 +85239,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -84969,6 +85270,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -86303,6 +86605,7 @@ export declare const StageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNull>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -86434,8 +86737,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -86717,6 +87020,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -86748,6 +87052,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -87019,6 +87324,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -87150,8 +87456,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -87433,6 +87739,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -87464,6 +87771,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -87735,6 +88043,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -87957,8 +88266,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -88240,6 +88549,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -88271,6 +88581,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -88542,6 +88853,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }, {
     excel: {
@@ -88764,8 +89076,8 @@ export declare const StageZod: z.ZodObject<{
             visitEveryCheckPoint?: boolean | undefined;
         } | null)[];
         enemies: {
-            key: string;
             name: null;
+            key: string;
             attributes: {
                 maxHp: number;
                 atk: number;
@@ -89047,6 +89359,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 name?: string | null | undefined;
             }[];
@@ -89078,6 +89391,7 @@ export declare const StageZod: z.ZodObject<{
                     isValid?: boolean | undefined;
                     extraMeta?: null | undefined;
                     actionId?: null | undefined;
+                    forceBlockWaveInBranch?: boolean | undefined;
                 }[];
                 m_randomActionGroups?: null | undefined;
                 m_actionWithRandomSpawn?: null | undefined;
@@ -89349,6 +89663,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
+        cameraPlugin?: null | undefined;
     };
 }>;
 export declare const DeployableZod: z.ZodObject<{
@@ -93317,7 +93632,7 @@ export declare const OperatorZod: z.ZodObject<{
                                 value?: number | null | undefined;
                                 valueStr?: string | null | undefined;
                             }>, "many">;
-                            tokenKey: z.ZodOptional<z.ZodString>;
+                            tokenKey: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             isHideTalent: z.ZodBoolean;
                         }, "strict", z.ZodTypeAny, {
                             name: string | null;
@@ -93338,7 +93653,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }, {
                             name: string | null;
                             description: string | null;
@@ -93358,7 +93673,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }>, "many">>;
                     }, "strict", z.ZodTypeAny, {
                         candidates: {
@@ -93380,7 +93695,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     }, {
                         candidates: {
@@ -93402,7 +93717,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     }>;
                     overrideTraitDataBundle: z.ZodObject<{
@@ -93525,7 +93840,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93570,7 +93885,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93644,7 +93959,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93702,7 +94017,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93762,7 +94077,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93822,7 +94137,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93884,7 +94199,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -93981,7 +94296,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -95038,8 +95353,8 @@ export declare const OperatorZod: z.ZodObject<{
                 }>>;
                 m_runtimeData: z.ZodNull;
             }, "strict", z.ZodTypeAny, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -95102,8 +95417,8 @@ export declare const OperatorZod: z.ZodObject<{
                 alias: null;
                 m_runtimeData: null;
             }, {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -96641,6 +96956,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -96663,6 +96979,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -96685,6 +97002,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 }, "strict", z.ZodTypeAny, {
@@ -96711,6 +97029,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }, {
@@ -96737,6 +97056,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }>, "many">;
@@ -96770,6 +97090,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -96803,6 +97124,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -96834,6 +97156,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid: z.ZodOptional<z.ZodBoolean>;
                         extraMeta: z.ZodOptional<z.ZodNull>;
                         actionId: z.ZodOptional<z.ZodNull>;
+                        forceBlockWaveInBranch: z.ZodOptional<z.ZodBoolean>;
                     }, "strict", z.ZodTypeAny, {
                         interval: number;
                         key: string;
@@ -96856,6 +97179,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }, {
                         interval: number;
                         key: string;
@@ -96878,6 +97202,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }>, "many">;
                     m_randomActionGroups: z.ZodOptional<z.ZodNull>;
                     m_actionWithRandomSpawn: z.ZodOptional<z.ZodNull>;
@@ -96906,6 +97231,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -96934,6 +97260,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -96964,6 +97291,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -96994,6 +97322,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -98328,6 +98657,7 @@ export declare const OperatorZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNull>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -98459,8 +98789,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -98742,6 +99072,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -98773,6 +99104,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -99044,6 +99376,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -99175,8 +99508,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -99458,6 +99791,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -99489,6 +99823,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -99760,6 +100095,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -99915,8 +100251,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -100198,6 +100534,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -100229,6 +100566,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -100500,6 +100838,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }, {
         excel: {
@@ -100655,8 +100994,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -100938,6 +101277,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -100969,6 +101309,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -101240,6 +101581,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     }>>;
     recruit: z.ZodNumber;
@@ -101558,7 +101900,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -101782,8 +102124,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -102065,6 +102407,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -102096,6 +102439,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -102367,6 +102711,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     } | null;
     recruit: number;
@@ -102685,7 +103030,7 @@ export declare const OperatorZod: z.ZodObject<{
                             requiredPotentialRank: number;
                             rangeId: string | null;
                             isHideTalent: boolean;
-                            tokenKey?: string | undefined;
+                            tokenKey?: string | null | undefined;
                         }[] | null;
                     };
                     overrideTraitDataBundle: {
@@ -102909,8 +103254,8 @@ export declare const OperatorZod: z.ZodObject<{
                 visitEveryCheckPoint?: boolean | undefined;
             } | null)[];
             enemies: {
-                key: string;
                 name: null;
+                key: string;
                 attributes: {
                     maxHp: number;
                     atk: number;
@@ -103192,6 +103537,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     name?: string | null | undefined;
                 }[];
@@ -103223,6 +103569,7 @@ export declare const OperatorZod: z.ZodObject<{
                         isValid?: boolean | undefined;
                         extraMeta?: null | undefined;
                         actionId?: null | undefined;
+                        forceBlockWaveInBranch?: boolean | undefined;
                     }[];
                     m_randomActionGroups?: null | undefined;
                     m_actionWithRandomSpawn?: null | undefined;
@@ -103494,6 +103841,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
+            cameraPlugin?: null | undefined;
         };
     } | null;
     recruit: number;
