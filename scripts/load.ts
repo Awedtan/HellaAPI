@@ -142,8 +142,8 @@ async function main() {
         await loadEnemies();
     if (G.collectionsToLoad.event)
         await loadEvents();
-    if (G.collectionsToLoad.gacha)
-        await loadGacha();
+    // if (G.collectionsToLoad.gacha)
+    //    await loadGacha();
     if (G.collectionsToLoad.item)
         await loadItems();
     if (G.collectionsToLoad.recruit)
