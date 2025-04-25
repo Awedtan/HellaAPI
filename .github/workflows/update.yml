@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          pip install -r requirements.txt
+          pip install -r scripts/requirements.txt
           git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
       - name: ArkPRTS auth cache fix
         run: mkdir -p ~/.local/share/arkprts && echo "{}" | tee ~/.local/share/arkprts/arkprts_auth_cache.json
@@ -30,6 +30,11 @@ jobs:
           YOSTAR_TOKEN: ${{ secrets.YOSTAR_TOKEN }}
         run: |
           npm run load | tee load.out
+
+          if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
+            exit 1
+          fi
+
           if [[ $(grep -c "to be updated" load.out) -gt 0 ]]; then
             echo "condition=true" >> $GITHUB_OUTPUT
           else
