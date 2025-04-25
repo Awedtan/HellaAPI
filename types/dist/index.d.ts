@@ -4233,7 +4233,7 @@ declare const StageDataZod: z.ZodObject<{
     randomSeed: z.ZodNumber;
     operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     runtimeData: z.ZodOptional<z.ZodNull>;
-    cameraPlugin: z.ZodOptional<z.ZodNull>;
+    cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, "strict", z.ZodTypeAny, {
     options: {
         characterLimit: number;
@@ -4952,7 +4952,7 @@ declare const StageDataZod: z.ZodObject<{
     } | null | undefined;
     operaConfig?: string | null | undefined;
     runtimeData?: null | undefined;
-    cameraPlugin?: null | undefined;
+    cameraPlugin?: string | null | undefined;
 }, {
     options: {
         characterLimit: number;
@@ -5671,7 +5671,7 @@ declare const StageDataZod: z.ZodObject<{
     } | null | undefined;
     operaConfig?: string | null | undefined;
     runtimeData?: null | undefined;
-    cameraPlugin?: null | undefined;
+    cameraPlugin?: string | null | undefined;
 }>;
 declare const RogueRelicZod: z.ZodObject<{
     id: z.ZodString;
@@ -5721,6 +5721,7 @@ declare const RogueStageZod: z.ZodObject<{
         id: z.ZodString;
         linkedStageId: z.ZodString;
         levelId: z.ZodString;
+        levelReplaceIds: z.ZodArray<z.ZodString, "many">;
         code: z.ZodString;
         name: z.ZodString;
         loadingPicId: z.ZodString;
@@ -5741,6 +5742,7 @@ declare const RogueStageZod: z.ZodObject<{
         description: string;
         levelId: string;
         linkedStageId: string;
+        levelReplaceIds: string[];
         loadingPicId: string;
         eliteDesc: string | null;
         isBoss: number;
@@ -5758,6 +5760,7 @@ declare const RogueStageZod: z.ZodObject<{
         description: string;
         levelId: string;
         linkedStageId: string;
+        levelReplaceIds: string[];
         loadingPicId: string;
         eliteDesc: string | null;
         isBoss: number;
@@ -9977,7 +9980,7 @@ declare const RogueStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -10696,7 +10699,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -11415,7 +11418,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -11425,6 +11428,7 @@ declare const RogueStageZod: z.ZodObject<{
         description: string;
         levelId: string;
         linkedStageId: string;
+        levelReplaceIds: string[];
         loadingPicId: string;
         eliteDesc: string | null;
         isBoss: number;
@@ -12154,7 +12158,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }, {
     excel: {
@@ -12164,6 +12168,7 @@ declare const RogueStageZod: z.ZodObject<{
         description: string;
         levelId: string;
         linkedStageId: string;
+        levelReplaceIds: string[];
         loadingPicId: string;
         eliteDesc: string | null;
         isBoss: number;
@@ -12893,7 +12898,7 @@ declare const RogueStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }>;
 declare const RogueVariationZod: z.ZodObject<{
@@ -17426,7 +17431,7 @@ declare const SandboxStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -18145,7 +18150,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -18864,7 +18869,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -19594,7 +19599,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }, {
     excel: {
@@ -20324,7 +20329,7 @@ declare const SandboxStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }>;
 declare const SandboxWeatherZod: z.ZodObject<{
@@ -24617,7 +24622,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -25336,7 +25341,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -26055,7 +26060,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     levels: {
@@ -26776,7 +26781,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
     const: {
         name: string;
@@ -27503,7 +27508,7 @@ export declare const CCStageLegacyZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
     const: {
         name: string;
@@ -31761,7 +31766,7 @@ export declare const CCStageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -32480,7 +32485,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -33199,7 +33204,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -33934,7 +33939,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }, {
     excel: {
@@ -34669,7 +34674,7 @@ export declare const CCStageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }>;
 export declare const CCSeasonZod: z.ZodObject<{
@@ -38923,7 +38928,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
-            cameraPlugin: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -39642,7 +39647,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -40361,7 +40366,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -41096,7 +41101,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }, {
         excel: {
@@ -41831,7 +41836,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>>;
 }, "strict", z.ZodTypeAny, {
@@ -42569,7 +42574,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
 }, {
@@ -43307,7 +43312,7 @@ export declare const CCSeasonZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
 }>;
@@ -45671,6 +45676,16 @@ export declare const GachaPoolZod: z.ZodObject<{
         dynMeta: z.ZodNullable<z.ZodUnion<[z.ZodObject<{
             chooseRuleConst: z.ZodString;
             homeDescConst: z.ZodString;
+            pickUpPerCharPercent: z.ZodOptional<z.ZodObject<{
+                TIER_5: z.ZodNumber;
+                TIER_6: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                TIER_5: number;
+                TIER_6: number;
+            }, {
+                TIER_5: number;
+                TIER_6: number;
+            }>>;
             rarityPickCharDict: z.ZodRecord<z.ZodString, z.ZodArray<z.ZodString, "many">>;
             scrollIndex: z.ZodNumber;
             star5ChooseRuleConst: z.ZodString;
@@ -45682,6 +45697,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         }, {
             chooseRuleConst: string;
             homeDescConst: string;
@@ -45689,6 +45708,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         }>, z.ZodObject<{
             main6RarityCharId: z.ZodString;
             rare5CharList: z.ZodArray<z.ZodString, "many">;
@@ -45780,6 +45803,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -45803,6 +45830,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -45851,6 +45882,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -45874,6 +45909,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -46074,6 +46113,7 @@ export declare const GachaPoolZod: z.ZodObject<{
             }[];
         }>;
         gachaObjGroupType: z.ZodNumber;
+        hasRateUp: z.ZodOptional<z.ZodBoolean>;
         playerDataDelta: z.ZodObject<{
             modified: z.ZodObject<{}, "strict", z.ZodTypeAny, {}, {}>;
             deleted: z.ZodObject<{
@@ -46168,6 +46208,7 @@ export declare const GachaPoolZod: z.ZodObject<{
                 } | undefined;
             };
         };
+        hasRateUp?: boolean | undefined;
     }, {
         detailInfo: {
             gachaObjGroups: {
@@ -46214,6 +46255,7 @@ export declare const GachaPoolZod: z.ZodObject<{
                 } | undefined;
             };
         };
+        hasRateUp?: boolean | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     details: {
@@ -46262,6 +46304,7 @@ export declare const GachaPoolZod: z.ZodObject<{
                 } | undefined;
             };
         };
+        hasRateUp?: boolean | undefined;
     };
     client: {
         endTime: number;
@@ -46284,6 +46327,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -46307,6 +46354,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -46382,6 +46433,7 @@ export declare const GachaPoolZod: z.ZodObject<{
                 } | undefined;
             };
         };
+        hasRateUp?: boolean | undefined;
     };
     client: {
         endTime: number;
@@ -46404,6 +46456,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -46427,6 +46483,10 @@ export declare const GachaPoolZod: z.ZodObject<{
             scrollIndex: number;
             star5ChooseRuleConst: string;
             star6ChooseRuleConst: string;
+            pickUpPerCharPercent?: {
+                TIER_5: number;
+                TIER_6: number;
+            } | undefined;
         } | {
             scrollIndex: number;
             main6RarityCharId: string;
@@ -52298,7 +52358,7 @@ export declare const ParadoxZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -53017,7 +53077,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -53736,7 +53796,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -54479,7 +54539,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }, {
     excel: {
@@ -55222,7 +55282,7 @@ export declare const ParadoxZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }>;
 export declare const RogueThemeZod: z.ZodObject<{
@@ -55232,6 +55292,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             id: z.ZodString;
             linkedStageId: z.ZodString;
             levelId: z.ZodString;
+            levelReplaceIds: z.ZodArray<z.ZodString, "many">;
             code: z.ZodString;
             name: z.ZodString;
             loadingPicId: z.ZodString;
@@ -55252,6 +55313,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -55269,6 +55331,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -59488,7 +59551,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
-            cameraPlugin: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -60207,7 +60270,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -60926,7 +60989,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -60936,6 +60999,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -61665,7 +61729,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }, {
         excel: {
@@ -61675,6 +61739,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -62404,7 +62469,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>>;
     toughStageDict: z.ZodRecord<z.ZodString, z.ZodObject<{
@@ -62412,6 +62477,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             id: z.ZodString;
             linkedStageId: z.ZodString;
             levelId: z.ZodString;
+            levelReplaceIds: z.ZodArray<z.ZodString, "many">;
             code: z.ZodString;
             name: z.ZodString;
             loadingPicId: z.ZodString;
@@ -62432,6 +62498,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -62449,6 +62516,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -66668,7 +66736,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
-            cameraPlugin: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -67387,7 +67455,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -68106,7 +68174,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -68116,6 +68184,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -68845,7 +68914,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }, {
         excel: {
@@ -68855,6 +68924,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -69584,7 +69654,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>>;
     relicDict: z.ZodRecord<z.ZodString, z.ZodObject<{
@@ -69668,6 +69738,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -70397,7 +70468,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     toughStageDict: Record<string, {
@@ -70408,6 +70479,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -71137,7 +71209,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     relicDict: Record<string, {
@@ -71175,6 +71247,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -71904,7 +71977,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     toughStageDict: Record<string, {
@@ -71915,6 +71988,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             description: string;
             levelId: string;
             linkedStageId: string;
+            levelReplaceIds: string[];
             loadingPicId: string;
             eliteDesc: string | null;
             isBoss: number;
@@ -72644,7 +72718,7 @@ export declare const RogueThemeZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     relicDict: Record<string, {
@@ -77208,7 +77282,7 @@ export declare const SandboxActZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
-            cameraPlugin: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -77927,7 +78001,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -78646,7 +78720,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -79376,7 +79450,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }, {
         excel: {
@@ -80106,7 +80180,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>>;
 }, "strict", z.ZodTypeAny, {
@@ -80839,7 +80913,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     itemDict: Record<string, {
@@ -81637,7 +81711,7 @@ export declare const SandboxActZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>;
     itemDict: Record<string, {
@@ -82155,6 +82229,7 @@ export declare const StageZod: z.ZodObject<{
         canUseTech: z.ZodBoolean;
         canUseTrapTool: z.ZodBoolean;
         canUseBattlePerformance: z.ZodBoolean;
+        canUseFirework: z.ZodOptional<z.ZodBoolean>;
         canContinuousBattle: z.ZodBoolean;
         startButtonOverrideId: z.ZodNullable<z.ZodString>;
         isStagePatch: z.ZodBoolean;
@@ -82308,6 +82383,7 @@ export declare const StageZod: z.ZodObject<{
                 descList: Record<string, string>;
             };
         }[] | null;
+        canUseFirework?: boolean | undefined;
     }, {
         code: string;
         name: string;
@@ -82396,6 +82472,7 @@ export declare const StageZod: z.ZodObject<{
                 descList: Record<string, string>;
             };
         }[] | null;
+        canUseFirework?: boolean | undefined;
     }>;
     levels: z.ZodObject<{
         options: z.ZodObject<{
@@ -86605,7 +86682,7 @@ export declare const StageZod: z.ZodObject<{
         randomSeed: z.ZodNumber;
         operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         runtimeData: z.ZodOptional<z.ZodNull>;
-        cameraPlugin: z.ZodOptional<z.ZodNull>;
+        cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strict", z.ZodTypeAny, {
         options: {
             characterLimit: number;
@@ -87324,7 +87401,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }, {
         options: {
             characterLimit: number;
@@ -88043,7 +88120,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     }>;
 }, "strict", z.ZodTypeAny, {
     excel: {
@@ -88134,6 +88211,7 @@ export declare const StageZod: z.ZodObject<{
                 descList: Record<string, string>;
             };
         }[] | null;
+        canUseFirework?: boolean | undefined;
     };
     levels: {
         options: {
@@ -88853,7 +88931,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }, {
     excel: {
@@ -88944,6 +89022,7 @@ export declare const StageZod: z.ZodObject<{
                 descList: Record<string, string>;
             };
         }[] | null;
+        canUseFirework?: boolean | undefined;
     };
     levels: {
         options: {
@@ -89663,7 +89742,7 @@ export declare const StageZod: z.ZodObject<{
         } | null | undefined;
         operaConfig?: string | null | undefined;
         runtimeData?: null | undefined;
-        cameraPlugin?: null | undefined;
+        cameraPlugin?: string | null | undefined;
     };
 }>;
 export declare const DeployableZod: z.ZodObject<{
@@ -98657,7 +98736,7 @@ export declare const OperatorZod: z.ZodObject<{
             randomSeed: z.ZodNumber;
             operaConfig: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             runtimeData: z.ZodOptional<z.ZodNull>;
-            cameraPlugin: z.ZodOptional<z.ZodNull>;
+            cameraPlugin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strict", z.ZodTypeAny, {
             options: {
                 characterLimit: number;
@@ -99376,7 +99455,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }, {
             options: {
                 characterLimit: number;
@@ -100095,7 +100174,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         }>;
     }, "strict", z.ZodTypeAny, {
         excel: {
@@ -100838,7 +100917,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }, {
         excel: {
@@ -101581,7 +101660,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     }>>;
     recruit: z.ZodNumber;
@@ -102711,7 +102790,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     } | null;
     recruit: number;
@@ -103841,7 +103920,7 @@ export declare const OperatorZod: z.ZodObject<{
             } | null | undefined;
             operaConfig?: string | null | undefined;
             runtimeData?: null | undefined;
-            cameraPlugin?: null | undefined;
+            cameraPlugin?: string | null | undefined;
         };
     } | null;
     recruit: number;

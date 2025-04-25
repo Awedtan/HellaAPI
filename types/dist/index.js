@@ -418,7 +418,7 @@ var StageDataZod = z.strictObject({
     randomSeed: z.number(),
     operaConfig: z.string().nullable().optional(),
     runtimeData: z.null().optional(),
-    cameraPlugin: z.null().optional(),
+    cameraPlugin: z.string().nullable().optional(),
 });
 var RogueRelicZod = z.strictObject({
     id: z.string(),
@@ -440,6 +440,7 @@ var RogueStageZod = z.strictObject({
         id: z.string(),
         linkedStageId: z.string(),
         levelId: z.string(),
+        levelReplaceIds: z.array(z.string()),
         code: z.string(),
         name: z.string(),
         loadingPicId: z.string(),
@@ -641,6 +642,10 @@ exports.GachaPoolZod = z.strictObject({
             z.strictObject({
                 chooseRuleConst: z.string(),
                 homeDescConst: z.string(),
+                pickUpPerCharPercent: z.strictObject({
+                    TIER_5: z.number(),
+                    TIER_6: z.number(),
+                }).optional(),
                 rarityPickCharDict: z.record(z.string(), z.array(z.string())),
                 scrollIndex: z.number(),
                 star5ChooseRuleConst: z.string(),
@@ -712,6 +717,7 @@ exports.GachaPoolZod = z.strictObject({
             })),
         }),
         gachaObjGroupType: z.number(),
+        hasRateUp: z.boolean().optional(),
         playerDataDelta: z.strictObject({
             modified: z.strictObject({}),
             deleted: z.strictObject({
@@ -1026,6 +1032,7 @@ exports.StageZod = z.strictObject({
         canUseTech: z.boolean(),
         canUseTrapTool: z.boolean(),
         canUseBattlePerformance: z.boolean(),
+        canUseFirework: z.boolean().optional(),
         canContinuousBattle: z.boolean(),
         startButtonOverrideId: z.string().nullable(),
         isStagePatch: z.boolean(),
