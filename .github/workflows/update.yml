@@ -8,7 +8,7 @@ on:
 jobs:
   update:
     name: Update database
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       condition: ${{ steps.update.outputs.condition }}
     steps:
@@ -17,6 +17,13 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: Install dependencies
         run: |
+          sudo apt update && sudo apt install -y python3-pip git
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+          nvm install 18
+          nvm use 18
           npm install
           pip install -r scripts/requirements.txt
           git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1
@@ -29,6 +36,10 @@ jobs:
           CHANNEL_UID: ${{ secrets.CHANNEL_UID }}
           YOSTAR_TOKEN: ${{ secrets.YOSTAR_TOKEN }}
         run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
           npm run load | tee load.out
 
           if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
