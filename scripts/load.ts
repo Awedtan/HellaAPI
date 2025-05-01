@@ -1161,17 +1161,14 @@ async function loadSkills() {
             const collection = "skill";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
+            const characterTable: { [key: string]: any } = await fetchData('excel/character_table.json');
             const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(skillTable).map(excel => {
-                    let deploySkill = Object.values(G.operatorDict)
-                        .flatMap(op => op.data.skills)
-                        .find(skill => skill?.skillId === excel.skillId)
-                        ?? Object.values(G.deployDict)
-                            .flatMap(deploy => deploy.data.skills)
-                            .find(skill => skill?.skillId === excel.skillId)
-                        ?? null;
+                    const deploySkill = Object.values(characterTable)
+                        .flatMap(deploy => deploy.skills)
+                        .find(skill => skill?.skillId === excel.skillId) ?? null;
                     const skill = { deploy: deploySkill, excel: excel };
                     G.skillDict[excel.skillId.toLowerCase()] = skill;
                     return createDoc(oldDocuments, [excel.skillId], skill);
