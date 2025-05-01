@@ -81781,147 +81781,350 @@ export declare const SandboxActZod: z.ZodObject<{
     }>;
 }>;
 export declare const SkillZod: z.ZodObject<{
-    skillId: z.ZodString;
-    iconId: z.ZodNullable<z.ZodString>;
-    hidden: z.ZodBoolean;
-    levels: z.ZodArray<z.ZodObject<{
-        name: z.ZodString;
-        rangeId: z.ZodNullable<z.ZodString>;
-        description: z.ZodNullable<z.ZodString>;
-        skillType: z.ZodString;
-        durationType: z.ZodString;
-        spData: z.ZodObject<{
-            spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-            levelUpCost: z.ZodNull;
-            maxChargeTime: z.ZodNumber;
-            spCost: z.ZodNumber;
-            initSp: z.ZodNumber;
-            increment: z.ZodNumber;
+    deploy: z.ZodNullable<z.ZodObject<{
+        skillId: z.ZodNullable<z.ZodString>;
+        overridePrefabKey: z.ZodNullable<z.ZodString>;
+        overrideTokenKey: z.ZodNullable<z.ZodString>;
+        levelUpCostCond: z.ZodArray<z.ZodObject<{
+            unlockCond: z.ZodObject<{
+                phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                level: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                level: number;
+                phase: string | number;
+            }, {
+                level: number;
+                phase: string | number;
+            }>;
+            lvlUpTime: z.ZodNumber;
+            levelUpCost: z.ZodNullable<z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                count: z.ZodNumber;
+                type: z.ZodString;
+            }, "strict", z.ZodTypeAny, {
+                type: string;
+                id: string;
+                count: number;
+            }, {
+                type: string;
+                id: string;
+                count: number;
+            }>, "many">>;
         }, "strict", z.ZodTypeAny, {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
         }, {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
+        }>, "many">;
+        unlockCond: z.ZodObject<{
+            phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+            level: z.ZodNumber;
+        }, "strict", z.ZodTypeAny, {
+            level: number;
+            phase: string | number;
+        }, {
+            level: number;
+            phase: string | number;
         }>;
-        prefabId: z.ZodNullable<z.ZodString>;
-        duration: z.ZodNumber;
-        blackboard: z.ZodArray<z.ZodObject<{
-            key: z.ZodString;
-            value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-            valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, "strict", z.ZodTypeAny, {
+        unlockCond: {
+            level: number;
+            phase: string | number;
+        };
+        skillId: string | null;
+        overridePrefabKey: string | null;
+        overrideTokenKey: string | null;
+        levelUpCostCond: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
+        }[];
+    }, {
+        unlockCond: {
+            level: number;
+            phase: string | number;
+        };
+        skillId: string | null;
+        overridePrefabKey: string | null;
+        overrideTokenKey: string | null;
+        levelUpCostCond: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
+        }[];
+    }>>;
+    excel: z.ZodObject<{
+        skillId: z.ZodString;
+        iconId: z.ZodNullable<z.ZodString>;
+        hidden: z.ZodBoolean;
+        levels: z.ZodArray<z.ZodObject<{
+            name: z.ZodString;
+            rangeId: z.ZodNullable<z.ZodString>;
+            description: z.ZodNullable<z.ZodString>;
+            skillType: z.ZodString;
+            durationType: z.ZodString;
+            spData: z.ZodObject<{
+                spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                levelUpCost: z.ZodNull;
+                maxChargeTime: z.ZodNumber;
+                spCost: z.ZodNumber;
+                initSp: z.ZodNumber;
+                increment: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            }, {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            }>;
+            prefabId: z.ZodNullable<z.ZodString>;
+            duration: z.ZodNumber;
+            blackboard: z.ZodArray<z.ZodObject<{
+                key: z.ZodString;
+                value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            }, "strict", z.ZodTypeAny, {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }, {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }>, "many">;
         }, "strict", z.ZodTypeAny, {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }, {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }>, "many">;
     }, "strict", z.ZodTypeAny, {
-        name: string;
-        description: string | null;
-        blackboard: {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+        hidden: boolean;
+        skillId: string;
+        iconId: string | null;
+        levels: {
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }[];
-        spData: {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
-        };
-        duration: number;
-        rangeId: string | null;
-        skillType: string;
-        durationType: string;
-        prefabId: string | null;
     }, {
-        name: string;
-        description: string | null;
-        blackboard: {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+        hidden: boolean;
+        skillId: string;
+        iconId: string | null;
+        levels: {
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }[];
-        spData: {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
-        };
-        duration: number;
-        rangeId: string | null;
-        skillType: string;
-        durationType: string;
-        prefabId: string | null;
-    }>, "many">;
+    }>;
 }, "strict", z.ZodTypeAny, {
-    hidden: boolean;
-    iconId: string | null;
-    levels: {
-        name: string;
-        description: string | null;
-        blackboard: {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+    excel: {
+        hidden: boolean;
+        skillId: string;
+        iconId: string | null;
+        levels: {
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }[];
-        spData: {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
+    };
+    deploy: {
+        unlockCond: {
+            level: number;
+            phase: string | number;
         };
-        duration: number;
-        rangeId: string | null;
-        skillType: string;
-        durationType: string;
-        prefabId: string | null;
-    }[];
-    skillId: string;
+        skillId: string | null;
+        overridePrefabKey: string | null;
+        overrideTokenKey: string | null;
+        levelUpCostCond: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
+        }[];
+    } | null;
 }, {
-    hidden: boolean;
-    iconId: string | null;
-    levels: {
-        name: string;
-        description: string | null;
-        blackboard: {
-            key: string;
-            value?: number | null | undefined;
-            valueStr?: string | null | undefined;
+    excel: {
+        hidden: boolean;
+        skillId: string;
+        iconId: string | null;
+        levels: {
+            name: string;
+            description: string | null;
+            blackboard: {
+                key: string;
+                value?: number | null | undefined;
+                valueStr?: string | null | undefined;
+            }[];
+            spData: {
+                spCost: number;
+                spType: string | number;
+                initSp: number;
+                increment: number;
+                levelUpCost: null;
+                maxChargeTime: number;
+            };
+            duration: number;
+            rangeId: string | null;
+            skillType: string;
+            durationType: string;
+            prefabId: string | null;
         }[];
-        spData: {
-            spCost: number;
-            spType: string | number;
-            initSp: number;
-            increment: number;
-            levelUpCost: null;
-            maxChargeTime: number;
+    };
+    deploy: {
+        unlockCond: {
+            level: number;
+            phase: string | number;
         };
-        duration: number;
-        rangeId: string | null;
-        skillType: string;
-        durationType: string;
-        prefabId: string | null;
-    }[];
-    skillId: string;
+        skillId: string | null;
+        overridePrefabKey: string | null;
+        overrideTokenKey: string | null;
+        levelUpCostCond: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            lvlUpTime: number;
+            levelUpCost: {
+                type: string;
+                id: string;
+                count: number;
+            }[] | null;
+        }[];
+    } | null;
 }>;
 export declare const SkinZod: z.ZodObject<{
     skinId: z.ZodString;
@@ -91007,147 +91210,350 @@ export declare const DeployableZod: z.ZodObject<{
         }[];
     }>>;
     skills: z.ZodArray<z.ZodNullable<z.ZodObject<{
-        skillId: z.ZodString;
-        iconId: z.ZodNullable<z.ZodString>;
-        hidden: z.ZodBoolean;
-        levels: z.ZodArray<z.ZodObject<{
-            name: z.ZodString;
-            rangeId: z.ZodNullable<z.ZodString>;
-            description: z.ZodNullable<z.ZodString>;
-            skillType: z.ZodString;
-            durationType: z.ZodString;
-            spData: z.ZodObject<{
-                spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-                levelUpCost: z.ZodNull;
-                maxChargeTime: z.ZodNumber;
-                spCost: z.ZodNumber;
-                initSp: z.ZodNumber;
-                increment: z.ZodNumber;
+        deploy: z.ZodNullable<z.ZodObject<{
+            skillId: z.ZodNullable<z.ZodString>;
+            overridePrefabKey: z.ZodNullable<z.ZodString>;
+            overrideTokenKey: z.ZodNullable<z.ZodString>;
+            levelUpCostCond: z.ZodArray<z.ZodObject<{
+                unlockCond: z.ZodObject<{
+                    phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                    level: z.ZodNumber;
+                }, "strict", z.ZodTypeAny, {
+                    level: number;
+                    phase: string | number;
+                }, {
+                    level: number;
+                    phase: string | number;
+                }>;
+                lvlUpTime: z.ZodNumber;
+                levelUpCost: z.ZodNullable<z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    count: z.ZodNumber;
+                    type: z.ZodString;
+                }, "strict", z.ZodTypeAny, {
+                    type: string;
+                    id: string;
+                    count: number;
+                }, {
+                    type: string;
+                    id: string;
+                    count: number;
+                }>, "many">>;
             }, "strict", z.ZodTypeAny, {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
             }, {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }>, "many">;
+            unlockCond: z.ZodObject<{
+                phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                level: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                level: number;
+                phase: string | number;
+            }, {
+                level: number;
+                phase: string | number;
             }>;
-            prefabId: z.ZodNullable<z.ZodString>;
-            duration: z.ZodNumber;
-            blackboard: z.ZodArray<z.ZodObject<{
-                key: z.ZodString;
-                value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-                valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strict", z.ZodTypeAny, {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        }, {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        }>>;
+        excel: z.ZodObject<{
+            skillId: z.ZodString;
+            iconId: z.ZodNullable<z.ZodString>;
+            hidden: z.ZodBoolean;
+            levels: z.ZodArray<z.ZodObject<{
+                name: z.ZodString;
+                rangeId: z.ZodNullable<z.ZodString>;
+                description: z.ZodNullable<z.ZodString>;
+                skillType: z.ZodString;
+                durationType: z.ZodString;
+                spData: z.ZodObject<{
+                    spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                    levelUpCost: z.ZodNull;
+                    maxChargeTime: z.ZodNumber;
+                    spCost: z.ZodNumber;
+                    initSp: z.ZodNumber;
+                    increment: z.ZodNumber;
+                }, "strict", z.ZodTypeAny, {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                }, {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                }>;
+                prefabId: z.ZodNullable<z.ZodString>;
+                duration: z.ZodNumber;
+                blackboard: z.ZodArray<z.ZodObject<{
+                    key: z.ZodString;
+                    value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                    valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                }, "strict", z.ZodTypeAny, {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }, {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }>, "many">;
             }, "strict", z.ZodTypeAny, {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }, {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }>, "many">;
         }, "strict", z.ZodTypeAny, {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
-            };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
         }, {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
-            };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }>, "many">;
+        }>;
     }, "strict", z.ZodTypeAny, {
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     }, {
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     }>>, "many">;
     skins: z.ZodArray<z.ZodNullable<z.ZodObject<{
         skinId: z.ZodString;
@@ -91518,31 +91924,54 @@ export declare const DeployableZod: z.ZodObject<{
     };
     id: string;
     skills: ({
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     } | null)[];
     archetype: string;
     range: {
@@ -91784,31 +92213,54 @@ export declare const DeployableZod: z.ZodObject<{
     };
     id: string;
     skills: ({
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     } | null)[];
     archetype: string;
     range: {
@@ -93097,147 +93549,350 @@ export declare const OperatorZod: z.ZodObject<{
     }>;
     id: z.ZodString;
     skills: z.ZodArray<z.ZodNullable<z.ZodObject<{
-        skillId: z.ZodString;
-        iconId: z.ZodNullable<z.ZodString>;
-        hidden: z.ZodBoolean;
-        levels: z.ZodArray<z.ZodObject<{
-            name: z.ZodString;
-            rangeId: z.ZodNullable<z.ZodString>;
-            description: z.ZodNullable<z.ZodString>;
-            skillType: z.ZodString;
-            durationType: z.ZodString;
-            spData: z.ZodObject<{
-                spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-                levelUpCost: z.ZodNull;
-                maxChargeTime: z.ZodNumber;
-                spCost: z.ZodNumber;
-                initSp: z.ZodNumber;
-                increment: z.ZodNumber;
+        deploy: z.ZodNullable<z.ZodObject<{
+            skillId: z.ZodNullable<z.ZodString>;
+            overridePrefabKey: z.ZodNullable<z.ZodString>;
+            overrideTokenKey: z.ZodNullable<z.ZodString>;
+            levelUpCostCond: z.ZodArray<z.ZodObject<{
+                unlockCond: z.ZodObject<{
+                    phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                    level: z.ZodNumber;
+                }, "strict", z.ZodTypeAny, {
+                    level: number;
+                    phase: string | number;
+                }, {
+                    level: number;
+                    phase: string | number;
+                }>;
+                lvlUpTime: z.ZodNumber;
+                levelUpCost: z.ZodNullable<z.ZodArray<z.ZodObject<{
+                    id: z.ZodString;
+                    count: z.ZodNumber;
+                    type: z.ZodString;
+                }, "strict", z.ZodTypeAny, {
+                    type: string;
+                    id: string;
+                    count: number;
+                }, {
+                    type: string;
+                    id: string;
+                    count: number;
+                }>, "many">>;
             }, "strict", z.ZodTypeAny, {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
             }, {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }>, "many">;
+            unlockCond: z.ZodObject<{
+                phase: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                level: z.ZodNumber;
+            }, "strict", z.ZodTypeAny, {
+                level: number;
+                phase: string | number;
+            }, {
+                level: number;
+                phase: string | number;
             }>;
-            prefabId: z.ZodNullable<z.ZodString>;
-            duration: z.ZodNumber;
-            blackboard: z.ZodArray<z.ZodObject<{
-                key: z.ZodString;
-                value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
-                valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strict", z.ZodTypeAny, {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        }, {
+            unlockCond: {
+                level: number;
+                phase: string | number;
+            };
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        }>>;
+        excel: z.ZodObject<{
+            skillId: z.ZodString;
+            iconId: z.ZodNullable<z.ZodString>;
+            hidden: z.ZodBoolean;
+            levels: z.ZodArray<z.ZodObject<{
+                name: z.ZodString;
+                rangeId: z.ZodNullable<z.ZodString>;
+                description: z.ZodNullable<z.ZodString>;
+                skillType: z.ZodString;
+                durationType: z.ZodString;
+                spData: z.ZodObject<{
+                    spType: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
+                    levelUpCost: z.ZodNull;
+                    maxChargeTime: z.ZodNumber;
+                    spCost: z.ZodNumber;
+                    initSp: z.ZodNumber;
+                    increment: z.ZodNumber;
+                }, "strict", z.ZodTypeAny, {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                }, {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                }>;
+                prefabId: z.ZodNullable<z.ZodString>;
+                duration: z.ZodNumber;
+                blackboard: z.ZodArray<z.ZodObject<{
+                    key: z.ZodString;
+                    value: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+                    valueStr: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                }, "strict", z.ZodTypeAny, {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }, {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }>, "many">;
             }, "strict", z.ZodTypeAny, {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }, {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }>, "many">;
         }, "strict", z.ZodTypeAny, {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
-            };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
         }, {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
-            };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }>, "many">;
+        }>;
     }, "strict", z.ZodTypeAny, {
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     }, {
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     }>>, "many">;
     archetype: z.ZodString;
     range: z.ZodNullable<z.ZodObject<{
@@ -101851,31 +102506,54 @@ export declare const OperatorZod: z.ZodObject<{
     };
     id: string;
     skills: ({
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     } | null)[];
     archetype: string;
     range: {
@@ -102981,31 +103659,54 @@ export declare const OperatorZod: z.ZodObject<{
     };
     id: string;
     skills: ({
-        hidden: boolean;
-        iconId: string | null;
-        levels: {
-            name: string;
-            description: string | null;
-            blackboard: {
-                key: string;
-                value?: number | null | undefined;
-                valueStr?: string | null | undefined;
+        excel: {
+            hidden: boolean;
+            skillId: string;
+            iconId: string | null;
+            levels: {
+                name: string;
+                description: string | null;
+                blackboard: {
+                    key: string;
+                    value?: number | null | undefined;
+                    valueStr?: string | null | undefined;
+                }[];
+                spData: {
+                    spCost: number;
+                    spType: string | number;
+                    initSp: number;
+                    increment: number;
+                    levelUpCost: null;
+                    maxChargeTime: number;
+                };
+                duration: number;
+                rangeId: string | null;
+                skillType: string;
+                durationType: string;
+                prefabId: string | null;
             }[];
-            spData: {
-                spCost: number;
-                spType: string | number;
-                initSp: number;
-                increment: number;
-                levelUpCost: null;
-                maxChargeTime: number;
+        };
+        deploy: {
+            unlockCond: {
+                level: number;
+                phase: string | number;
             };
-            duration: number;
-            rangeId: string | null;
-            skillType: string;
-            durationType: string;
-            prefabId: string | null;
-        }[];
-        skillId: string;
+            skillId: string | null;
+            overridePrefabKey: string | null;
+            overrideTokenKey: string | null;
+            levelUpCostCond: {
+                unlockCond: {
+                    level: number;
+                    phase: string | number;
+                };
+                lvlUpTime: number;
+                levelUpCost: {
+                    type: string;
+                    id: string;
+                    count: number;
+                }[] | null;
+            }[];
+        } | null;
     } | null)[];
     archetype: string;
     range: {

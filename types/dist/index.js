@@ -173,6 +173,13 @@ var LevelUpCostCondZod = z.strictObject({
     lvlUpTime: z.number(),
     levelUpCost: z.array(LevelUpCostZod).nullable(),
 });
+var DeploySkillZod = z.strictObject({
+    skillId: z.string().nullable(),
+    overridePrefabKey: z.string().nullable(),
+    overrideTokenKey: z.string().nullable(),
+    levelUpCostCond: z.array(LevelUpCostCondZod),
+    unlockCond: OperatorUnlockCondZod,
+});
 var StageCardZod = z.strictObject({
     initialCnt: z.number().optional(),
     hidden: z.boolean(),
@@ -898,27 +905,30 @@ exports.SandboxActZod = z.strictObject({
     stageDict: z.record(z.string(), SandboxStageZod),
 });
 exports.SkillZod = z.strictObject({
-    skillId: z.string(),
-    iconId: z.string().nullable(),
-    hidden: z.boolean(),
-    levels: z.array(z.strictObject({
-        name: z.string(),
-        rangeId: z.string().nullable(),
-        description: z.string().nullable(),
-        skillType: z.string(),
-        durationType: z.string(),
-        spData: z.strictObject({
-            spType: z.union([z.string(), z.number()]),
-            levelUpCost: z.null(),
-            maxChargeTime: z.number(),
-            spCost: z.number(),
-            initSp: z.number(),
-            increment: z.number(),
-        }),
-        prefabId: z.string().nullable(),
-        duration: z.number(),
-        blackboard: z.array(BlackboardZod),
-    })),
+    deploy: DeploySkillZod.nullable(),
+    excel: z.strictObject({
+        skillId: z.string(),
+        iconId: z.string().nullable(),
+        hidden: z.boolean(),
+        levels: z.array(z.strictObject({
+            name: z.string(),
+            rangeId: z.string().nullable(),
+            description: z.string().nullable(),
+            skillType: z.string(),
+            durationType: z.string(),
+            spData: z.strictObject({
+                spType: z.union([z.string(), z.number()]),
+                levelUpCost: z.null(),
+                maxChargeTime: z.number(),
+                spCost: z.number(),
+                initSp: z.number(),
+                increment: z.number(),
+            }),
+            prefabId: z.string().nullable(),
+            duration: z.number(),
+            blackboard: z.array(BlackboardZod),
+        }))
+    }),
 });
 exports.SkinZod = z.strictObject({
     skinId: z.string(),
@@ -1101,13 +1111,7 @@ exports.DeployableZod = z.strictObject({
             attributesKeyFrames: z.array(AttributesKeyFrameZod),
             evolveCost: z.union([z.array(LevelUpCostZod), z.null()]),
         })),
-        skills: z.array(z.strictObject({
-            skillId: z.string().nullable(),
-            overridePrefabKey: z.string().nullable(),
-            overrideTokenKey: z.string().nullable(),
-            levelUpCostCond: z.array(LevelUpCostCondZod),
-            unlockCond: OperatorUnlockCondZod,
-        })),
+        skills: z.array(DeploySkillZod),
         displayTokenDict: z.record(z.boolean()).nullable(),
         talents: z.array(z.strictObject({
             candidates: z.array(z.strictObject({

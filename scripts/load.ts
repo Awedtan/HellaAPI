@@ -50,22 +50,23 @@ class G {
     static log = (msg: string) => console.log(msg);
     static execWait = promisify(exec);
 
-    static archetypeDict = {};       // Archetype id -> archetype name
-    static baseDict = {};            // Base skill id -> Base object
-    static moduleDict = {};          // Module id -> Module object
-    static operatorDict = {};        // Operator id -> Operator object
-    static paradoxDict = {};         // Operator id -> Paradox object
-    static rangeDict = {};           // Range id -> Range object
-    static skillDict = {};           // Skill id -> Skill object
-    static skinArrDict = {};         // Operator id -> Skin object array
-    static skinDict = {};            // Skin id -> Skin object
-    static cnarchetypeDict = {};
-    static cnbaseDict = {};
-    static cnmoduleDict = {};
-    static cnparadoxDict = {};
-    static cnrangeDict = {};
-    static cnskillDict = {};
-    static cnskinArrDict = {};
+    static archetypeDict: { [key: string]: string } = {};       // Archetype id -> archetype name
+    static baseDict: { [key: string]: T.Base } = {};            // Base skill id -> Base object
+    static deployDict: { [key: string]: T.Deployable } = {}; // Deployable id -> Deployable object
+    static moduleDict: { [key: string]: T.Module } = {};          // Module id -> Module object
+    static operatorDict: { [key: string]: T.Operator } = {};        // Operator id -> Operator object
+    static paradoxDict: { [key: string]: T.Paradox } = {};         // Operator id -> Paradox object
+    static rangeDict: { [key: string]: T.GridRange } = {};           // Range id -> Range object
+    static skillDict: { [key: string]: T.Skill } = {};           // Skill id -> Skill object
+    static skinArrDict: { [key: string]: T.Skin[] } = {};         // Operator id -> Skin object array
+    static skinDict: { [key: string]: T.Skin } = {};            // Skin id -> Skin object
+    static cnarchetypeDict: { [key: string]: string } = {};
+    static cnbaseDict: { [key: string]: T.Base } = {};
+    static cnmoduleDict: { [key: string]: T.Module } = {};
+    static cnparadoxDict: { [key: string]: T.Paradox } = {};
+    static cnrangeDict: { [key: string]: T.GridRange } = {};
+    static cnskillDict: { [key: string]: T.Skill } = {};
+    static cnskinArrDict: { [key: string]: T.Skin[] } = {};
 
     static fetchLocal = true;
     static writeToDb = true;
@@ -557,6 +558,12 @@ async function loadDeployables() {
                         })
                     })
             );
+
+            for (const deploy of dataArr) {
+                for (const key of deploy.keys) {
+                    G.deployDict[key] = deploy.value;
+                }
+            }
 
             for (const datum of dataArr) {
                 try {
@@ -1157,9 +1164,17 @@ async function loadSkills() {
             const skillTable: { [key: string]: any } = await fetchData('excel/skill_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
-                Object.values(skillTable).map(skill => {
-                    G.skillDict[skill.skillId.toLowerCase()] = skill;
-                    return createDoc(oldDocuments, [skill.skillId], skill);
+                Object.values(skillTable).map(excel => {
+                    let deploySkill = Object.values(G.operatorDict)
+                        .flatMap(op => op.data.skills)
+                        .find(skill => skill?.skillId === excel.skillId)
+                        ?? Object.values(G.deployDict)
+                            .flatMap(deploy => deploy.data.skills)
+                            .find(skill => skill?.skillId === excel.skillId)
+                        ?? null;
+                    const skill = { deploy: deploySkill, excel: excel };
+                    G.skillDict[excel.skillId.toLowerCase()] = skill;
+                    return createDoc(oldDocuments, [excel.skillId], skill);
                 })
             );
 
