@@ -69,7 +69,7 @@ class G {
     static cnskinArrDict: { [key: string]: T.Skin[] } = {};
 
     static fetchLocal = true;
-    static writeToDb = true;
+    static writeToDb = false;
     static updateAbout = true;
 
     static db: Db;
@@ -206,25 +206,73 @@ function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
         value: value
     }
 }
-async function fetchData(path: string) {
-    if (G.fetchLocal) {
-        let normalPath, content;
+async function fetchCnData(path: string): Promise<any> {
+    const retries = 3;
+    let attempt = 0;
+    while (attempt < retries) {
         try {
-            normalPath = normalize(`${G.localPath}/${path}`.replace(/\\/g, '/'));
-            content = fs.readFileSync(normalPath, 'utf8');
-            return JSON.parse(content);
-        } catch (e) {
-            if (e instanceof Error && e.message.includes('no such file or directory')) { }
-            else {
-                console.log(normalPath, content);
-                console.log(e);
+            const res = await fetch(`${G.cnDataPath}/${path}`);
+            if (!res.ok) {
+                if (res.status === 429) {
+                    await new Promise(resolve => setTimeout(resolve, 5000 * ++attempt));
+                    continue;
+                }
+                throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
             }
-            throw (e);
+            try {
+                return await res.json();
+            } catch (jsonErr) {
+                throw new Error(`Failed to parse JSON from response for ${path}: ${(jsonErr as Error).message}`);
+            }
+        } catch (err) {
+            attempt++;
+            if (attempt >= retries) {
+                G.log(`Error loading ${path}: ${(err as Error).message}`);
+                throw err;
+            }
         }
     }
-    else {
-        return await (await fetch(`${G.dataPath}/${path}`)).json();
+    throw new Error(`Failed to load data for ${path} after ${retries} attempts`);
+}
+async function fetchData(path: string): Promise<any> {
+    const retries = 3;
+    let attempt = 0;
+    while (attempt < retries) {
+        try {
+            if (G.fetchLocal) {
+                const filePath = normalize(`${G.localPath}/${path}`.replace(/\\/g, '/'));
+                if (!fs.existsSync(filePath)) {
+                    throw new Error(`File not found: ${filePath}`);
+                }
+                const content = fs.readFileSync(filePath, 'utf8');
+                try {
+                    return JSON.parse(content);
+                } catch (jsonErr) {
+                    throw new Error(`Failed to parse JSON from ${filePath}: ${(jsonErr as Error).message}`);
+                }
+            } else {
+                const res = await fetch(`${G.dataPath}/${path}`);
+                if (!res.ok) {
+                    if (res.status === 429) {
+                        await new Promise(resolve => setTimeout(resolve, 5000 * ++attempt));
+                        continue;
+                    }
+                    throw new Error(`Failed to fetch ${path}: ${res.status} ${res.statusText}`);
+                }
+                try {
+                    return await res.json();
+                } catch (jsonErr) {
+                    throw new Error(`Failed to parse JSON from response for ${path}: ${(jsonErr as Error).message}`);
+                }
+            }
+        } catch (err) {
+            if (err.message.includes('File not found')) break;
+            if (++attempt >= retries) {
+                throw err;
+            }
+        }
     }
+    throw new Error(`Failed to load data for ${path} after ${retries} attempts`);
 }
 function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Doc[] {
     return newDocuments.filter(newDoc => {
@@ -232,6 +280,14 @@ function filterDocuments(oldDocuments: any[], newDocuments: Doc[]): Doc[] {
         const docsAreEqual = oldDoc && oldDoc.meta.hash === newDoc.meta.hash;
         return !docsAreEqual;
     });
+}
+async function processWithConcurrencyLimit(items, limit, handler) {
+    let index = 0;
+    while (index < items.length) {
+        const batch = items.slice(index, index + limit);
+        await Promise.allSettled(batch.map(item => handler(item)));
+        index += limit;
+    }
 }
 function readOperatorIntoArr(opId: string, charFile, charEquip, charBaseBuffs, oldDocuments) {
     const arr: Doc[] = [];
@@ -1257,9 +1313,19 @@ async function loadStages() {
     const stageArr: Doc[] = [];
     const toughArr: Doc[] = [];
 
-    for (const excel of Object.values(stages)) {
-        if (excel.isStoryOnly || excel.stageType === 'GUIDE') continue; // Skip story and cutscene levels
+    const stageEntries = Object.values(stages).filter(excel => {
+        // Skip story and cutscene levels
+        if (excel.isStoryOnly || excel.stageType === 'GUIDE') return false;
 
+        const levelId = excel.levelId.toLowerCase();
+        // Skip easy levels cause no one cares, basically the same as normal anyways
+        if (levelId.includes('easy_sub') || levelId.includes('easy')) return false;
+        // Skip SSS challenge levels cause the only thing that changes is the starting danger level
+        if (excel.stageType === 'CLIMB_TOWER' && levelId.endsWith('_ex')) return false;
+        return true;
+    });
+
+    await processWithConcurrencyLimit(stageEntries, 4, async (excel) => {
         // Il Siracusano (act21side) levels have _m and _t variants
         // _t variants have their own level file in a separate 'mission' folder, but _m variants share data with normal levels
         // Check for if level is a _m variant, if so get the right level file
@@ -1268,11 +1334,6 @@ async function loadStages() {
         if (levelId.match(levelRegex)) {
             levelId = levelId.substring(0, excel.levelId.length - 2).split('mission/').join('');
         }
-
-        // Skip easy levels cause no one cares, basically the same as normal anyways
-        if (levelId.includes('easy_sub') || levelId.includes('easy')) continue;
-        // Skip SSS challenge levels cause the only thing that changes is the starting danger level
-        if (excel.stageType === 'CLIMB_TOWER' && levelId.substring(levelId.length - 3) === '_ex') continue;
 
         const code = excel.code.toLowerCase();
 
@@ -1316,7 +1377,7 @@ async function loadStages() {
                 stageArr.find(data => data.keys.includes(code))?.value.push(stage); // Stage code
             }
         }
-    }
+    });
 
     const dataArr = filterDocuments(oldStageDocs, stageArr);
     const toughDataArr = filterDocuments(oldToughDocs, toughArr);
@@ -1356,7 +1417,7 @@ async function loadCnArchetypes() {
             const collection = "cn/archetype";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const moduleTable = await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json();
+            const moduleTable = await fetchCnData('excel/uniequip_table.json');
             const subProfDict: { [key: string]: any } = moduleTable.subProfDict;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -1377,7 +1438,7 @@ async function loadCnBases() {
             const collection = "cn/base";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const buildingData = await (await fetch(`${G.cnDataPath}/excel/building_data.json`)).json();
+            const buildingData = await fetchCnData('excel/building_data.json');
             const buffs: { [key: string]: any } = buildingData.buffs;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -1408,9 +1469,9 @@ async function loadCnModules() {
             const collection = "cn/module";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const moduleTable = await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json();
+            const moduleTable = await fetchCnData('excel/uniequip_table.json');
             const equipDict: { [key: string]: any } = moduleTable.equipDict;
-            const battleDict = await (await fetch(`${G.cnDataPath}/excel/battle_equip_table.json`)).json();
+            const battleDict: { [key: string]: any } = await fetchCnData('excel/battle_equip_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(equipDict)
@@ -1430,10 +1491,10 @@ async function loadCnOperators() {
             const collection = "cn/operator";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const operatorTable = await (await fetch(`${G.cnDataPath}/excel/character_table.json`)).json();
-            const patchChars = (await (await fetch(`${G.cnDataPath}/excel/char_patch_table.json`)).json()).patchChars;
-            const charEquip = (await (await fetch(`${G.cnDataPath}/excel/uniequip_table.json`)).json()).charEquip;
-            const charBaseBuffs = (await (await fetch(`${G.cnDataPath}/excel/building_data.json`)).json()).chars;
+            const operatorTable = await fetchCnData('excel/character_table.json');
+            const patchChars = (await fetchCnData('excel/char_patch_table.json')).patchChars;
+            const charEquip = (await fetchCnData('excel/uniequip_table.json')).charEquip;
+            const charBaseBuffs = (await fetchCnData('excel/building_data.json')).chars;
 
             const opArr: Doc[] = [];
             for (const opId of Object.keys(operatorTable)) {
@@ -1456,7 +1517,7 @@ async function loadCnParadoxes() {
             const collection = "cn/paradox";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const handbookTable = await (await fetch(`${G.cnDataPath}/excel/handbook_info_table.json`)).json();
+            const handbookTable = await fetchCnData('excel/handbook_info_table.json');
             const stages: { [key: string]: any } = handbookTable.handbookStageData;
 
             const dataArr = filterDocuments(oldDocuments,
@@ -1479,7 +1540,7 @@ async function loadCnRanges() {
             const collection = "cn/range";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const rangeTable: { [key: string]: any } = await (await fetch(`${G.cnDataPath}/excel/range_table.json`)).json();
+            const rangeTable: { [key: string]: any } = await fetchCnData('excel/range_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(rangeTable)
@@ -1499,7 +1560,7 @@ async function loadCnSkills() {
             const collection = "cn/skill";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const skillTable: { [key: string]: any } = await (await fetch(`${G.cnDataPath}/excel/skill_table.json`)).json();
+            const skillTable: { [key: string]: any } = await fetchCnData('excel/skill_table.json');
 
             const dataArr = filterDocuments(oldDocuments,
                 Object.values(skillTable)
@@ -1519,7 +1580,7 @@ async function loadCnSkins() {
             const collection = "cn/skin";
             const oldDocuments = await getCollectionMetaInfo(collection);
 
-            const skinTable = await (await fetch(`${G.cnDataPath}/excel/skin_table.json`)).json();
+            const skinTable = await fetchCnData('excel/skin_table.json');
             const charSkins: { [key: string]: any } = skinTable.charSkins;
 
             const skinArr: Doc[] = [];
