@@ -69,7 +69,7 @@ class G {
     static cnskinArrDict: { [key: string]: T.Skin[] } = {};
 
     static fetchLocal = true;
-    static writeToDb = false;
+    static writeToDb = true;
     static updateAbout = true;
 
     static db: Db;
