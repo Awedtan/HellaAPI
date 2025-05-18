@@ -208,7 +208,19 @@ function createDoc(oldDocuments: any[], keys: string[], value: any): Doc {
 }
 async function fetchData(path: string) {
     if (G.fetchLocal) {
-        return JSON.parse(fs.readFileSync(normalize(`${G.localPath}/${path}`.replace(/\\/g, '/')), 'utf8'));
+        let normalPath, content;
+        try {
+            normalPath = normalize(`${G.localPath}/${path}`.replace(/\\/g, '/'));
+            content = fs.readFileSync(normalPath, 'utf8');
+            return JSON.parse(content);
+        } catch (e) {
+            if (e instanceof Error && e.message.includes('no such file or directory')) { }
+            else {
+                console.log(normalPath, content);
+                console.log(e);
+            }
+            throw (e);
+        }
     }
     else {
         return await (await fetch(`${G.dataPath}/${path}`)).json();
