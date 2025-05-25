@@ -5,7 +5,7 @@
 
 > https://awedtan.ca/api
 
-An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB Atlas database. Made with Express and self-hosted (RIP Cyclic). Also an under construction personal project.
+An Arknights EN game data API made for my own use. Data is loaded from [Kengxxiao/ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar), lightly massaged into a nicer format, and sent into a MongoDB database. Made with Express and self-hosted (RIP Cyclic). Also an under construction personal project.
 
 ## Usage
 
